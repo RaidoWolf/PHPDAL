@@ -4,7 +4,7 @@ var indexSectionsWithContent =
   1: "cdmps",
   2: "p",
   3: "cdmps",
-  4: "_acghirstu",
+  4: "_acfghirstu",
   5: "$efkst"
 };
 

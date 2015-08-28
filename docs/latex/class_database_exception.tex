@@ -6,13 +6,494 @@ Inheritance diagram for Database\+Exception\+:\begin{figure}[H]
 \includegraphics[height=3.000000cm]{class_database_exception}
 \end{center}
 \end{figure}
-\subsection*{Additional Inherited Members}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_database_exception_ad1f01ac86a6ae06c72165c3a7cb0424a}{\+\_\+\+\_\+construct} (\&\$caller, \$message=null, \$code=null, \&\$caught=null)
+\item 
+\& \hyperlink{class_database_exception_aedb1e2149e60e99bd62a64f5533c7903}{get\+Caller} ()
+\item 
+\hyperlink{class_database_exception_aaf4fb3a4978596f9e37fdbdd1e786082}{get\+Error\+Flag} ()
+\end{DoxyCompactItemize}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{class_database_exception_a93f610f377641d6a80dc3ba2c0d282cd}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+O\+\_\+\+E\+R\+R\+O\+R} = 0
+\item 
+const \hyperlink{class_database_exception_ad70fde01b9fdf6cab7de36cb7f2329dd}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+E\+S\+T} = 1
+\item 
+const \hyperlink{class_database_exception_a1531374c43d8490500ae0220d0b4a45a}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+E\+R\+R\+O\+R} = 2
+\item 
+const \hyperlink{class_database_exception_aa329d5b77c2ad7a40e283926c6c6dc2e}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+U\+N\+C\+A\+U\+G\+H\+T\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N} = 3
+\item 
+const \hyperlink{class_database_exception_a9214bdd72834d71914a74f0a27db4a1e}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N} = 4
+\item 
+const \hyperlink{class_database_exception_af16d7ab9f9f71d7ac961a10a2eb9ec65}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+I\+N\+P\+U\+T\+\_\+\+E\+R\+R\+O\+R} = 1000
+\item 
+const \hyperlink{class_database_exception_ab85a8b8e512fdab1e0f3a0ca8be9aaa0}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+T\+Y\+P\+E} = 1001
+\item 
+const \hyperlink{class_database_exception_aecec182787a871e4c5c0a2f4110f9920}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+N\+O\+T\+\_\+\+V\+A\+L\+I\+D} = 1002
+\item 
+const \hyperlink{class_database_exception_a5e32a0f3e8b89279262617564b4c39a2}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+T\+Y\+P\+E} = 1003
+\item 
+const \hyperlink{class_database_exception_a95a9d1ff5c1d06fff7293ea4b61af959}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+A\+R\+G\+U\+M\+E\+N\+T} = 1004
+\item 
+const \hyperlink{class_database_exception_acb77d344642fcd23d3007350580df264}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+D\+E\+F\+I\+N\+I\+T\+I\+O\+N} = 1005
+\item 
+const \hyperlink{class_database_exception_a86c756dcdcdc0d6a13363e420b4b1ed6}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+D\+E\+E\+P} = 1006
+\item 
+const \hyperlink{class_database_exception_ab8d6e239e0336ea8b8e1203f6c38f3c7}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+S\+H\+A\+L\+L\+O\+W} = 1007
+\item 
+const \hyperlink{class_database_exception_a54384c002df87b714c8cd0d27db21f85}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+E\+R\+R\+O\+R} = 2000
+\item 
+const \hyperlink{class_database_exception_a8c1f734137128a0b3a7ab767e583e7ad}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+A\+B\+L\+E\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T} = 2001
+\item 
+const \hyperlink{class_database_exception_ae8c6c4d6c53676f4dfc17c3acbc4e86a}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+C\+R\+E\+A\+T\+E\+D} = 2002
+\item 
+const \hyperlink{class_database_exception_a0d11e2b4e48912224166b8733bf7cee8}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+D\+R\+O\+P\+P\+E\+D} = 2003
+\item 
+const \hyperlink{class_database_exception_a3adbce979bbf4f1f99b59bb62555307f}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+A\+L\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+I\+S\+T\+S} = 2004
+\item 
+const \hyperlink{class_database_exception_a051a953b3dbf5c69685ae0905d68a2cb}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T} = 2005
+\item 
+const \hyperlink{class_database_exception_aafe8d0c8826d17ec598136f35e381524}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+L\+O\+C\+K\+E\+D} = 2005
+\item 
+const \hyperlink{class_database_exception_a314fb08476b7cab00496a16cfa30708f}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D\+\_\+\+O\+N\+L\+Y} = 2006
+\item 
+const \hyperlink{class_database_exception_af4c8c1347d3322d171c556f518fb75a6}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+R\+E\+A\+D\+\_\+\+R\+E\+C\+O\+R\+D} = 2007
+\item 
+const \hyperlink{class_database_exception_a078837d5b35b669c158aa3cc2c0e2a9f}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S} = 2008
+\item 
+const \hyperlink{class_database_exception_aa49625b4d6d958dd9dff0969725eec8b}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+R\+E\+C\+O\+R\+D\+\_\+\+I\+N\+C\+O\+N\+S\+I\+S\+T\+E\+N\+C\+Y} = 2009
+\item 
+const \hyperlink{class_database_exception_ac2b0baa16c6c435065699e0606272706}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+E\+R\+R\+O\+R} = 3000
+\item 
+const \hyperlink{class_database_exception_a460f308cd80a87c48d51ac54e61b37bc}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+O\+P\+E\+N\+\_\+\+F\+I\+L\+E} = 3001
+\item 
+const \hyperlink{class_database_exception_a4cde73367b61f571c353362002618265}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+A\+C\+C\+E\+S\+S\+\_\+\+D\+I\+R} = 3002
+\item 
+const \hyperlink{class_database_exception_ada70b9523f11c2115e75b0c1298b7b95}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+F\+I\+L\+E} = 3003
+\item 
+const \hyperlink{class_database_exception_ab8908292d329eb19e5e2a01e65efec4a}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+D\+E\+L\+E\+T\+E\+\_\+\+F\+I\+L\+E} = 3004
+\item 
+const \hyperlink{class_database_exception_aba74a043f93aff28bf7d913d64504889}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+F\+I\+L\+E\+\_\+\+N\+O\+T\+\_\+\+F\+O\+U\+N\+D} = 3005
+\item 
+const \hyperlink{class_database_exception_a1d7160b183812594679877046c3fd62a}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+S\+P\+A\+C\+E} = 3006
+\item 
+const \hyperlink{class_database_exception_aa1ed10447564eb986514790822a1516c}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+P\+E\+R\+M\+I\+S\+S\+I\+O\+N\+S\+\_\+\+E\+R\+R\+O\+R} = 3007
+\item 
+const \hyperlink{class_database_exception_a40d50055804a9019ed22faec53b5f7ca}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+C\+W\+D} = 3008
+\item 
+const \hyperlink{class_database_exception_ac5a6423e46a25c86b58d3f6fb5b55c9d}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+L\+O\+C\+K\+\_\+\+F\+I\+L\+E} = 3009
+\item 
+const \hyperlink{class_database_exception_afb0b7d842c8de8754481a086fbaea08d}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+H\+A\+N\+G\+E\+\_\+\+D\+I\+R} = 3010
+\item 
+const \hyperlink{class_database_exception_ab186397805d52a7001f613304dee257a}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+N\+E\+T\+W\+O\+R\+K\+\_\+\+E\+R\+R\+O\+R} = 4000
+\item 
+const \hyperlink{class_database_exception_a53179a0bedcb9a50567afed3ae66baaa}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+T\+I\+M\+E\+O\+U\+T} = 4001
+\item 
+const \hyperlink{class_database_exception_aaa5b45b9fc8dc9eaf84c2b846fbb9cc1}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+R\+E\+S\+E\+T\+\_\+\+B\+Y\+\_\+\+P\+E\+E\+R} = 4002
+\item 
+const \hyperlink{class_database_exception_abbef5bf22fd6bb11a46837ba48e8bf00}{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+C\+O\+N\+N\+E\+C\+T\+I\+O\+N\+\_\+\+R\+E\+F\+U\+S\+E\+D} = 4003
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_database_exception_a37357ff7fe8d1c1ea764fa1465637543}{get\+Constants} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_database_exception_a0b21046130eb880a92ca750675597c75}{\$caller}
+\item 
+\hyperlink{class_database_exception_a461278c71fc5038037fac5e2f5e1c6af}{\$caught}
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 
 
 Definition at line 3 of file Database\+Exception.\+php.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_database_exception_ad1f01ac86a6ae06c72165c3a7cb0424a}{}\index{Database\+Exception@{Database\+Exception}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{\+\_\+\+\_\+construct}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{\&}]{\$caller, }
+\item[{}]{\$message = {\ttfamily null}, }
+\item[{}]{\$code = {\ttfamily null}, }
+\item[{\&}]{\$caught = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}\label{class_database_exception_ad1f01ac86a6ae06c72165c3a7cb0424a}
+Constructor Method
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$parent} & (required) -\/ \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{interface_database_exception_interface_ad1f01ac86a6ae06c72165c3a7cb0424a}{Database\+Exception\+Interface}.
+
+
+
+Definition at line 62 of file Database\+Exception.\+php.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_database_exception_aedb1e2149e60e99bd62a64f5533c7903}{}\index{Database\+Exception@{Database\+Exception}!get\+Caller@{get\+Caller}}
+\index{get\+Caller@{get\+Caller}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{get\+Caller}]{\setlength{\rightskip}{0pt plus 5cm}\& get\+Caller (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_database_exception_aedb1e2149e60e99bd62a64f5533c7903}
+
+
+Implements \hyperlink{interface_database_exception_interface_aedb1e2149e60e99bd62a64f5533c7903}{Database\+Exception\+Interface}.
+
+
+
+Definition at line 86 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a37357ff7fe8d1c1ea764fa1465637543}{}\index{Database\+Exception@{Database\+Exception}!get\+Constants@{get\+Constants}}
+\index{get\+Constants@{get\+Constants}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{get\+Constants}]{\setlength{\rightskip}{0pt plus 5cm}get\+Constants (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [final]}, {\ttfamily [protected]}}\label{class_database_exception_a37357ff7fe8d1c1ea764fa1465637543}
+Database\+Exception-\/$>$\hyperlink{class_database_exception_a37357ff7fe8d1c1ea764fa1465637543}{get\+Constants()} protected Method
+
+gets an array of constants for the \hyperlink{class_database_exception}{Database\+Exception} object
+
+\begin{DoxyReturn}{Returns}
+array -\/ Array of constants as constant\+Name =$>$ constant\+Value 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interface_database_exception_interface_a37357ff7fe8d1c1ea764fa1465637543}{Database\+Exception\+Interface}.
+
+
+
+Definition at line 99 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_aaf4fb3a4978596f9e37fdbdd1e786082}{}\index{Database\+Exception@{Database\+Exception}!get\+Error\+Flag@{get\+Error\+Flag}}
+\index{get\+Error\+Flag@{get\+Error\+Flag}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{get\+Error\+Flag}]{\setlength{\rightskip}{0pt plus 5cm}get\+Error\+Flag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_database_exception_aaf4fb3a4978596f9e37fdbdd1e786082}
+Database\+Exception-\/$>$\hyperlink{class_database_exception_aaf4fb3a4978596f9e37fdbdd1e786082}{get\+Error\+Flag()} Method
+
+gets the flag (constant) name of the exception\textquotesingle{}s error type
+
+\begin{DoxyReturn}{Returns}
+string -\/ Name of flag of the exception\textquotesingle{}s error type 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interface_database_exception_interface_aaf4fb3a4978596f9e37fdbdd1e786082}{Database\+Exception\+Interface}.
+
+
+
+Definition at line 113 of file Database\+Exception.\+php.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{class_database_exception_a0b21046130eb880a92ca750675597c75}{}\index{Database\+Exception@{Database\+Exception}!\$caller@{\$caller}}
+\index{\$caller@{\$caller}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{\$caller}]{\setlength{\rightskip}{0pt plus 5cm}\$caller\hspace{0.3cm}{\ttfamily [protected]}}\label{class_database_exception_a0b21046130eb880a92ca750675597c75}
+
+
+Definition at line 5 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a461278c71fc5038037fac5e2f5e1c6af}{}\index{Database\+Exception@{Database\+Exception}!\$caught@{\$caught}}
+\index{\$caught@{\$caught}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{\$caught}]{\setlength{\rightskip}{0pt plus 5cm}\$caught\hspace{0.3cm}{\ttfamily [protected]}}\label{class_database_exception_a461278c71fc5038037fac5e2f5e1c6af}
+
+
+Definition at line 6 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a078837d5b35b669c158aa3cc2c0e2a9f}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+S\+T\+A\+T\+U\+S = 2008}\label{class_database_exception_a078837d5b35b669c158aa3cc2c0e2a9f}
+
+
+Definition at line 35 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_af4c8c1347d3322d171c556f518fb75a6}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+R\+E\+A\+D\+\_\+\+R\+E\+C\+O\+R\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+R\+E\+A\+D\+\_\+\+R\+E\+C\+O\+R\+D}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+R\+E\+A\+D\+\_\+\+R\+E\+C\+O\+R\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+R\+E\+A\+D\+\_\+\+R\+E\+C\+O\+R\+D}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+R\+E\+A\+D\+\_\+\+R\+E\+C\+O\+R\+D}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+R\+E\+A\+D\+\_\+\+R\+E\+C\+O\+R\+D = 2007}\label{class_database_exception_af4c8c1347d3322d171c556f518fb75a6}
+
+
+Definition at line 34 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a3adbce979bbf4f1f99b59bb62555307f}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+A\+L\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+I\+S\+T\+S@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+A\+L\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+I\+S\+T\+S}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+A\+L\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+I\+S\+T\+S@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+A\+L\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+I\+S\+T\+S}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+A\+L\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+I\+S\+T\+S}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+A\+L\+R\+E\+A\+D\+Y\+\_\+\+E\+X\+I\+S\+T\+S = 2004}\label{class_database_exception_a3adbce979bbf4f1f99b59bb62555307f}
+
+
+Definition at line 30 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_ae8c6c4d6c53676f4dfc17c3acbc4e86a}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+C\+R\+E\+A\+T\+E\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+C\+R\+E\+A\+T\+E\+D}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+C\+R\+E\+A\+T\+E\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+C\+R\+E\+A\+T\+E\+D}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+C\+R\+E\+A\+T\+E\+D}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+C\+R\+E\+A\+T\+E\+D = 2002}\label{class_database_exception_ae8c6c4d6c53676f4dfc17c3acbc4e86a}
+
+
+Definition at line 28 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a0d11e2b4e48912224166b8733bf7cee8}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+D\+R\+O\+P\+P\+E\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+D\+R\+O\+P\+P\+E\+D}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+D\+R\+O\+P\+P\+E\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+D\+R\+O\+P\+P\+E\+D}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+D\+R\+O\+P\+P\+E\+D}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+B\+E\+\_\+\+D\+R\+O\+P\+P\+E\+D = 2003}\label{class_database_exception_a0d11e2b4e48912224166b8733bf7cee8}
+
+
+Definition at line 29 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a051a953b3dbf5c69685ae0905d68a2cb}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+I\+T\+E\+M\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T = 2005}\label{class_database_exception_a051a953b3dbf5c69685ae0905d68a2cb}
+
+
+Definition at line 31 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_aafe8d0c8826d17ec598136f35e381524}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+L\+O\+C\+K\+E\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+L\+O\+C\+K\+E\+D}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+L\+O\+C\+K\+E\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+L\+O\+C\+K\+E\+D}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+L\+O\+C\+K\+E\+D}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+L\+O\+C\+K\+E\+D = 2005}\label{class_database_exception_aafe8d0c8826d17ec598136f35e381524}
+
+
+Definition at line 32 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a314fb08476b7cab00496a16cfa30708f}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D\+\_\+\+O\+N\+L\+Y@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D\+\_\+\+O\+N\+L\+Y}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D\+\_\+\+O\+N\+L\+Y@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D\+\_\+\+O\+N\+L\+Y}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D\+\_\+\+O\+N\+L\+Y}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+O\+P\+E\+R\+A\+T\+I\+O\+N\+\_\+\+R\+E\+A\+D\+\_\+\+O\+N\+L\+Y = 2006}\label{class_database_exception_a314fb08476b7cab00496a16cfa30708f}
+
+
+Definition at line 33 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_aa49625b4d6d958dd9dff0969725eec8b}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+R\+E\+C\+O\+R\+D\+\_\+\+I\+N\+C\+O\+N\+S\+I\+S\+T\+E\+N\+C\+Y@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+R\+E\+C\+O\+R\+D\+\_\+\+I\+N\+C\+O\+N\+S\+I\+S\+T\+E\+N\+C\+Y}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+R\+E\+C\+O\+R\+D\+\_\+\+I\+N\+C\+O\+N\+S\+I\+S\+T\+E\+N\+C\+Y@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+R\+E\+C\+O\+R\+D\+\_\+\+I\+N\+C\+O\+N\+S\+I\+S\+T\+E\+N\+C\+Y}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+R\+E\+C\+O\+R\+D\+\_\+\+I\+N\+C\+O\+N\+S\+I\+S\+T\+E\+N\+C\+Y}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+D\+B\+\_\+\+R\+E\+C\+O\+R\+D\+\_\+\+I\+N\+C\+O\+N\+S\+I\+S\+T\+E\+N\+C\+Y = 2009}\label{class_database_exception_aa49625b4d6d958dd9dff0969725eec8b}
+
+
+Definition at line 36 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a4cde73367b61f571c353362002618265}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+A\+C\+C\+E\+S\+S\+\_\+\+D\+I\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+A\+C\+C\+E\+S\+S\+\_\+\+D\+I\+R}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+A\+C\+C\+E\+S\+S\+\_\+\+D\+I\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+A\+C\+C\+E\+S\+S\+\_\+\+D\+I\+R}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+A\+C\+C\+E\+S\+S\+\_\+\+D\+I\+R}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+A\+C\+C\+E\+S\+S\+\_\+\+D\+I\+R = 3002}\label{class_database_exception_a4cde73367b61f571c353362002618265}
+
+
+Definition at line 40 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_afb0b7d842c8de8754481a086fbaea08d}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+H\+A\+N\+G\+E\+\_\+\+D\+I\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+H\+A\+N\+G\+E\+\_\+\+D\+I\+R}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+H\+A\+N\+G\+E\+\_\+\+D\+I\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+H\+A\+N\+G\+E\+\_\+\+D\+I\+R}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+H\+A\+N\+G\+E\+\_\+\+D\+I\+R}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+H\+A\+N\+G\+E\+\_\+\+D\+I\+R = 3010}\label{class_database_exception_afb0b7d842c8de8754481a086fbaea08d}
+
+
+Definition at line 48 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_ada70b9523f11c2115e75b0c1298b7b95}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+F\+I\+L\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+F\+I\+L\+E}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+F\+I\+L\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+F\+I\+L\+E}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+F\+I\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+F\+I\+L\+E = 3003}\label{class_database_exception_ada70b9523f11c2115e75b0c1298b7b95}
+
+
+Definition at line 41 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_ab8908292d329eb19e5e2a01e65efec4a}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+D\+E\+L\+E\+T\+E\+\_\+\+F\+I\+L\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+D\+E\+L\+E\+T\+E\+\_\+\+F\+I\+L\+E}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+D\+E\+L\+E\+T\+E\+\_\+\+F\+I\+L\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+D\+E\+L\+E\+T\+E\+\_\+\+F\+I\+L\+E}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+D\+E\+L\+E\+T\+E\+\_\+\+F\+I\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+D\+E\+L\+E\+T\+E\+\_\+\+F\+I\+L\+E = 3004}\label{class_database_exception_ab8908292d329eb19e5e2a01e65efec4a}
+
+
+Definition at line 42 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a40d50055804a9019ed22faec53b5f7ca}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+C\+W\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+C\+W\+D}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+C\+W\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+C\+W\+D}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+C\+W\+D}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+G\+E\+T\+\_\+\+C\+W\+D = 3008}\label{class_database_exception_a40d50055804a9019ed22faec53b5f7ca}
+
+
+Definition at line 46 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_ac5a6423e46a25c86b58d3f6fb5b55c9d}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+L\+O\+C\+K\+\_\+\+F\+I\+L\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+L\+O\+C\+K\+\_\+\+F\+I\+L\+E}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+L\+O\+C\+K\+\_\+\+F\+I\+L\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+L\+O\+C\+K\+\_\+\+F\+I\+L\+E}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+L\+O\+C\+K\+\_\+\+F\+I\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+L\+O\+C\+K\+\_\+\+F\+I\+L\+E = 3009}\label{class_database_exception_ac5a6423e46a25c86b58d3f6fb5b55c9d}
+
+
+Definition at line 47 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a460f308cd80a87c48d51ac54e61b37bc}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+O\+P\+E\+N\+\_\+\+F\+I\+L\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+O\+P\+E\+N\+\_\+\+F\+I\+L\+E}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+O\+P\+E\+N\+\_\+\+F\+I\+L\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+O\+P\+E\+N\+\_\+\+F\+I\+L\+E}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+O\+P\+E\+N\+\_\+\+F\+I\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+C\+A\+N\+N\+O\+T\+\_\+\+O\+P\+E\+N\+\_\+\+F\+I\+L\+E = 3001}\label{class_database_exception_a460f308cd80a87c48d51ac54e61b37bc}
+
+
+Definition at line 39 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_aba74a043f93aff28bf7d913d64504889}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+F\+I\+L\+E\+\_\+\+N\+O\+T\+\_\+\+F\+O\+U\+N\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+F\+I\+L\+E\+\_\+\+N\+O\+T\+\_\+\+F\+O\+U\+N\+D}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+F\+I\+L\+E\+\_\+\+N\+O\+T\+\_\+\+F\+O\+U\+N\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+F\+I\+L\+E\+\_\+\+N\+O\+T\+\_\+\+F\+O\+U\+N\+D}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+F\+I\+L\+E\+\_\+\+N\+O\+T\+\_\+\+F\+O\+U\+N\+D}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+F\+I\+L\+E\+\_\+\+N\+O\+T\+\_\+\+F\+O\+U\+N\+D = 3005}\label{class_database_exception_aba74a043f93aff28bf7d913d64504889}
+
+
+Definition at line 43 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a1d7160b183812594679877046c3fd62a}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+S\+P\+A\+C\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+S\+P\+A\+C\+E}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+S\+P\+A\+C\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+S\+P\+A\+C\+E}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+S\+P\+A\+C\+E}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+O\+U\+T\+\_\+\+O\+F\+\_\+\+S\+P\+A\+C\+E = 3006}\label{class_database_exception_a1d7160b183812594679877046c3fd62a}
+
+
+Definition at line 44 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_aa1ed10447564eb986514790822a1516c}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+P\+E\+R\+M\+I\+S\+S\+I\+O\+N\+S\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+P\+E\+R\+M\+I\+S\+S\+I\+O\+N\+S\+\_\+\+E\+R\+R\+O\+R}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+P\+E\+R\+M\+I\+S\+S\+I\+O\+N\+S\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+P\+E\+R\+M\+I\+S\+S\+I\+O\+N\+S\+\_\+\+E\+R\+R\+O\+R}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+P\+E\+R\+M\+I\+S\+S\+I\+O\+N\+S\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+F\+S\+\_\+\+P\+E\+R\+M\+I\+S\+S\+I\+O\+N\+S\+\_\+\+E\+R\+R\+O\+R = 3007}\label{class_database_exception_aa1ed10447564eb986514790822a1516c}
+
+
+Definition at line 45 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a54384c002df87b714c8cd0d27db21f85}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+E\+R\+R\+O\+R}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+E\+R\+R\+O\+R}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+E\+R\+R\+O\+R = 2000}\label{class_database_exception_a54384c002df87b714c8cd0d27db21f85}
+
+
+Definition at line 26 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a1531374c43d8490500ae0220d0b4a45a}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+E\+R\+R\+O\+R}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+E\+R\+R\+O\+R}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+E\+R\+R\+O\+R = 2}\label{class_database_exception_a1531374c43d8490500ae0220d0b4a45a}
+
+
+Definition at line 13 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_af16d7ab9f9f71d7ac961a10a2eb9ec65}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+I\+N\+P\+U\+T\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+I\+N\+P\+U\+T\+\_\+\+E\+R\+R\+O\+R}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+I\+N\+P\+U\+T\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+I\+N\+P\+U\+T\+\_\+\+E\+R\+R\+O\+R}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+I\+N\+P\+U\+T\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+I\+N\+P\+U\+T\+\_\+\+E\+R\+R\+O\+R = 1000}\label{class_database_exception_af16d7ab9f9f71d7ac961a10a2eb9ec65}
+
+
+Definition at line 17 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_ab186397805d52a7001f613304dee257a}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+N\+E\+T\+W\+O\+R\+K\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+N\+E\+T\+W\+O\+R\+K\+\_\+\+E\+R\+R\+O\+R}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+N\+E\+T\+W\+O\+R\+K\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+N\+E\+T\+W\+O\+R\+K\+\_\+\+E\+R\+R\+O\+R}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+N\+E\+T\+W\+O\+R\+K\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+N\+E\+T\+W\+O\+R\+K\+\_\+\+E\+R\+R\+O\+R = 4000}\label{class_database_exception_ab186397805d52a7001f613304dee257a}
+
+
+Definition at line 50 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_ac2b0baa16c6c435065699e0606272706}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+E\+R\+R\+O\+R}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+E\+R\+R\+O\+R}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+G\+E\+N\+E\+R\+I\+C\+\_\+\+S\+Y\+S\+T\+E\+M\+\_\+\+E\+R\+R\+O\+R = 3000}\label{class_database_exception_ac2b0baa16c6c435065699e0606272706}
+
+
+Definition at line 38 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a86c756dcdcdc0d6a13363e420b4b1ed6}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+D\+E\+E\+P@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+D\+E\+E\+P}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+D\+E\+E\+P@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+D\+E\+E\+P}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+D\+E\+E\+P}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+D\+E\+E\+P = 1006}\label{class_database_exception_a86c756dcdcdc0d6a13363e420b4b1ed6}
+
+
+Definition at line 23 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_ab8d6e239e0336ea8b8e1203f6c38f3c7}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+S\+H\+A\+L\+L\+O\+W@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+S\+H\+A\+L\+L\+O\+W}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+S\+H\+A\+L\+L\+O\+W@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+S\+H\+A\+L\+L\+O\+W}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+S\+H\+A\+L\+L\+O\+W}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+A\+R\+R\+A\+Y\+\_\+\+T\+O\+O\+\_\+\+S\+H\+A\+L\+L\+O\+W = 1007}\label{class_database_exception_ab8d6e239e0336ea8b8e1203f6c38f3c7}
+
+
+Definition at line 24 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_ab85a8b8e512fdab1e0f3a0ca8be9aaa0}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+T\+Y\+P\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+T\+Y\+P\+E}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+T\+Y\+P\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+T\+Y\+P\+E}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+T\+Y\+P\+E}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+T\+Y\+P\+E = 1001}\label{class_database_exception_ab85a8b8e512fdab1e0f3a0ca8be9aaa0}
+
+
+Definition at line 18 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_aecec182787a871e4c5c0a2f4110f9920}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+N\+O\+T\+\_\+\+V\+A\+L\+I\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+N\+O\+T\+\_\+\+V\+A\+L\+I\+D}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+N\+O\+T\+\_\+\+V\+A\+L\+I\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+N\+O\+T\+\_\+\+V\+A\+L\+I\+D}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+N\+O\+T\+\_\+\+V\+A\+L\+I\+D}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+P\+U\+T\+\_\+\+N\+O\+T\+\_\+\+V\+A\+L\+I\+D = 1002}\label{class_database_exception_aecec182787a871e4c5c0a2f4110f9920}
+
+
+Definition at line 19 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a5e32a0f3e8b89279262617564b4c39a2}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+T\+Y\+P\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+T\+Y\+P\+E}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+T\+Y\+P\+E@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+T\+Y\+P\+E}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+T\+Y\+P\+E}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+D\+A\+T\+A\+B\+A\+S\+E\+\_\+\+T\+Y\+P\+E = 1003}\label{class_database_exception_a5e32a0f3e8b89279262617564b4c39a2}
+
+
+Definition at line 20 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a9214bdd72834d71914a74f0a27db4a1e}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N = 4}\label{class_database_exception_a9214bdd72834d71914a74f0a27db4a1e}
+
+
+Definition at line 15 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_acb77d344642fcd23d3007350580df264}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+D\+E\+F\+I\+N\+I\+T\+I\+O\+N@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+D\+E\+F\+I\+N\+I\+T\+I\+O\+N}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+D\+E\+F\+I\+N\+I\+T\+I\+O\+N@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+D\+E\+F\+I\+N\+I\+T\+I\+O\+N}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+D\+E\+F\+I\+N\+I\+T\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+D\+E\+F\+I\+N\+I\+T\+I\+O\+N = 1005}\label{class_database_exception_acb77d344642fcd23d3007350580df264}
+
+
+Definition at line 22 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a95a9d1ff5c1d06fff7293ea4b61af959}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+A\+R\+G\+U\+M\+E\+N\+T@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+A\+R\+G\+U\+M\+E\+N\+T}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+A\+R\+G\+U\+M\+E\+N\+T@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+A\+R\+G\+U\+M\+E\+N\+T}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+A\+R\+G\+U\+M\+E\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+M\+I\+S\+S\+I\+N\+G\+\_\+\+R\+E\+Q\+U\+I\+R\+E\+D\+\_\+\+A\+R\+G\+U\+M\+E\+N\+T = 1004}\label{class_database_exception_a95a9d1ff5c1d06fff7293ea4b61af959}
+
+
+Definition at line 21 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_abbef5bf22fd6bb11a46837ba48e8bf00}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+C\+O\+N\+N\+E\+C\+T\+I\+O\+N\+\_\+\+R\+E\+F\+U\+S\+E\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+C\+O\+N\+N\+E\+C\+T\+I\+O\+N\+\_\+\+R\+E\+F\+U\+S\+E\+D}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+C\+O\+N\+N\+E\+C\+T\+I\+O\+N\+\_\+\+R\+E\+F\+U\+S\+E\+D@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+C\+O\+N\+N\+E\+C\+T\+I\+O\+N\+\_\+\+R\+E\+F\+U\+S\+E\+D}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+C\+O\+N\+N\+E\+C\+T\+I\+O\+N\+\_\+\+R\+E\+F\+U\+S\+E\+D}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+C\+O\+N\+N\+E\+C\+T\+I\+O\+N\+\_\+\+R\+E\+F\+U\+S\+E\+D = 4003}\label{class_database_exception_abbef5bf22fd6bb11a46837ba48e8bf00}
+
+
+Definition at line 53 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_aaa5b45b9fc8dc9eaf84c2b846fbb9cc1}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+R\+E\+S\+E\+T\+\_\+\+B\+Y\+\_\+\+P\+E\+E\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+R\+E\+S\+E\+T\+\_\+\+B\+Y\+\_\+\+P\+E\+E\+R}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+R\+E\+S\+E\+T\+\_\+\+B\+Y\+\_\+\+P\+E\+E\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+R\+E\+S\+E\+T\+\_\+\+B\+Y\+\_\+\+P\+E\+E\+R}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+R\+E\+S\+E\+T\+\_\+\+B\+Y\+\_\+\+P\+E\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+R\+E\+S\+E\+T\+\_\+\+B\+Y\+\_\+\+P\+E\+E\+R = 4002}\label{class_database_exception_aaa5b45b9fc8dc9eaf84c2b846fbb9cc1}
+
+
+Definition at line 52 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a53179a0bedcb9a50567afed3ae66baaa}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+T\+I\+M\+E\+O\+U\+T@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+T\+I\+M\+E\+O\+U\+T}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+T\+I\+M\+E\+O\+U\+T@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+T\+I\+M\+E\+O\+U\+T}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+T\+I\+M\+E\+O\+U\+T}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+E\+T\+\_\+\+T\+I\+M\+E\+O\+U\+T = 4001}\label{class_database_exception_a53179a0bedcb9a50567afed3ae66baaa}
+
+
+Definition at line 51 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a93f610f377641d6a80dc3ba2c0d282cd}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+O\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+O\+\_\+\+E\+R\+R\+O\+R}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+O\+\_\+\+E\+R\+R\+O\+R@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+O\+\_\+\+E\+R\+R\+O\+R}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+O\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+N\+O\+\_\+\+E\+R\+R\+O\+R = 0}\label{class_database_exception_a93f610f377641d6a80dc3ba2c0d282cd}
+
+
+Definition at line 11 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_a8c1f734137128a0b3a7ab767e583e7ad}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+A\+B\+L\+E\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+A\+B\+L\+E\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+A\+B\+L\+E\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+A\+B\+L\+E\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+A\+B\+L\+E\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+A\+B\+L\+E\+\_\+\+D\+O\+E\+S\+\_\+\+N\+O\+T\+\_\+\+E\+X\+I\+S\+T = 2001}\label{class_database_exception_a8c1f734137128a0b3a7ab767e583e7ad}
+
+
+Definition at line 27 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_ad70fde01b9fdf6cab7de36cb7f2329dd}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+E\+S\+T@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+E\+S\+T}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+E\+S\+T@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+E\+S\+T}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+E\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+T\+E\+S\+T = 1}\label{class_database_exception_ad70fde01b9fdf6cab7de36cb7f2329dd}
+
+
+Definition at line 12 of file Database\+Exception.\+php.
+
+\hypertarget{class_database_exception_aa329d5b77c2ad7a40e283926c6c6dc2e}{}\index{Database\+Exception@{Database\+Exception}!E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+U\+N\+C\+A\+U\+G\+H\+T\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+U\+N\+C\+A\+U\+G\+H\+T\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N}}
+\index{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+U\+N\+C\+A\+U\+G\+H\+T\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N@{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+U\+N\+C\+A\+U\+G\+H\+T\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N}!Database\+Exception@{Database\+Exception}}
+\subsubsection[{E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+U\+N\+C\+A\+U\+G\+H\+T\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}const E\+X\+C\+E\+P\+T\+I\+O\+N\+\_\+\+U\+N\+C\+A\+U\+G\+H\+T\+\_\+\+E\+X\+C\+E\+P\+T\+I\+O\+N = 3}\label{class_database_exception_aa329d5b77c2ad7a40e283926c6c6dc2e}
+
+
+Definition at line 14 of file Database\+Exception.\+php.
 
 
 
