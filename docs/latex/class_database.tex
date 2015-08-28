@@ -1,0 +1,598 @@
+\hypertarget{class_database}{}\section{Database Class Reference}
+\label{class_database}\index{Database@{Database}}
+Inheritance diagram for Database\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_database}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_database_a8621f88c8cc4a5d71e2856647c086438}{\+\_\+\+\_\+construct} (\$type, \$name, \$user=null, \$pass=null, \$host= \textquotesingle{}localhost\textquotesingle{}, \$port=null, \$table=null)
+\item 
+\hyperlink{class_database_a9aac7e1475efe923de4e19cc2511f092}{\+\_\+\+\_\+invoke} ()
+\item 
+\hyperlink{class_database_a7516ca30af0db3cdbf9a7739b48ce91d}{\+\_\+\+\_\+to\+String} ()
+\item 
+\hyperlink{class_database_a42c4cefdb183a7caa3115193a811d893}{column\+Exists} (\$column, \$table=null)
+\item 
+\& \hyperlink{class_database_a4196f3b1da0c3bbc3ec6f862e2c4e197}{get\+Child} ()
+\item 
+\hyperlink{class_database_a5cc0962e790b9ccffd2ca9c77cead320}{get\+Columns} (\$table=null)
+\item 
+\hyperlink{class_database_af54c3eed64c3e3dfb06a2541289ff0da}{get\+Default\+Table} ()
+\item 
+\hyperlink{class_database_a61b9097ace78236a1a7f9cfd9e9ab01c}{get\+Tables} ()
+\item 
+\hyperlink{class_database_a830b5c75df72b32396701bc563fbe3c7}{get\+Type} ()
+\item 
+\hyperlink{class_database_ad0aa1804fc79c22b46596db136320017}{has\+Default\+Table} ()
+\item 
+\hyperlink{class_database_a8e5626f114925dee9986c8edbfc3ec05}{insert} (\$in, \$table=null)
+\item 
+\hyperlink{class_database_a1efc6b974510d4c668660f1abe184182}{select} (\$columns=\mbox{[}\textquotesingle{}$\ast$\textquotesingle{}\mbox{]}, \$conditions=null, \$start=null, \$count=null, \$sort\+By=null, \$sort\+Direction=null, \$table=null)
+\item 
+\hyperlink{class_database_ae7cdaa744d52a1eb0103e377023ca528}{table\+Exists} (\$table)
+\end{DoxyCompactItemize}
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+const \hyperlink{class_database_ac3188f4350978425c488580c5cea8468}{F\+I\+E\+L\+D\+\_\+\+D\+A\+T\+A} = 0
+\item 
+const \hyperlink{class_database_acbdf154a35cfc228dd1016e8aa4bd503}{F\+I\+E\+L\+D\+\_\+\+T\+A\+B\+L\+E} = 1
+\item 
+const \hyperlink{class_database_a87aad3e89cc6a17f293cf5410b225bbe}{F\+I\+E\+L\+D\+\_\+\+C\+O\+L\+U\+M\+N} = 2
+\item 
+const \hyperlink{class_database_a9b1a24ef01d468c146a71b333edb0c17}{K\+E\+Y\+W\+O\+R\+D\+\_\+\+N\+O\+N\+E} = 0
+\item 
+const \hyperlink{class_database_ababb5c4af464938f3f0b8f9c4fa183ba}{K\+E\+Y\+W\+O\+R\+D\+\_\+\+A\+L\+L} = 1
+\item 
+const \hyperlink{class_database_af3826c676cb54905f393f9d1f7ad48ea}{S\+O\+R\+T\+\_\+\+N\+O\+N\+E} = 0
+\item 
+const \hyperlink{class_database_a9517f2622dfc5fbb0cc64feef247eb06}{S\+O\+R\+T\+\_\+\+A\+S\+C} = 1
+\item 
+const \hyperlink{class_database_a0e633ab431ae1e5cc483a37cfe73bb09}{S\+O\+R\+T\+\_\+\+D\+E\+S\+C} = 2
+\item 
+const \hyperlink{class_database_ab93424c90d1a3c44eb13221df4a4f773}{T\+Y\+P\+E\+\_\+\+M\+Y\+S\+Q\+L} = 1
+\item 
+const \hyperlink{class_database_a50a87e8333b1ab093dbeecda41fe4335}{T\+Y\+P\+E\+\_\+\+P\+G\+S\+Q\+L} = 2
+\item 
+const \hyperlink{class_database_ad651a8cde87b429d4335e15dd6551ca9}{T\+Y\+P\+E\+\_\+\+S\+Q\+L\+I\+T\+E} = 3
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_database_a40410074f5960b0491d35e137147571c}{\$child}
+\item 
+\hyperlink{class_database_a49c7011be9c979d9174c52a8b83e5d8e}{\$config}
+\item 
+\hyperlink{class_database_aee271b7ce67fbe00b9976e6c347cbfbf}{\$encoding}
+\item 
+\hyperlink{class_database_a711797613cb863ca0756df789c396bf2}{\$host}
+\item 
+\hyperlink{class_database_ab2fc40d43824ea3e1ce5d86dee0d763b}{\$name}
+\item 
+\hyperlink{class_database_a4269f690c0554ecb1deec21b80f321dc}{\$open}
+\item 
+\hyperlink{class_database_aa0787efab4b22e8a212882f3409d4c77}{\$port}
+\item 
+\hyperlink{class_database_ae8876a14058f368335baccf35af4a22b}{\$table}
+\item 
+\hyperlink{class_database_a9a4a6fba2208984cabb3afacadf33919}{\$type}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 3 of file Database.\+php.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_database_a8621f88c8cc4a5d71e2856647c086438}{}\index{Database@{Database}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Database@{Database}}
+\subsubsection[{\+\_\+\+\_\+construct}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$type, }
+\item[{}]{\$name, }
+\item[{}]{\$user = {\ttfamily null}, }
+\item[{}]{\$pass = {\ttfamily null}, }
+\item[{}]{\$host = {\ttfamily \textquotesingle{}localhost\textquotesingle{}}, }
+\item[{}]{\$port = {\ttfamily null}, }
+\item[{}]{\$table = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}\label{class_database_a8621f88c8cc4a5d71e2856647c086438}
+Constructor Method 
+\begin{DoxyParams}[1]{Parameters}
+int & {\em \$type} & (required) -\/ \\
+\hline
+string & {\em \$name} & (required) -\/ \\
+\hline
+string & {\em \$user} & (required for secured) -\/ \\
+\hline
+string & {\em \$pass} & (required for secured) -\/ \\
+\hline
+string & {\em \$host} & (required for remote, optional because it defaults to localhost) -\/ \\
+\hline
+integer & {\em \$port} & (required for remote, optional because it defaults to server type\textquotesingle{}s default port) -\/ \\
+\hline
+strign & {\em \$table} & (optional) -\/ \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{interface_cross_database_interface_ad39d523c1d86281b5776378c1261503d}{Cross\+Database\+Interface}.
+
+
+
+Definition at line 44 of file Database.\+php.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_database_a9aac7e1475efe923de4e19cc2511f092}{}\index{Database@{Database}!\+\_\+\+\_\+invoke@{\+\_\+\+\_\+invoke}}
+\index{\+\_\+\+\_\+invoke@{\+\_\+\+\_\+invoke}!Database@{Database}}
+\subsubsection[{\+\_\+\+\_\+invoke}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+invoke (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_database_a9aac7e1475efe923de4e19cc2511f092}
+Invocation Method 
+
+Implements \hyperlink{interface_database_interface_a9aac7e1475efe923de4e19cc2511f092}{Database\+Interface}.
+
+
+
+Definition at line 144 of file Database.\+php.
+
+\hypertarget{class_database_a7516ca30af0db3cdbf9a7739b48ce91d}{}\index{Database@{Database}!\+\_\+\+\_\+to\+String@{\+\_\+\+\_\+to\+String}}
+\index{\+\_\+\+\_\+to\+String@{\+\_\+\+\_\+to\+String}!Database@{Database}}
+\subsubsection[{\+\_\+\+\_\+to\+String}]{\setlength{\rightskip}{0pt plus 5cm}\+\_\+\+\_\+to\+String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_database_a7516ca30af0db3cdbf9a7739b48ce91d}
+String Conversion Method 
+
+Implements \hyperlink{interface_database_interface_a7516ca30af0db3cdbf9a7739b48ce91d}{Database\+Interface}.
+
+
+
+Definition at line 153 of file Database.\+php.
+
+\hypertarget{class_database_a42c4cefdb183a7caa3115193a811d893}{}\index{Database@{Database}!column\+Exists@{column\+Exists}}
+\index{column\+Exists@{column\+Exists}!Database@{Database}}
+\subsubsection[{column\+Exists}]{\setlength{\rightskip}{0pt plus 5cm}column\+Exists (
+\begin{DoxyParamCaption}
+\item[{}]{\$column, }
+\item[{}]{\$table = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}\label{class_database_a42c4cefdb183a7caa3115193a811d893}
+Database-\/$>$\hyperlink{interface_database_interface_a0205d4089913613e23189c60d7fdf89a}{column\+Exists()} Method
+
+Tests if a given column exists in a given table.
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$column} & (required) -\/ name of column for which to test \\
+\hline
+string & {\em \$table} & (optional) -\/ name of table, unless table predefined \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if column exists, false if not 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{interface_database_interface_a0205d4089913613e23189c60d7fdf89a}{Database\+Interface\+::column\+Exists()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 169 of file Database.\+php.
+
+\hypertarget{class_database_a4196f3b1da0c3bbc3ec6f862e2c4e197}{}\index{Database@{Database}!get\+Child@{get\+Child}}
+\index{get\+Child@{get\+Child}!Database@{Database}}
+\subsubsection[{get\+Child}]{\setlength{\rightskip}{0pt plus 5cm}\& get\+Child (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_database_a4196f3b1da0c3bbc3ec6f862e2c4e197}
+Database-\/$>$\hyperlink{class_database_a4196f3b1da0c3bbc3ec6f862e2c4e197}{get\+Child()} Method
+
+Getter for mutable reference to child object (\hyperlink{class_my_s_q_l_database}{My\+S\+Q\+L\+Database}, \hyperlink{class_postgre_s_q_l_database}{Postgre\+S\+Q\+L\+Database}, or \hyperlink{class_s_q_lite_database}{S\+Q\+Lite\+Database}).
+
+\begin{DoxyReturn}{Returns}
+\&My\+S\+Q\+L\+Database$\vert$\&Postgre\+S\+Q\+L\+Database$\vert$\&\hyperlink{class_s_q_lite_database}{S\+Q\+Lite\+Database} -\/ child database object 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{interface_cross_database_interface_a42e46ac9d1969ac9ce906608730be110}{Cross\+Database\+Interface\+::get\+Child()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{interface_cross_database_interface_a42e46ac9d1969ac9ce906608730be110}{Cross\+Database\+Interface}.
+
+
+
+Definition at line 184 of file Database.\+php.
+
+\hypertarget{class_database_a5cc0962e790b9ccffd2ca9c77cead320}{}\index{Database@{Database}!get\+Columns@{get\+Columns}}
+\index{get\+Columns@{get\+Columns}!Database@{Database}}
+\subsubsection[{get\+Columns}]{\setlength{\rightskip}{0pt plus 5cm}get\+Columns (
+\begin{DoxyParamCaption}
+\item[{}]{\$table = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}\label{class_database_a5cc0962e790b9ccffd2ca9c77cead320}
+Database-\/$>$\hyperlink{interface_database_interface_a6287262cb9628d7a89d8fc16dcb51177}{get\+Columns()} Method
+
+Getter for array of all columns in a given table.
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$table} & (optional) -\/ name of table, unless table predefined \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array -\/ array of columns in the table 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{interface_database_interface_a6287262cb9628d7a89d8fc16dcb51177}{Database\+Interface\+::get\+Columns()} 
+\end{DoxySeeAlso}
+
+
+Definition at line 199 of file Database.\+php.
+
+\hypertarget{class_database_af54c3eed64c3e3dfb06a2541289ff0da}{}\index{Database@{Database}!get\+Default\+Table@{get\+Default\+Table}}
+\index{get\+Default\+Table@{get\+Default\+Table}!Database@{Database}}
+\subsubsection[{get\+Default\+Table}]{\setlength{\rightskip}{0pt plus 5cm}get\+Default\+Table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_database_af54c3eed64c3e3dfb06a2541289ff0da}
+Database-\/$>$\hyperlink{class_database_af54c3eed64c3e3dfb06a2541289ff0da}{get\+Default\+Table()} Method
+
+Getter for default table defined in the constructor or Database-\/$>$set\+Table().
+
+\begin{DoxyReturn}{Returns}
+string -\/ default table (value of \$this-\/$>$child-\/$>$table) 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{interface_database_interface_af54c3eed64c3e3dfb06a2541289ff0da}{Database\+Interface\+::get\+Default\+Table()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{interface_database_interface_af54c3eed64c3e3dfb06a2541289ff0da}{Database\+Interface}.
+
+
+
+Definition at line 213 of file Database.\+php.
+
+\hypertarget{class_database_a61b9097ace78236a1a7f9cfd9e9ab01c}{}\index{Database@{Database}!get\+Tables@{get\+Tables}}
+\index{get\+Tables@{get\+Tables}!Database@{Database}}
+\subsubsection[{get\+Tables}]{\setlength{\rightskip}{0pt plus 5cm}get\+Tables (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_database_a61b9097ace78236a1a7f9cfd9e9ab01c}
+Database-\/$>$\hyperlink{class_database_a61b9097ace78236a1a7f9cfd9e9ab01c}{get\+Tables()} Method
+
+Getter for array of tables in the database.
+
+\begin{DoxyReturn}{Returns}
+array -\/ array of tables in the database 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{interface_database_interface_a61b9097ace78236a1a7f9cfd9e9ab01c}{Database\+Interface\+::get\+Tables()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{interface_database_interface_a61b9097ace78236a1a7f9cfd9e9ab01c}{Database\+Interface}.
+
+
+
+Definition at line 227 of file Database.\+php.
+
+\hypertarget{class_database_a830b5c75df72b32396701bc563fbe3c7}{}\index{Database@{Database}!get\+Type@{get\+Type}}
+\index{get\+Type@{get\+Type}!Database@{Database}}
+\subsubsection[{get\+Type}]{\setlength{\rightskip}{0pt plus 5cm}get\+Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_database_a830b5c75df72b32396701bc563fbe3c7}
+Database-\/$>$\hyperlink{class_database_a830b5c75df72b32396701bc563fbe3c7}{get\+Type()} Method
+
+Getter for database type.
+
+\begin{DoxyReturn}{Returns}
+string database type, value of \$this-\/$>$type 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+Database\+Interface\+::get\+Type() 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{interface_cross_database_interface_a830b5c75df72b32396701bc563fbe3c7}{Cross\+Database\+Interface}.
+
+
+
+Definition at line 241 of file Database.\+php.
+
+\hypertarget{class_database_ad0aa1804fc79c22b46596db136320017}{}\index{Database@{Database}!has\+Default\+Table@{has\+Default\+Table}}
+\index{has\+Default\+Table@{has\+Default\+Table}!Database@{Database}}
+\subsubsection[{has\+Default\+Table}]{\setlength{\rightskip}{0pt plus 5cm}has\+Default\+Table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_database_ad0aa1804fc79c22b46596db136320017}
+Database-\/$>$\hyperlink{class_database_ad0aa1804fc79c22b46596db136320017}{has\+Default\+Table()} Method
+
+Checks if default table (defined in constructor or Database-\/$>$set\+Table) is defined.
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if default table is defined, false if not 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{interface_database_interface_ad0aa1804fc79c22b46596db136320017}{Database\+Interface\+::has\+Default\+Table()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{interface_database_interface_ad0aa1804fc79c22b46596db136320017}{Database\+Interface}.
+
+
+
+Definition at line 255 of file Database.\+php.
+
+\hypertarget{class_database_a8e5626f114925dee9986c8edbfc3ec05}{}\index{Database@{Database}!insert@{insert}}
+\index{insert@{insert}!Database@{Database}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}insert (
+\begin{DoxyParamCaption}
+\item[{}]{\$in, }
+\item[{}]{\$table = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}\label{class_database_a8e5626f114925dee9986c8edbfc3ec05}
+Database-\/$>$\hyperlink{class_database_a8e5626f114925dee9986c8edbfc3ec05}{insert()} Method
+
+Insert new data into the database. This method is a chainable mutator.
+
+
+\begin{DoxyParams}[1]{Parameters}
+array & {\em \$in} & (required) -\/ associative array of input to be inserted, keys being the name of columns \\
+\hline
+string & {\em \$table} & (optional if defined in constructor) -\/ table to use \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_database}{Database} -\/ reference to self 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{interface_database_interface_a8e5626f114925dee9986c8edbfc3ec05}{Database\+Interface\+::insert()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{interface_database_interface_a8e5626f114925dee9986c8edbfc3ec05}{Database\+Interface}.
+
+
+
+Definition at line 276 of file Database.\+php.
+
+\hypertarget{class_database_a1efc6b974510d4c668660f1abe184182}{}\index{Database@{Database}!select@{select}}
+\index{select@{select}!Database@{Database}}
+\subsubsection[{select}]{\setlength{\rightskip}{0pt plus 5cm}select (
+\begin{DoxyParamCaption}
+\item[{}]{\$columns = {\ttfamily \mbox{[}\textquotesingle{}$\ast$\textquotesingle{}\mbox{]}}, }
+\item[{}]{\$conditions = {\ttfamily null}, }
+\item[{}]{\$start = {\ttfamily null}, }
+\item[{}]{\$count = {\ttfamily null}, }
+\item[{}]{\$sort\+By = {\ttfamily null}, }
+\item[{}]{\$sort\+Direction = {\ttfamily null}, }
+\item[{}]{\$table = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}\label{class_database_a1efc6b974510d4c668660f1abe184182}
+Database-\/$>$\hyperlink{class_database_a1efc6b974510d4c668660f1abe184182}{select()} Method
+
+
+\begin{DoxyParams}[1]{Parameters}
+array | string & {\em \$columns} & (optional) -\/ columns to return. if left empty/null, will default to all columns ($\ast$) \\
+\hline
+Database\+Condition | array | string & {\em \$conditions} & (optional) -\/ conditions to lookup. If left empty/null, will default to no conditions. \\
+\hline
+int & {\em \$start} & (optional) -\/ starting index from which to begin selecting. If left empty, defaults to 0. \\
+\hline
+int & {\em \$count} & (optional) -\/ maximum number of results to return. If left empty, defaults to no limit. \\
+\hline
+string & {\em \$sort\+By} & (optional) -\/ column with which to sort the table. If left empty, defaults to the first column in the table. \\
+\hline
+int & {\em \$sort\+Direction} & (optional -\/ (uses flags) direction to sort the table. If left empty, defaults to none. Options are S\+O\+R\+T\+\_\+\+N\+O\+N\+E, S\+O\+R\+T\+\_\+\+A\+S\+C, S\+O\+R\+T\+\_\+\+D\+E\+S\+C \\
+\hline
+string & {\em \$table} & (optional if table set in constructor) -\/ table from which to select. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array -\/ results of the select query as an associative array. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interface_database_interface_a1efc6b974510d4c668660f1abe184182}{Database\+Interface}.
+
+
+
+Definition at line 294 of file Database.\+php.
+
+\hypertarget{class_database_ae7cdaa744d52a1eb0103e377023ca528}{}\index{Database@{Database}!table\+Exists@{table\+Exists}}
+\index{table\+Exists@{table\+Exists}!Database@{Database}}
+\subsubsection[{table\+Exists}]{\setlength{\rightskip}{0pt plus 5cm}table\+Exists (
+\begin{DoxyParamCaption}
+\item[{}]{\$table}
+\end{DoxyParamCaption}
+)}\label{class_database_ae7cdaa744d52a1eb0103e377023ca528}
+Database-\/$>$\hyperlink{class_database_ae7cdaa744d52a1eb0103e377023ca528}{table\+Exists()} Method
+
+Checks if a given table exists in the database
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$table} & (required) -\/ table for which to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if table exists, false if not 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{interface_database_interface_ae7cdaa744d52a1eb0103e377023ca528}{Database\+Interface\+::table\+Exists()} 
+\end{DoxySeeAlso}
+
+
+Implements \hyperlink{interface_database_interface_ae7cdaa744d52a1eb0103e377023ca528}{Database\+Interface}.
+
+
+
+Definition at line 309 of file Database.\+php.
+
+
+
+\subsection{Field Documentation}
+\hypertarget{class_database_a40410074f5960b0491d35e137147571c}{}\index{Database@{Database}!\$child@{\$child}}
+\index{\$child@{\$child}!Database@{Database}}
+\subsubsection[{\$child}]{\setlength{\rightskip}{0pt plus 5cm}\$child\hspace{0.3cm}{\ttfamily [protected]}}\label{class_database_a40410074f5960b0491d35e137147571c}
+
+
+Definition at line 7 of file Database.\+php.
+
+\hypertarget{class_database_a49c7011be9c979d9174c52a8b83e5d8e}{}\index{Database@{Database}!\$config@{\$config}}
+\index{\$config@{\$config}!Database@{Database}}
+\subsubsection[{\$config}]{\setlength{\rightskip}{0pt plus 5cm}\$config\hspace{0.3cm}{\ttfamily [protected]}}\label{class_database_a49c7011be9c979d9174c52a8b83e5d8e}
+
+
+Definition at line 8 of file Database.\+php.
+
+\hypertarget{class_database_aee271b7ce67fbe00b9976e6c347cbfbf}{}\index{Database@{Database}!\$encoding@{\$encoding}}
+\index{\$encoding@{\$encoding}!Database@{Database}}
+\subsubsection[{\$encoding}]{\setlength{\rightskip}{0pt plus 5cm}\$encoding\hspace{0.3cm}{\ttfamily [protected]}}\label{class_database_aee271b7ce67fbe00b9976e6c347cbfbf}
+
+
+Definition at line 9 of file Database.\+php.
+
+\hypertarget{class_database_a711797613cb863ca0756df789c396bf2}{}\index{Database@{Database}!\$host@{\$host}}
+\index{\$host@{\$host}!Database@{Database}}
+\subsubsection[{\$host}]{\setlength{\rightskip}{0pt plus 5cm}\$host\hspace{0.3cm}{\ttfamily [protected]}}\label{class_database_a711797613cb863ca0756df789c396bf2}
+
+
+Definition at line 10 of file Database.\+php.
+
+\hypertarget{class_database_ab2fc40d43824ea3e1ce5d86dee0d763b}{}\index{Database@{Database}!\$name@{\$name}}
+\index{\$name@{\$name}!Database@{Database}}
+\subsubsection[{\$name}]{\setlength{\rightskip}{0pt plus 5cm}\$name\hspace{0.3cm}{\ttfamily [protected]}}\label{class_database_ab2fc40d43824ea3e1ce5d86dee0d763b}
+
+
+Definition at line 11 of file Database.\+php.
+
+\hypertarget{class_database_a4269f690c0554ecb1deec21b80f321dc}{}\index{Database@{Database}!\$open@{\$open}}
+\index{\$open@{\$open}!Database@{Database}}
+\subsubsection[{\$open}]{\setlength{\rightskip}{0pt plus 5cm}\$open\hspace{0.3cm}{\ttfamily [protected]}}\label{class_database_a4269f690c0554ecb1deec21b80f321dc}
+
+
+Definition at line 12 of file Database.\+php.
+
+\hypertarget{class_database_aa0787efab4b22e8a212882f3409d4c77}{}\index{Database@{Database}!\$port@{\$port}}
+\index{\$port@{\$port}!Database@{Database}}
+\subsubsection[{\$port}]{\setlength{\rightskip}{0pt plus 5cm}\$port\hspace{0.3cm}{\ttfamily [protected]}}\label{class_database_aa0787efab4b22e8a212882f3409d4c77}
+
+
+Definition at line 13 of file Database.\+php.
+
+\hypertarget{class_database_ae8876a14058f368335baccf35af4a22b}{}\index{Database@{Database}!\$table@{\$table}}
+\index{\$table@{\$table}!Database@{Database}}
+\subsubsection[{\$table}]{\setlength{\rightskip}{0pt plus 5cm}\$table\hspace{0.3cm}{\ttfamily [protected]}}\label{class_database_ae8876a14058f368335baccf35af4a22b}
+
+
+Definition at line 14 of file Database.\+php.
+
+\hypertarget{class_database_a9a4a6fba2208984cabb3afacadf33919}{}\index{Database@{Database}!\$type@{\$type}}
+\index{\$type@{\$type}!Database@{Database}}
+\subsubsection[{\$type}]{\setlength{\rightskip}{0pt plus 5cm}\$type\hspace{0.3cm}{\ttfamily [protected]}}\label{class_database_a9a4a6fba2208984cabb3afacadf33919}
+
+
+Definition at line 15 of file Database.\+php.
+
+\hypertarget{class_database_a87aad3e89cc6a17f293cf5410b225bbe}{}\index{Database@{Database}!F\+I\+E\+L\+D\+\_\+\+C\+O\+L\+U\+M\+N@{F\+I\+E\+L\+D\+\_\+\+C\+O\+L\+U\+M\+N}}
+\index{F\+I\+E\+L\+D\+\_\+\+C\+O\+L\+U\+M\+N@{F\+I\+E\+L\+D\+\_\+\+C\+O\+L\+U\+M\+N}!Database@{Database}}
+\subsubsection[{F\+I\+E\+L\+D\+\_\+\+C\+O\+L\+U\+M\+N}]{\setlength{\rightskip}{0pt plus 5cm}const F\+I\+E\+L\+D\+\_\+\+C\+O\+L\+U\+M\+N = 2}\label{class_database_a87aad3e89cc6a17f293cf5410b225bbe}
+
+
+Definition at line 21 of file Database.\+php.
+
+\hypertarget{class_database_ac3188f4350978425c488580c5cea8468}{}\index{Database@{Database}!F\+I\+E\+L\+D\+\_\+\+D\+A\+T\+A@{F\+I\+E\+L\+D\+\_\+\+D\+A\+T\+A}}
+\index{F\+I\+E\+L\+D\+\_\+\+D\+A\+T\+A@{F\+I\+E\+L\+D\+\_\+\+D\+A\+T\+A}!Database@{Database}}
+\subsubsection[{F\+I\+E\+L\+D\+\_\+\+D\+A\+T\+A}]{\setlength{\rightskip}{0pt plus 5cm}const F\+I\+E\+L\+D\+\_\+\+D\+A\+T\+A = 0}\label{class_database_ac3188f4350978425c488580c5cea8468}
+
+
+Definition at line 19 of file Database.\+php.
+
+\hypertarget{class_database_acbdf154a35cfc228dd1016e8aa4bd503}{}\index{Database@{Database}!F\+I\+E\+L\+D\+\_\+\+T\+A\+B\+L\+E@{F\+I\+E\+L\+D\+\_\+\+T\+A\+B\+L\+E}}
+\index{F\+I\+E\+L\+D\+\_\+\+T\+A\+B\+L\+E@{F\+I\+E\+L\+D\+\_\+\+T\+A\+B\+L\+E}!Database@{Database}}
+\subsubsection[{F\+I\+E\+L\+D\+\_\+\+T\+A\+B\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}const F\+I\+E\+L\+D\+\_\+\+T\+A\+B\+L\+E = 1}\label{class_database_acbdf154a35cfc228dd1016e8aa4bd503}
+
+
+Definition at line 20 of file Database.\+php.
+
+\hypertarget{class_database_ababb5c4af464938f3f0b8f9c4fa183ba}{}\index{Database@{Database}!K\+E\+Y\+W\+O\+R\+D\+\_\+\+A\+L\+L@{K\+E\+Y\+W\+O\+R\+D\+\_\+\+A\+L\+L}}
+\index{K\+E\+Y\+W\+O\+R\+D\+\_\+\+A\+L\+L@{K\+E\+Y\+W\+O\+R\+D\+\_\+\+A\+L\+L}!Database@{Database}}
+\subsubsection[{K\+E\+Y\+W\+O\+R\+D\+\_\+\+A\+L\+L}]{\setlength{\rightskip}{0pt plus 5cm}const K\+E\+Y\+W\+O\+R\+D\+\_\+\+A\+L\+L = 1}\label{class_database_ababb5c4af464938f3f0b8f9c4fa183ba}
+
+
+Definition at line 24 of file Database.\+php.
+
+\hypertarget{class_database_a9b1a24ef01d468c146a71b333edb0c17}{}\index{Database@{Database}!K\+E\+Y\+W\+O\+R\+D\+\_\+\+N\+O\+N\+E@{K\+E\+Y\+W\+O\+R\+D\+\_\+\+N\+O\+N\+E}}
+\index{K\+E\+Y\+W\+O\+R\+D\+\_\+\+N\+O\+N\+E@{K\+E\+Y\+W\+O\+R\+D\+\_\+\+N\+O\+N\+E}!Database@{Database}}
+\subsubsection[{K\+E\+Y\+W\+O\+R\+D\+\_\+\+N\+O\+N\+E}]{\setlength{\rightskip}{0pt plus 5cm}const K\+E\+Y\+W\+O\+R\+D\+\_\+\+N\+O\+N\+E = 0}\label{class_database_a9b1a24ef01d468c146a71b333edb0c17}
+
+
+Definition at line 23 of file Database.\+php.
+
+\hypertarget{class_database_a9517f2622dfc5fbb0cc64feef247eb06}{}\index{Database@{Database}!S\+O\+R\+T\+\_\+\+A\+S\+C@{S\+O\+R\+T\+\_\+\+A\+S\+C}}
+\index{S\+O\+R\+T\+\_\+\+A\+S\+C@{S\+O\+R\+T\+\_\+\+A\+S\+C}!Database@{Database}}
+\subsubsection[{S\+O\+R\+T\+\_\+\+A\+S\+C}]{\setlength{\rightskip}{0pt plus 5cm}const S\+O\+R\+T\+\_\+\+A\+S\+C = 1}\label{class_database_a9517f2622dfc5fbb0cc64feef247eb06}
+
+
+Definition at line 27 of file Database.\+php.
+
+\hypertarget{class_database_a0e633ab431ae1e5cc483a37cfe73bb09}{}\index{Database@{Database}!S\+O\+R\+T\+\_\+\+D\+E\+S\+C@{S\+O\+R\+T\+\_\+\+D\+E\+S\+C}}
+\index{S\+O\+R\+T\+\_\+\+D\+E\+S\+C@{S\+O\+R\+T\+\_\+\+D\+E\+S\+C}!Database@{Database}}
+\subsubsection[{S\+O\+R\+T\+\_\+\+D\+E\+S\+C}]{\setlength{\rightskip}{0pt plus 5cm}const S\+O\+R\+T\+\_\+\+D\+E\+S\+C = 2}\label{class_database_a0e633ab431ae1e5cc483a37cfe73bb09}
+
+
+Definition at line 28 of file Database.\+php.
+
+\hypertarget{class_database_af3826c676cb54905f393f9d1f7ad48ea}{}\index{Database@{Database}!S\+O\+R\+T\+\_\+\+N\+O\+N\+E@{S\+O\+R\+T\+\_\+\+N\+O\+N\+E}}
+\index{S\+O\+R\+T\+\_\+\+N\+O\+N\+E@{S\+O\+R\+T\+\_\+\+N\+O\+N\+E}!Database@{Database}}
+\subsubsection[{S\+O\+R\+T\+\_\+\+N\+O\+N\+E}]{\setlength{\rightskip}{0pt plus 5cm}const S\+O\+R\+T\+\_\+\+N\+O\+N\+E = 0}\label{class_database_af3826c676cb54905f393f9d1f7ad48ea}
+
+
+Definition at line 26 of file Database.\+php.
+
+\hypertarget{class_database_ab93424c90d1a3c44eb13221df4a4f773}{}\index{Database@{Database}!T\+Y\+P\+E\+\_\+\+M\+Y\+S\+Q\+L@{T\+Y\+P\+E\+\_\+\+M\+Y\+S\+Q\+L}}
+\index{T\+Y\+P\+E\+\_\+\+M\+Y\+S\+Q\+L@{T\+Y\+P\+E\+\_\+\+M\+Y\+S\+Q\+L}!Database@{Database}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+M\+Y\+S\+Q\+L}]{\setlength{\rightskip}{0pt plus 5cm}const T\+Y\+P\+E\+\_\+\+M\+Y\+S\+Q\+L = 1}\label{class_database_ab93424c90d1a3c44eb13221df4a4f773}
+
+
+Definition at line 30 of file Database.\+php.
+
+\hypertarget{class_database_a50a87e8333b1ab093dbeecda41fe4335}{}\index{Database@{Database}!T\+Y\+P\+E\+\_\+\+P\+G\+S\+Q\+L@{T\+Y\+P\+E\+\_\+\+P\+G\+S\+Q\+L}}
+\index{T\+Y\+P\+E\+\_\+\+P\+G\+S\+Q\+L@{T\+Y\+P\+E\+\_\+\+P\+G\+S\+Q\+L}!Database@{Database}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+P\+G\+S\+Q\+L}]{\setlength{\rightskip}{0pt plus 5cm}const T\+Y\+P\+E\+\_\+\+P\+G\+S\+Q\+L = 2}\label{class_database_a50a87e8333b1ab093dbeecda41fe4335}
+
+
+Definition at line 31 of file Database.\+php.
+
+\hypertarget{class_database_ad651a8cde87b429d4335e15dd6551ca9}{}\index{Database@{Database}!T\+Y\+P\+E\+\_\+\+S\+Q\+L\+I\+T\+E@{T\+Y\+P\+E\+\_\+\+S\+Q\+L\+I\+T\+E}}
+\index{T\+Y\+P\+E\+\_\+\+S\+Q\+L\+I\+T\+E@{T\+Y\+P\+E\+\_\+\+S\+Q\+L\+I\+T\+E}!Database@{Database}}
+\subsubsection[{T\+Y\+P\+E\+\_\+\+S\+Q\+L\+I\+T\+E}]{\setlength{\rightskip}{0pt plus 5cm}const T\+Y\+P\+E\+\_\+\+S\+Q\+L\+I\+T\+E = 3}\label{class_database_ad651a8cde87b429d4335e15dd6551ca9}
+
+
+Definition at line 32 of file Database.\+php.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/class/\hyperlink{_database_8php}{Database.\+php}\end{DoxyCompactItemize}
