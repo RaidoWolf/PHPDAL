@@ -1,6 +1,6 @@
 <?php
 
-class MySQLDatabase extends DatabaseModel implements DatabaseInterface {
+class MySQLDatabase implements DatabaseInterface {
 
     // -- PROPERTIES/MEMBERS -- //
 

@@ -1,6 +1,6 @@
 <?php
 
-class PostgreSQLDatabase extends DatabaseModel implements DatabaseInterface {
+class PostgreSQLDatabase implements DatabaseInterface {
 
     //TODO
 

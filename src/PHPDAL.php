@@ -30,22 +30,24 @@
 
 require_once __DIR__.'/class/CrossDatabaseInterface.php';       //Cross-DBMS Interface
 require_once __DIR__.'/class/Database.php';                     //Cross-DBMS Class
-require_once __DIR__.'/class/DatabaseException.php';            //Cross-DBMS Exception
+require_once __DIR__.'/class/DatabaseException.php';            //Cross-DBMS Exception (and Database Exception Model)
 require_once __DIR__.'/class/DatabaseConditionInterface.php';   //Database Condition Interface
+require_once __DIR__.'/class/DatabaseConditionModel.php';       //Database Condition Model
 require_once __DIR__.'/class/DatabaseExceptionInterface.php';   //Database Exception Interface
-require_once __DIR__.'/class/DatabaseExceptionModel.php';       //Database Exception Model
 require_once __DIR__.'/class/DatabaseInterface.php';            //Database Class Interface
-require_once __DIR__.'/class/DatabaseModel.php';                //Database Class Model
 require_once __DIR__.'/class/DatabaseUtils.php';                //Database Utilities (static)
 
 /*
  * The following are require_once'd on database instantiation:
  * (and thus, do not need to be included here)
  * -----------------------------------------------------------
+ * require_once __DIR__.'/class/MySQLCondition.php';
  * require_once __DIR__.'/class/MySQLDatabase.php';
  * require_once __DIR__.'/class/MySQLException.php';
+ * require_once __DIR__.'/class/PostgreSQLCondition.php';
  * require_once __DIR__.'/class/PostgreSQLDatabase.php';
  * require_once __DIR__.'/class/PostgreSQLException.php';
+ * require_once __DIR__.'/class/SQLiteCondition.php';
  * require_once __DIR__.'/class/SQLiteDatabase.php';
  * require_once __DIR__.'/class/SQLiteException.php';
  */

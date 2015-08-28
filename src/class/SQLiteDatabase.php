@@ -1,6 +1,6 @@
 <?php
 
-class SQLiteDatabase extends DatabaseModel implements DatabaseInterface {
+class SQLiteDatabase implements DatabaseInterface {
 
     //TODO
 
