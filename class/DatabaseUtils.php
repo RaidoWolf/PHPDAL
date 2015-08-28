@@ -1,9 +1,9 @@
 <?php
 
-class DatabaseTools {
+class DatabaseUtils {
 
     /**
-     * DatabaseTools::arrayDepth() Static Method
+     * DatabaseUtils::arrayDepth() Static Method
      *
      * calculates depth of an array (how many nested arrays need/can be traversed)
      *
@@ -28,7 +28,7 @@ class DatabaseTools {
     }
 
     /**
-     * DatabaseTools::isValidHost() Static Method
+     * DatabaseUtils::isValidHost() Static Method
      *
      * tests if a string is a valid IP address or hostname.
      *
