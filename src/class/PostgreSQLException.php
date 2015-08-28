@@ -1,6 +1,6 @@
 <?php
 
-class PostgreSQLException extends DatabaseExceptionModel implements DatabaseExceptionInterface {
+class PostgreSQLException extends DatabaseException implements DatabaseExceptionInterface {
 
     //TODO
 

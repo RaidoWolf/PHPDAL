@@ -1,6 +1,6 @@
 <?php
 
-class MySQLException extends DatabaseExceptionModel implements DatabaseExceptionInterface {
+class MySQLException extends DatabaseException implements DatabaseExceptionInterface {
 
     //TODO
 

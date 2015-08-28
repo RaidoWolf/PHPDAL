@@ -1,6 +1,6 @@
 <?php
 
-class SQLiteException extends DatabaseExceptionModel implements DatabaseExceptionInterface {
+class SQLiteException extends DatabaseException implements DatabaseExceptionInterface {
 
     
 
