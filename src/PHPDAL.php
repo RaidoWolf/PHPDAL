@@ -43,13 +43,10 @@ require_once __DIR__.'/class/DatabaseUtils.php';                //Database Utili
  * -----------------------------------------------------------
  * require_once __DIR__.'/class/MySQLCondition.php';
  * require_once __DIR__.'/class/MySQLDatabase.php';
- * require_once __DIR__.'/class/MySQLException.php';
  * require_once __DIR__.'/class/PostgreSQLCondition.php';
  * require_once __DIR__.'/class/PostgreSQLDatabase.php';
- * require_once __DIR__.'/class/PostgreSQLException.php';
  * require_once __DIR__.'/class/SQLiteCondition.php';
  * require_once __DIR__.'/class/SQLiteDatabase.php';
- * require_once __DIR__.'/class/SQLiteException.php';
  */
 
 ?>

@@ -110,17 +110,14 @@ class Database implements CrossDatabaseInterface {
         if ($type == self::TYPE_MYSQL) {
             require_once __DIR__.'/MySQLCondition.php'; //load MySQL condition class
             require_once __DIR__.'/MySQLDatabase.php'; //load MySQL database class
-            require_once __DIR__.'/MySQLException.php'; //load MySQL exception class
             $this->child = new MySQLDatabase($name, $user, $pass, $host, $port, $table);
         } elseif ($type == self::TYPE_PGSQL) {
             require_once __DIR__.'/PostgreSQLCondition.php'; //load PostgreSQL condition class
             require_once __DIR__.'/PostgreSQLDatabase.php'; //load PostgreSQL database class
-            require_once __DIR__.'/PostgreSQLException.php'; //load PostgreSQL exception class
             $this->child = new PostgreSQLDatabase($name, $user, $pass, $host, $port, $table);
         } elseif ($type == self::TYPE_SQLITE) {
             require_once __DIR__.'/SQLiteCondition.php'; //load SQLite3 condition class
             require_once __DIR__.'/SQLiteDatabase.php'; //load SQLite3 database class
-            require_once __DIR__.'/SQLiteException.php'; //load SQLite3 exception class
             $this->child = new SQLiteDatabase($name, $table);
         } else {
             throw new DatabaseException (
