@@ -2,87 +2,90 @@
 
 class DatabaseConditionModel implements DatabaseConditionInterface {
 
-    /* DBMS-specific Grammar Table
-     * (when extending, definitely mess with this one)
+    /*
+     * DBMS-specific Grammar Table
      */
     protected $dbmsGrammarTable = [
-        //fill this out
+        //only put data here in extended classes
     ];
 
-    /* Standards-Compliant SQL Grammar Table
+    /*
+     * Standards-Compliant SQL Grammar Table
      * (don't mess with this one)
      */
     protected $standardGrammarTable = [
-        'and'           => ' AND ', //string to join 'and' boolean
-        'encapLeft'     => '(', //string to be placed at the left of encapsulation
-        'encapRight'    => ')', //string to be placed at the right of encapsulation
-        'op_eq'         => [
-            'stmt'          => '? = ?', //statement for EQ operator
-            'args'          => ['key','value'] //argument keys and order for EQ
+        'and'               => ' AND ', //string to join 'and' boolean
+        'encapLeft'         => '(', //string to be placed at the left of encapsulation
+        'encapRight'        => ')', //string to be placed at the right of encapsulation
+        'op_eq'             => [
+            'stmt'              => '? = ?', //statement for EQ operator
+            'args'              => ['key','value'] //argument keys and order for EQ
         ],
-        'op_gt'         => [
-            'stmt'          => '? > ?', //statement for GT operator
-            'args'          => ['key','value'] //argument keys and order for GT
+        'op_gt'             => [
+            'stmt'              => '? > ?', //statement for GT operator
+            'args'              => ['key','value'] //argument keys and order for GT
         ],
-        'op_gte'        => [
-            'stmt'          => '? >= ?', //statement for GTE operator
-            'args'          => ['key','value'] //argument keys and order for GTE
+        'op_gte'            => [
+            'stmt'              => '? >= ?', //statement for GTE operator
+            'args'              => ['key','value'] //argument keys and order for GTE
         ],
-        'op_in'         => [
-            'stmt'          => '? IN (?)', //statement for IN operator
-            'args'          => ['key','set'] //argument keys and order for IN
+        'op_in'             => [
+            'stmt'              => '? IN (?)', //statement for IN operator
+            'args'              => ['key','setstring'] //argument keys and order for IN
         ],
-        'op_is'         => [
-            'stmt'          => '? IS ?', //statement for IS operator
-            'args'          => ['key','value'] //argument keys and order for IS
+        'op_isnull'         => [
+            'stmt'              => '? IS NULL', //statement for ISNULL operator
+            'args'              => ['key'] //argument keys and order for ISNULL
         ],
-        'op_like'       => [
-            'stmt'          => '? LIKE ?', //statement for LIKE operator
-            'args'          => ['key', 'value'] //argument keys and order for LIKE
+        'op_like'           => [
+            'stmt'              => '? LIKE ?', //statement for LIKE operator
+            'args'              => ['key', 'value'] //argument keys and order for LIKE
         ],
-        'op_lt'         => [
-            'stmt'          => '? < ?', //statement for LT operator
-            'args'          => ['key','value'] //argument keys and order for LT
+        'op_lt'             => [
+            'stmt'              => '? < ?', //statement for LT operator
+            'args'              => ['key','value'] //argument keys and order for LT
         ],
-        'op_lte'        => [
-            'stmt'          => '? <= ?', //statement for LTE operator
-            'args'          => ['key','value'] //argument keys and order for LTE
+        'op_lte'            => [
+            'stmt'              => '? <= ?', //statement for LTE operator
+            'args'              => ['key','value'] //argument keys and order for LTE
         ],
-        'op_nin'        => [
-            'stmt'          => '? NOT IN (?)', //statement for NIN operator
-            'args'          => ['key','set'] //argument keys and order for NIN
+        'op_nin'            => [
+            'stmt'              => '? NOT IN (?)', //statement for NIN operator
+            'args'              => ['key','setstring'] //argument keys and order for NIN
         ],
-        'op_nis'        => [
-            'stmt'          => '? IS NOT ?', //statement for NIS operator
-            'args'          => ['key','value'] //argument keys and order for NIS
+        'op_nisnull'        => [
+            'stmt'              => '? IS NOT NULL', //statement for NISNULL operator
+            'args'              => ['key'] //argument keys and order for NISNULL
         ],
-        'op_nlike'      => [
-            'stmt'          => '? NOT LIKE ?', //statement for NLIKE operator
-            'args'          => ['key', 'value'] //argument keys and order for NLIKE
+        'op_nlike'          => [
+            'stmt'              => '? NOT LIKE ?', //statement for NLIKE operator
+            'args'              => ['key', 'value'] //argument keys and order for NLIKE
         ],
-        'op_not'        => [
-            'stmt'          => '? != ?', //statement for NOT operator
-            'args'          => ['key','value'] //argument keys and order for NOT
+        'op_not'            => [
+            'stmt'              => '? != ?', //statement for NOT operator
+            'args'              => ['key','value'] //argument keys and order for NOT
         ],
-        'op_nrange'     => [
-            'stmt'          => '? NOT BETWEEN ? AND ?', //statement for NRANGE operator
-            'args'          => ['key','lower','upper'] //argument keys and order for NRANGE
+        'op_nrange'         => [
+            'stmt'              => '? NOT BETWEEN ? AND ?', //statement for NRANGE operator
+            'args'              => ['key','lower','upper'] //argument keys and order for NRANGE
         ],
-        'op_nxrange'    => [
-            'stmt'          => '? NOT BETWEEN ? AND ? OR ? = ? OR ? = ?', //statement for NXRANGE operator
-            'args'          => ['key','lower','upper','key','lower','key','upper'] //argument keys and order for NXRANGE
+        'op_nxrange'        => [
+            'stmt'              => '? NOT BETWEEN ? AND ? OR ? = ? OR ? = ?', //statement for NXRANGE operator
+            'args'              => ['key','lower','upper','key','lower','key','upper'] //argument keys and order for NXRANGE
         ],
-        'op_range'      => [
-            'stmt'          => '? BETWEEN ? AND ?', //statement for RANGE operator
-            'args'          => ['key','lower','upper'] //argument keys and order for RANGE
+        'op_range'          => [
+            'stmt'              => '? BETWEEN ? AND ?', //statement for RANGE operator
+            'args'              => ['key','lower','upper'] //argument keys and order for RANGE
         ],
-        'op_xrange'     => [
-            'stmt'          => '? BETWEEN ? AND ? AND ? != ? AND ? != ?', //statement for XRANGE operator
-            'args'          => ['key','lower','upper','key','lower','key','upper'] //argument keys and order for XRANGE
+        'op_xrange'         => [
+            'stmt'              => '? BETWEEN ? AND ? AND ? != ? AND ? != ?', //statement for XRANGE operator
+            'args'              => ['key','lower','upper','key','lower','key','upper'] //argument keys and order for XRANGE
         ],
-        'or'            => 'OR', //string to join 'or' boolean
-        'setDelimiter'  => ',', //delimiter string to use when imploding sets
-        'xor'           => 'XOR' //string to join 'xor' boolean
+        'or'                => 'OR', //string to join 'or' boolean
+        'quoteStringLeft'   => "'", //string to be placed at the left of a string value
+        'quoteStringRight'  => "'", //string to be placed at the right of a string value
+        'setDelimiter'      => ',', //delimiter string to use when imploding sets
+        'xor'               => 'XOR' //string to join 'xor' boolean
     ];
 
     protected $statement = [];
@@ -133,14 +136,14 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    'DatabaseConditionModel->add() failed due to structure array of invalid type encountered as structure object.',
+                    __CLASS__.'->'.__METHOD__.'() failed due to structure array of invalid type encountered as structure object.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
         } else {
             throw new DatabaseException(
                 $this,
-                'DatabaseConditionModel->add() failed due to structure array of invalid type given as rule to add.',
+                __CLASS__.'->'.__METHOD__.'() failed due to structure array of invalid type given as rule to add.',
                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
             );
         }
@@ -155,7 +158,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
         } else {
             throw new DatabaseException(
                 $this,
-                'DatabaseCondition->remove() failed due to structure array of invalid type either as argument or in condition object.',
+                __CLASS__.'->'.__METHOD__.'() failed due to structure array of invalid type either as argument or in condition object.',
                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
             );
         }
@@ -188,14 +191,14 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    'DatabaseConditionModel->getGrammar() failed due to input of type other than string.',
+                    __CLASS__.'->'.__METHOD__.'() failed due to input of type other than string.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
         } else {
             throw new DatabaseException(
                 $this,
-                'DatabaseConditionModel->getGrammar() failed due to missing required argument.',
+                __CLASS__.'->'.__METHOD__.'() failed due to missing required argument.',
                 DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
             );
         }
@@ -227,11 +230,47 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
 
         if (is_string($string)) {
             $struct = []; //instantiate structure assembly
-            //Well this is going to be fairly complicated. Maybe I'll just use JSON or something.
+            /*
+             * ################################# TODO ####################################
+             * Implement a recursive descent parser here (FML). The parser should read
+             * a standards-compliant implementation of SQL, and then it will convert that
+             * into an array structure that can then be passed to
+             * DatabaseConditionModel->parseArray() to be converted into the proper
+             * syntax for the specific DBMS.
+             */
+            $length = strlen($string); //get the length of the string
+            $depth = 0; //set the starting depth to 0
+            $depthMap = [0]; //instantiate depth position map reference array
+            $path = [0]; //instantiate path array
+            //loop for each character
+            for ($i = 0; $i < $length; $i++) {
+                $char = $string{$i}; //get character at $i position
+                if ($char != '(' && $char != ')') {
+                    //non-parentheses characters
+                    $struct[$depthMap[$depth]] .= $char;
+                } else {
+                    //parentheses characters encountered
+                    if ($char == '(') {
+                        //left-parentheses (go up one level)
+                        $depth++; //increment depth
+                        if (!isset($depthMap[$depth])) {
+                            $depthMap[$depth] = 0;
+                        }
+                        $path[] = $depthMap[$depth]; //add the last position to the array path
+                    } elseif ($char == ')') {
+                        //right-parentheses (go down one level)
+                        $depth--; //decrement depth
+                        if (!isset($depthMap[$depth])) {
+                            $depthMap[$depth] = 0;
+                        }
+                        array_pop($path); //pop the last backreference from the array path
+                    }
+                }
+            }
         } else {
             throw new DatabaseException(
                 $this,
-                'DatabaseConditionModel->parse() failed due to input not of type string.',
+                __CLASS__.'->'.__METHOD__.'() failed due to input not of type string.',
                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
             );
             return false; //in case exception is caught
@@ -266,8 +305,6 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
      *      |---------------|-----------------------------------------------------------------------------------------------|
      *      =, EQ           - EQUAL - Checks if 'key' is equal to 'value'
      *      !, NOT          - NOT - Checks if 'key' is not equal to 'value'
-     *      :, IS           - IS - Tests using boolean 'key' against 'value'
-     *      !:, NIS         - IS NOT - Tests using boolean 'key' against 'value', inverted
      *      <, LT           - LESS THAN - Checks if 'key' is less than 'value'
      *      <=, LTE         - LESS THAN OR EQUAL - Checks if 'key' is less than or equal to 'value'.
      *      >, GT           - GREATER THAN - Checks if 'key' is greater than 'value'
@@ -280,6 +317,8 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
      *      ![], NIN        - NOT IN - Checks if 'key' is not in the set (array) 'set'.
      *      ~, LIKE         - LIKE - Uses database driver's pattern matching to check if 'key' is like 'value'.
      *      !~, NLIKE       - NOT LIKE - Uses database driver's pattern matching to check if 'key' is not like 'value'.
+     *      :0, ISNULL      - IS - Tests if 'key' is a null value.
+     *      !:0, NISNUL     - IS NOT - Tests if 'key' is not a null value.
      *
      */
     public function parseArray (array $array, $encap = false) {
@@ -315,9 +354,9 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                             if (isset($value['value'])) {
                                 if (!is_scalar($value['value'])) {
                                     throw new DatabaseException(
-                                            $this,
-                                            'DatabaseConditionModel->arrayParse() failed due to input value not scalar.',
-                                            DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                                        $this,
+                                        __CLASS__.'->'.__METHOD__.'() failed due to input value not scalar.',
+                                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                                     );
                                 }
                                 $cValue = (string)$value['value'];
@@ -328,9 +367,9 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                                 $cKey = (string)$value['key'];
                             } else {
                                 throw new DatabaseException(
-                                        $this,
-                                        'DatabaseConditionModel->arrayParse() failed due to missing "key" value in structure.',
-                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                    $this,
+                                    __CLASS__.'->'.__METHOD__.'() failed due to missing "key" value in structure.',
+                                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                 );
                             }
                             if (isset($value['value'])) {
@@ -342,9 +381,9 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                                     '~', 'LIKE', '!~', 'NLIKE'
                                 ])) {
                                     throw new DatabaseException(
-                                            $this,
-                                            'DatabaseConditionModel->arrayParse() failed due to missing required "value" value in structure.',
-                                            DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                        $this,
+                                        __CLASS__.'->'.__METHOD__.'() failed due to missing required "value" value in structure.',
+                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                     );
                                 }
                             }
@@ -356,9 +395,9 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                                     '!<x>', 'NXRANGE'
                                 ])) {
                                     throw new DatabaseException(
-                                            $this,
-                                            'DatabaseConditionModel->arrayParse() failed due to missing required "lower" value in structure.',
-                                            DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                        $this,
+                                        __CLASS__.'->'.__METHOD__.'() failed due to missing required "lower" value in structure.',
+                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                     );
                                 }
                             }
@@ -370,9 +409,9 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                                     '!<x>', 'NXRANGE'
                                 ])) {
                                     throw new DatabaseException(
-                                            $this,
-                                            'DatabaseCondition->arrayParse() failed due to missing required "upper" value in structure.',
-                                            DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                        $this,
+                                        __CLASS__.'->'.__METHOD__.'() failed due to missing required "upper" value in structure.',
+                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                     );
                                 }
                             }
@@ -384,9 +423,9 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                                     $cSet = str_getcsv($value['set'], ',', '"', '\\');
                                 } else {
                                     throw new DatabaseException(
-                                            $this,
-                                            'DatabaseCondition->arrayParse() failed due to "set" value of invalid type in structure.',
-                                            DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                                        $this,
+                                        __CLASS__.'->'.__METHOD__.'() failed due to "set" value of invalid type in structure.',
+                                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                                     );
                                 }
                                 $cSetLength = count($cSet);
@@ -395,117 +434,138 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                                     '[]', 'IN', '![]', 'NIN'
                                 ])) {
                                     throw new DatabaseException(
-                                            $this,
-                                            'DatabaseCondition->arrayParse() failed due to missing required "set" value in structure.',
-                                            DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                        $this,
+                                        __CLASS__.'->'.__METHOD__.'() failed due to missing required "set" value in structure.',
+                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                     );
                                 }
                             }
-    
+
+                            //if a set is given, convert it into a single string
+                            if (isset($value['set'])) {
+                                $value['setstring'] = implode($this->getGrammar('setDelimiter'), $value['set']);
+                            }
+
                             //parse operations structures
                             if          ($type == '='       || $type == 'EQ')       {
+                                $grammar = $this->getGrammar('op_eq');
                                 $tmp = [
-                                    'stmt' => '? = ?',
-                                    'args' => [$cKey, $cValue]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
                             } elseif    ($type == '!'       || $type == 'NOT')      {
+                                $grammar = $this->getGrammar('op_not');
                                 $tmp = [
-                                    'stmt' => '? != ?',
-                                    'args' => [$cKey, $cValue]
-                                ];
-                            } elseif    ($type == ':'       || $type == 'IS')       {
-                                $tmp = [
-                                    //TODO
-                                ];
-                            } elseif    ($type == '!:'      || $type == 'NIS')      {
-                                $tmp = [
-                                    //TODO
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
                             } elseif    ($type == '<'       || $type == 'LT')       {
+                                $grammar = $this->getGrammar('op_lt');
                                 $tmp = [
-                                    'stmt' => '? < ?',
-                                    'args' => [$cKey, $cValue]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
                             } elseif    ($type == '<='      || $type == 'LTE')      {
+                                $grammar = $this->getGrammar('op_lte');
                                 $tmp = [
-                                    'stmt' => '? <= ?',
-                                    'args' => [$cKey, $cValue]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
                             } elseif    ($type == '>'       || $type == 'GT')       {
+                                $grammar = $this->getGrammar('op_gt');
                                 $tmp = [
-                                    'stmt' => '? > ?',
-                                    'args' => [$cKey, $cValue]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
                             } elseif    ($type == '>='      || $type == 'GTE')      {
+                                $grammar = $this->getGrammar('op_gte');
                                 $tmp = [
-                                    'stmt' => '? >= ?',
-                                    'args' => [$cKey, $cValue]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
                             } elseif    ($type == '<>'      || $type == 'RANGE')    {
+                                $grammar = $this->getGrammar('op_range');
                                 $tmp = [
-                                    'stmt' => '? BETWEEN ? AND ?',
-                                    'args' => [$cKey, $cLower, $cUpper]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
                             } elseif    ($type == '<x>'     || $type == 'XRANGE')   {
+                                $grammar = $this->getGrammar('op_xrange');
                                 $tmp = [
-                                    'stmt' => '? BETWEEN ? AND ? AND ? != ? AND ? != ?',
-                                    'args' => [$cKey, $cLower, $cUpper, $cKey, $cLower, $cKey, $cUpper]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
                             } elseif    ($type == '!<>'     || $type == 'NRANGE')   {
+                                $grammar = $this->getGrammar('op_nrange');
                                 $tmp = [
-                                    'stmt' => '? NOT BETWEEN ? AND ?',
-                                    'args' => [$key, $cLower, $cUpper],
-                                    'query'=> "$cKey NOT BETWEEN $cLower AND $cUpper"
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => [],
                                 ];
                             } elseif    ($type == '!<x>'    || $type == 'NXRANGE')  {
+                                $grammar = $this->getGrammar('op_nxrange');
                                 $tmp = [
-                                    'stmt' => '? NOT BETWEEN ? AND ? OR ? = ? OR ? = ?',
-                                    'args' => [$cKey, $cLower, $cUpper, $cKey, $cLower, $cKey, $cUpper]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
                             } elseif    ($type == '[]'      || $type == 'IN')       {
-                                $fauxSet = [];
-                                for ($i = 0; $i < $cSetLength; $i++) {
-                                    $fauxSet[] = '?';
-                                }
-                                $setString = implode(', ', $cSet);
+                                //TODO: escape each value in the set separately
+                                $grammar = $this->getGrammar('op_in');
                                 $tmp = [
-                                    'stmt' => '? IN ('.implode(', ', $fauxSet).')',
-                                    'args' => [$cKey]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
-                                foreach ($cSet as $sItem) {
-                                    $tmp['args'][] = $sItem;
-                                }
                             } elseif    ($type == '![]'     || $type == 'NIN')      {
-                                $fauxSet = [];
-                                for ($i = 0; $i < $cSetLength; $i++) {
-                                    $fauxSet[] = '?';
-                                }
-                                $setString = implode(', ', $cSet);
+                                //TODO: escape each value in the set separately
+                                $grammar = $this->getGrammar('op_nin');
                                 $tmp = [
-                                    'stmt' => '? NOT IN ('.implode(', ', $fauxSet).')',
-                                    'args' => [$cKey]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
-                                foreach ($cSet as $sItem) {
-                                    $tmp['args'][] = $sItem;
-                                }
                             } elseif    ($type == '~'       || $type == 'LIKE')     {
+                                $grammar = $this->getGrammar('op_like');
                                 $tmp = [
-                                    'stmt' => '? LIKE ?',
-                                    'args' => [$cKey, $cValue]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
                             } elseif    ($type == '!~'      || $type == 'NLIKE')    {
+                                $grammar = $this->getGrammar('op_nlike');
                                 $tmp = [
-                                    'stmt' => '? NOT LIKE ?',
-                                    'args' => [$cKey, $cValue]
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
+                                ];
+                            } elseif    ($type == ':0'      || $type == 'ISNULL')   {
+                                $grammar = $this->getGrammar('op_isnull');
+                                $tmp = [
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
+                                ];
+                            } elseif    ($type == '!:0'     || $type == 'NISNULL')  {
+                                $grammar = $this->getGrammar('op_nisnull');
+                                $tmp = [
+                                    'stmt' => $grammar['stmt'],
+                                    'args' => []
                                 ];
                             } else {
+                                //given comparison type invalid
                                 throw new DatabaseException(
-                                        $this,
-                                        'DatabaseCondition->arrayParse() failed due to an invalid comparison type encountered.',
-                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                    $this,
+                                    __CLASS__.'->'.__METHOD__.'() failed due to an invalid comparison type encountered.',
+                                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                 );
                             }
-    
+
+                            //insert all arguments into $tmp['args']
+                            foreach ($grammar['args'] as $arg) {
+                                if (!isset($value[$arg])) {
+                                    throw new DatabaseException(
+                                        $this,
+                                        __CLASS__.'->'.__METHOD__.'() failed due to a missing required argument in the structure.',
+                                        DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                                    );
+                                }
+                                $tmp['args'][] = $value[$arg];
+                            }
+
                         }
                     } elseif ($typeof_value == 'string') {
                         //wildcard condition
@@ -516,9 +576,9 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                         }
                     } else {
                         throw new DatabaseException(
-                                $this,
-                                'DatabaseCondition::arrayParse() failed due to block of invalid type encountered.',
-                                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                            $this,
+                            __CLASS__.'->'.__METHOD__.'() failed due to block of invalid type encountered.',
+                            DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                         );
                     }
     
@@ -531,9 +591,9 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
             }
         } else {
             throw new DatabaseException(
-                    $this,
-                    'DatabaseCondition::arrayParse() failed due to input of type other than array.',
-                    DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                $this,
+                __CLASS__.'->'.__METHOD__.'() failed due to input of type other than array.',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
             );
         }
     
@@ -549,9 +609,9 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
             $outArray['args'] = [];
         } else {
             throw new DatabaseException(
-                    $this,
-                    'DatabaseCondition->arrayParse() failed due to an invalid boolean block.',
-                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                $this,
+                __CLASS__.'->'.__METHOD__.'() failed due to an invalid boolean block.',
+                DatabaseException::EXCEPTION_INPUT_NOT_VALID
             );
         }
     
