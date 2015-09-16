@@ -14,8 +14,7 @@ interface DatabaseConditionInterface {
     public function del ($rule); //delete rule from conditional statement
     public function getStatement ();
     public function getStructure ();
-    public function parse ($string); //parse standard SQL statement into array
-    public function parseArray (array $array, $encap=false); //parse array to statement in target language
+    public function parse (array $array, $encap=false); //parse array to statement in target language
 
     //Protected Methods
     protected function getGrammar();

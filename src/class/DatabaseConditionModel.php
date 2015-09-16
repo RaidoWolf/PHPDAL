@@ -98,7 +98,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
     public function __construct ($struct = []) {
 
         $this->structure = $struct;
-        $this->statement = $this->parseArray($struct);
+        $this->statement = $this->parse($struct);
 
     }
 
@@ -132,7 +132,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
             if ($typeof_structure == 'array') {
                 //merge the arrays and generate statement string
                 $this->structure = array_unique(array_merge($rule, $this->structure));
-                $this->statement = $this->parseArray($this->structure);
+                $this->statement = $this->parse($this->structure);
             } else {
                 throw new DatabaseException(
                     $this,
@@ -219,67 +219,6 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
 
     /**
      * DatabaseConditionModel->parse() Method
-     * 
-     * Converts a string of standard SQL into the DBMS-specific condition string.
-     * Think of this as the opposite of DatabaseConditionModel->parseArray().
-     * 
-     * @param string $string (required) - Standard SQL string
-     * @see DatabaseConditionInterface::parse()
-     */
-    public function parse ($string) {
-
-        if (is_string($string)) {
-            $struct = []; //instantiate structure assembly
-            /*
-             * ################################# TODO ####################################
-             * Implement a recursive descent parser here (FML). The parser should read
-             * a standards-compliant implementation of SQL, and then it will convert that
-             * into an array structure that can then be passed to
-             * DatabaseConditionModel->parseArray() to be converted into the proper
-             * syntax for the specific DBMS.
-             */
-            $length = strlen($string); //get the length of the string
-            $depth = 0; //set the starting depth to 0
-            $depthMap = [0]; //instantiate depth position map reference array
-            $path = [0]; //instantiate path array
-            //loop for each character
-            for ($i = 0; $i < $length; $i++) {
-                $char = $string{$i}; //get character at $i position
-                if ($char != '(' && $char != ')') {
-                    //non-parentheses characters
-                    $struct[$depthMap[$depth]] .= $char;
-                } else {
-                    //parentheses characters encountered
-                    if ($char == '(') {
-                        //left-parentheses (go up one level)
-                        $depth++; //increment depth
-                        if (!isset($depthMap[$depth])) {
-                            $depthMap[$depth] = 0;
-                        }
-                        $path[] = $depthMap[$depth]; //add the last position to the array path
-                    } elseif ($char == ')') {
-                        //right-parentheses (go down one level)
-                        $depth--; //decrement depth
-                        if (!isset($depthMap[$depth])) {
-                            $depthMap[$depth] = 0;
-                        }
-                        array_pop($path); //pop the last backreference from the array path
-                    }
-                }
-            }
-        } else {
-            throw new DatabaseException(
-                $this,
-                __CLASS__.'->'.__METHOD__.'() failed due to input not of type string.',
-                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
-            );
-            return false; //in case exception is caught
-        }
-
-    }
-
-    /**
-     * DatabaseConditionModel->parseArray() Method
      *
      * Converts an associative array of SQL boolean logic conditions to a string
      * that can be used in a standard SQL query.
@@ -321,7 +260,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
      *      !:0, NISNUL     - IS NOT - Tests if 'key' is not a null value.
      *
      */
-    public function parseArray (array $array, $encap = false) {
+    public function parse (array $array, $encap = false) {
     
         $outArray = [
             'stmt' => '',
@@ -347,7 +286,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                         }
                         if (in_array($comparator, ['AND', 'OR', 'XOR'])) {
                             $condType = $key;
-                            $tmp = $this->parseArray($value, true);
+                            $tmp = $this->parse($value, true);
                         } else {
                             $type = $value['type'];
                             $key = (string)$key;
