@@ -13,6 +13,7 @@ class DatabaseException implements DatabaseExceptionInterface {
     const EXCEPTION_GENERIC_ERROR               =    2; //Some error has occurred.
     const EXCEPTION_UNCAUGHT_EXCEPTION          =    3; //Some prior uncaught exception caused an error.
     const EXCEPTION_INVALID_EXCEPTION           =    4; //The caught exception passed to this class was not a valid Exception object. Usually means it isn't an exception at all.
+    const EXCEPTION_CORRUPTED_OBJECT            =    5; //The data stored in the object is not valid, and therefore the object is corrupted.
     // -- 1000 - Input Errors -- //
     const EXCEPTION_GENERIC_INPUT_ERROR         = 1000; //Some issue with input data.
     const EXCEPTION_INPUT_INVALID_TYPE          = 1001; //Input data of an invalid type. Usually means that one or more input values could only accept a specific type of data, but was given a different type of data.

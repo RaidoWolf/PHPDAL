@@ -120,47 +120,83 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
      */
     public function __toString () {
 
-        return $this->statement;
+        return serialize($this);
 
     }
 
+    /**
+     * DatabaseConditionModel->add() Method
+     * 
+     * Add (array_merge) a condition structure to the existing condition structure.
+     * 
+     * @throws DatabaseException if you dun goof
+     * @see DatabaseConditionInterface::add()
+     */
     public function add ($rule) {
     
         $typeof_rule = gettype($rule);
         $typeof_structure = gettype($this->structure);
         if ($typeof_rule == 'array') {
+            //add the rule(s)
             if ($typeof_structure == 'array') {
+
+                //handle wildcard weirdness
+                if ($rule == ['*'] || $rule == [['*']]) {
+                    $this->structure = ['*'];
+                    $this->statement = $this->parse($this->structure);
+                } else {
+                    if ($this->structure == ['*'] || $this->structure == [['*']]) {
+                        $this->structure = [];
+                    }
+                }
+
                 //merge the arrays and generate statement string
                 $this->structure = array_unique(array_merge($rule, $this->structure));
                 $this->statement = $this->parse($this->structure);
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'() failed due to structure array of invalid type encountered as structure object.',
+                    __CLASS__.'->'.__METHOD__.'(): structure array of invalid type encountered as structure object.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'() failed due to structure array of invalid type given as rule to add.',
+                __CLASS__.'->'.__METHOD__.'(): structure array of invalid type given as rule to add.',
                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
             );
         }
     
     }
 
+    /**
+     * DatabaseConditionModel->del() Method
+     * 
+     * Delete (array_diff) a condition structure from existing condition structure. 
+     * 
+     * @throws DatabaseException if you dun goof
+     * @see DatabaseConditionInterface::del()
+     */
     public function del ($rule) {
 
-        $typeof_rule = gettype($rule);
-        if ($typeof_rule == 'array') {
+        if (is_array($rule) && is_array($this->structure)) {
             $this->structure = array_diff($this->structure, $rule);
         } else {
-            throw new DatabaseException(
-                $this,
-                __CLASS__.'->'.__METHOD__.'() failed due to structure array of invalid type either as argument or in condition object.',
-                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
-            );
+            if (!is_array($rule)) {
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): encountered structure array of invalid type given as argument.',
+                    DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                );
+            }
+            if (!is_array($this->structure)) {
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): encountered structure array of invalid type stored in object.',
+                    DatabaseException::EXCEPTION_CORRUPTED_OBJECT
+                );
+            }
         }
 
     }
@@ -171,6 +207,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
      * Looks up a value in the grammar tables.
      * 
      * @param string $key
+     * @throws DatabaseException if you dun goof
      * @return string|boolean
      * @see DatabaseConditionInterface::getGrammar()
      */
@@ -181,26 +218,28 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
             //only allow string input
             if (is_string($key)) {
                 //check DBMS grammar table, fallback to standard, or return false
-                if (isset($this->dbmsGrammarTable[$key])) {
-                    return $this->dbmsGrammarTable[$key];
-                } elseif (isset($this->standardGrammarTable[$key])) {
-                    return $this->standardGrammarTable[$key];
+                if (isset($this->dbmsGrammarTable[$key])) { //if DBMS-specific definition exists...
+                    return $this->dbmsGrammarTable[$key]; //return DBMS-specific definition.
+                } elseif (isset($this->standardGrammarTable[$key])) { //elseif standard definition exists...
+                    return $this->standardGrammarTable[$key]; //return standard definition.
                 } else {
-                    return false;
+                    return null; //no relevant definitions found
                 }
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'() failed due to input of type other than string.',
+                    __CLASS__.'->'.__METHOD__.'(): input of type other than string.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
+                return null; //(in case exception is caught)
             }
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'() failed due to missing required argument.',
+                __CLASS__.'->'.__METHOD__.'(): missing required argument.',
                 DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
             );
+            return null; //(in case exception is caught)
         }
 
     }
@@ -225,6 +264,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
      *
      * @param array $array
      * @param bool $encap
+     * @throws DatabaseException if you dun goof
      * @return array
      *
      * The following is a basic reference of the options:
@@ -258,7 +298,49 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
      *      !~, NLIKE       - NOT LIKE - Uses database driver's pattern matching to check if 'key' is not like 'value'.
      *      :0, ISNULL      - IS - Tests if 'key' is a null value.
      *      !:0, NISNUL     - IS NOT - Tests if 'key' is not a null value.
-     *
+     * 
+     * The folliowing is an example condition structure. This must be passed as a PHP array.
+     * 
+     *  [
+     *      [
+     *          'comparator' => 'OR',
+     *          'contents' => [
+     *              [
+     *                  'type'  => '>',
+     *                  'key'   => 'id',
+     *                  'value' => 1924
+     *              ],
+     *              [
+     *                  'comparator' => 'AND',
+     *                  'contents' => [
+     *                      [
+     *                          'type'  => '<>',
+     *                          'key'   => 'pos',
+     *                          'lower' => 100,
+     *                          'upper' => 1000
+     *                      ],
+     *                      [
+     *                          'type'  => '![]',
+     *                          'key'   => 'type',
+     *                          'set'   => [
+     *                              'primary',
+     *                              'secondary,
+     *                              'backup'
+     *                          ]
+     *                      ],
+     *                      [
+     *                          'type'  => '=',
+     *                          'key'   => 'active',
+     *                          'value' => 1
+     *                      ]
+     *                  ]
+     *              ]
+     *          ]
+     *      ]
+     *  ]
+     *  
+     *  This will produce the following SQL statement (in standard SQL):
+     *  "id > 1924 OR (pos BETWEEN 100 AND 1000 AND type in ('primary', 'secondary', 'backup') AND active = 1)"
      */
     public function parse (array $array, $encap = false) {
     
@@ -267,124 +349,63 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
             'args' => []
         ];
         $tmpStmt = [];
-    
+
         $typeof_array = gettype($array);
         if ($typeof_array == 'array') {
             //array is empty (wildcard)
             if (count($array) == 0) {
-                $condType = 'NONE';
+                $comparator = 'NONE';
                 $tmpStmt = [];
             } else {
                 //array has conditions (or at least content)
                 foreach ($array as $value) {
-                    $condType = 'AND';
-                    $tmp = [];
-                    $typeof_value = gettype($value);
+
+                    $comparator = 'AND'; //default and first-level comparator default to 'AND'
+                    $tmp = []; //instantiate temporary statement (segment) array
+                    $typeof_value = gettype($value); //store the data type of $value
+
                     if ($typeof_value == 'array') {
-                        if (array_key_exists('%', $value)) {
-                            $comparator = $value['%'];
-                        }
-                        if (in_array($comparator, ['AND', 'OR', 'XOR'])) {
-                            $condType = $key;
-                            $tmp = $this->parse($value, true);
-                        } else {
-                            $type = $value['type'];
-                            $key = (string)$key;
-                            if (isset($value['value'])) {
-                                if (!is_scalar($value['value'])) {
-                                    throw new DatabaseException(
-                                        $this,
-                                        __CLASS__.'->'.__METHOD__.'() failed due to input value not scalar.',
-                                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
-                                    );
-                                }
-                                $cValue = (string)$value['value'];
+                        if (array_key_exists('comparator', $value)) {
+                            //boolean object encountered
+                            $comparator = $value['comparator'];
+                            if (!in_array($comparator, ['AND', 'OR', 'XOR'])) {
+                                throw new DatabaseException(
+                                    $this,
+                                    __CLASS__.'->'.__METHOD__.'(): invalid comparator encountered.',
+                                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                );
+                                continue; //skip this iteration (in case exception is caught)
                             }
-    
-                            //validate input for operations structures
-                            if (isset($value['key'])) {
-                                $cKey = (string)$value['key'];
+                            if (array_key_exists('contents', $value)) {
+                                $tmp = $this->parse($value['contents'], true);
                             } else {
                                 throw new DatabaseException(
                                     $this,
-                                    __CLASS__.'->'.__METHOD__.'() failed due to missing "key" value in structure.',
+                                    __CLASS__.'->'.__METHOD__.'(): missing contents key in array.',
                                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                 );
+                                continue; //skip this iteration (in case exception is caught)
                             }
-                            if (isset($value['value'])) {
-                                $cValue = (string)$value['value'];
-                            } else {
-                                if (in_array($type, [
-                                    '=', 'EQ', '!', 'NOT', ':', 'IS', '!:', 'NIS',
-                                    '<', 'LT', '<=', 'LTE', '>', 'GT', '>=', 'GTE',
-                                    '~', 'LIKE', '!~', 'NLIKE'
-                                ])) {
+                        } elseif (array_key_exists('type', $value)) {
+                            //comparison object encountered
+                            $type = $value['type'];
+                            
+                            //make sure all given values are scalar
+                            foreach ($value as $data) {
+                                if (!is_scalar($data)) {
                                     throw new DatabaseException(
-                                        $this,
-                                        __CLASS__.'->'.__METHOD__.'() failed due to missing required "value" value in structure.',
-                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                            $this,
+                                            __CLASS__.'->'.__METHOD__.'(): encountered non-scalar data.'
                                     );
                                 }
+                                continue 2; //skip this iteration on outer loop (in case exception is caught)
                             }
-                            if (isset($value['lower'])) {
-                                $cLower = (string)$value['lower'];
-                            } else {
-                                if (in_array($type, [
-                                    '<>', 'RANGE', '!<>', 'NRANGE', '<x>', 'XRANGE',
-                                    '!<x>', 'NXRANGE'
-                                ])) {
-                                    throw new DatabaseException(
-                                        $this,
-                                        __CLASS__.'->'.__METHOD__.'() failed due to missing required "lower" value in structure.',
-                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
-                                    );
-                                }
-                            }
-                            if (isset($value['upper'])) {
-                                $cUpper = (string)$value['upper'];
-                            } else {
-                                if (in_array($type, [
-                                    '<>', 'RANGE', '!<>', 'NRANGE', '<x>', 'XRANGE',
-                                    '!<x>', 'NXRANGE'
-                                ])) {
-                                    throw new DatabaseException(
-                                        $this,
-                                        __CLASS__.'->'.__METHOD__.'() failed due to missing required "upper" value in structure.',
-                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
-                                    );
-                                }
-                            }
-                            if (isset($value['set'])) {
-                                $typeof_cset = gettype($value['set']);
-                                if ($typeof_cset == 'array') {
-                                    $cSet = $value['set'];
-                                } elseif ($typeof_cset == 'string') {
-                                    $cSet = str_getcsv($value['set'], ',', '"', '\\');
-                                } else {
-                                    throw new DatabaseException(
-                                        $this,
-                                        __CLASS__.'->'.__METHOD__.'() failed due to "set" value of invalid type in structure.',
-                                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
-                                    );
-                                }
-                                $cSetLength = count($cSet);
-                            } else {
-                                if (in_array($type, [
-                                    '[]', 'IN', '![]', 'NIN'
-                                ])) {
-                                    throw new DatabaseException(
-                                        $this,
-                                        __CLASS__.'->'.__METHOD__.'() failed due to missing required "set" value in structure.',
-                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
-                                    );
-                                }
-                            }
-
+                            
                             //if a set is given, convert it into a single string
                             if (isset($value['set'])) {
                                 $value['setstring'] = implode($this->getGrammar('setDelimiter'), $value['set']);
                             }
-
+                            
                             //parse operations structures
                             if          ($type == '='       || $type == 'EQ')       {
                                 $grammar = $this->getGrammar('op_eq');
@@ -487,25 +508,35 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                             } else {
                                 //given comparison type invalid
                                 throw new DatabaseException(
-                                    $this,
-                                    __CLASS__.'->'.__METHOD__.'() failed due to an invalid comparison type encountered.',
-                                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                        $this,
+                                        __CLASS__.'->'.__METHOD__.'(): encountered invalid comparison type.',
+                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                 );
+                                continue; //skip this iteration (in case exception is caught)
                             }
-
+                            
                             //insert all arguments into $tmp['args']
                             foreach ($grammar['args'] as $arg) {
                                 if (!isset($value[$arg])) {
                                     throw new DatabaseException(
-                                        $this,
-                                        __CLASS__.'->'.__METHOD__.'() failed due to a missing required argument in the structure.',
-                                        DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                                            $this,
+                                            __CLASS__.'->'.__METHOD__.'(): encountered a missing required argument in the structure.',
+                                            DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                     );
+                                    $tmp['args'][] = null; //add null filler to arguments array (in case exception is caught)
+                                    continue; //skip this iteration (in case exception is caught)
                                 }
                                 $tmp['args'][] = $value[$arg];
                             }
-
+                        } else {
+                            throw new DatabaseException(
+                                $this,
+                                __CLASS__.'->'.__METHOD__.'(): encountered array object with no comparator or type argument',
+                                DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                            );
+                            continue; //skip this iteration (in case exception is caught)
                         }
+
                     } elseif ($typeof_value == 'string') {
                         //wildcard condition
                         if ($value == '*') {
@@ -516,11 +547,11 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                     } else {
                         throw new DatabaseException(
                             $this,
-                            __CLASS__.'->'.__METHOD__.'() failed due to block of invalid type encountered.',
+                            __CLASS__.'->'.__METHOD__.'(): encountered block of invalid type.',
                             DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                         );
+                        continue; //skip this iteration (in case exception is caught)
                     }
-    
                     //put the values from this iteration into the output
                     $tmpStmt[] = $tmp['stmt'];
                     foreach ($tmp['args'] as $arg) {
@@ -531,32 +562,34 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'() failed due to input of type other than array.',
+                __CLASS__.'->'.__METHOD__.'(): encountered input of type other than array.',
                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
             );
+            return false; //indicate failure (in case exception is caught)
         }
     
         //combine statement segments into a singular statement string
-        if ($condType == 'AND') {
-            $outArray['stmt'] = implode(' AND ', $tmpStmt);
-        } elseif ($condType == 'OR') {
-            $outArray['stmt'] = implode(' OR ', $tmpStmt);
-        } elseif ($condType == 'XOR') {
-            $outArray['stmt'] = implode(' XOR ', $tmpStmt);
-        } elseif ($condType == 'NONE') {
+        if ($comparator == 'AND') {
+            $outArray['stmt'] = implode($this->getGrammar('and'), $tmpStmt);
+        } elseif ($comparator == 'OR') {
+            $outArray['stmt'] = implode($this->getGrammar('or'), $tmpStmt);
+        } elseif ($comparator == 'XOR') {
+            $outArray['stmt'] = implode($this->getGrammar('xor'), $tmpStmt);
+        } elseif ($comparator == 'NONE') {
             $outArray['stmt'] = '';
             $outArray['args'] = [];
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'() failed due to an invalid boolean block.',
+                __CLASS__.'->'.__METHOD__.'(): encountered invalid boolean block.',
                 DatabaseException::EXCEPTION_INPUT_NOT_VALID
             );
+            return false; //indicate failure (in case exception is caught)
         }
     
         //encapsulate the statement/segment if necessary
         if ($encap) {
-            $outArray['stmt'] = '('.$outArray['stmt'].')';
+            $outArray['stmt'] = $this->getGrammar('encapLeft').$outArray['stmt'].$this->getGrammar('encapRight');
         }
     
         //return stuff
