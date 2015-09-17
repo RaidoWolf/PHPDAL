@@ -369,6 +369,132 @@ class MySQLDatabase implements DatabaseInterface {
 
     }
 
+    public function genStmt ($stmt, $tables = null, $columns = null, $table = null) {
+
+        if (isset($stmt)) {
+
+            //optional tables array missing
+            if ($tables == null) {
+                $tables = []; //default empty array
+            }
+            //optional columns array missing
+            if ($columns == null) {
+                $columns = []; //default empty array
+            }
+
+            //validate types
+            if (is_string($stmt) && is_array($tables) && is_array($columns) && (is_string($table) || $table == null)) {
+
+                if (count($tables) != 0) {
+                    $validTables = $this->getTables();
+                    foreach ($tables as $table) {
+                        if (in_array($table, $validTables)) {
+                            
+                        } else {
+                            throw new DatabaseException(
+                                $this,
+                                __CLASS__.'->'.__METHOD__.'(): table "'.$table.'" does not exist.',
+                                DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                            );
+                            $stmt = DatabaseUtils::replaceOnce(DatabaseUtils::PARAM_TABLE, '', $stmt); //delete this placeholder (in case exception is caught)
+                            array_shift($table); //shift out the table (in case exception is caught)
+                        }
+                    } 
+                    foreach ($columns as $column) {
+
+                        $typeof_column = gettype($column);
+
+                        $columnsTable = [];
+                        if (isset($this->table)) {
+                            if (!in_array($this->table, $validTables)) {
+                                throw new DatabaseException(
+                                    $this,
+                                    __CLASS__.'->'.__METHOD__.'(): default table "'.$this->table.'" does not exist.',
+                                    DatabaseException::EXCEPTION_CORRUPTED_OBJECT
+                                );
+                            }
+                        }
+                        $columnsTable[$this->table] = $this->getColumns($this->table);
+
+                        if ($typeof_column == 'string') {
+                            //TODO: check $table, then $this->table, then exception. do the replacement if any are found.
+                        } elseif ($typeof_column == 'array') {
+                            if (array_key_exists('table', $column) && array_key_exists('column', $column)) {
+                                if (!array_key_exists($column['table'], $columnsTable)) {
+                                    $columnsTable[$column['table']] = $this->getColumns($column['table']);
+                                }
+                                if (in_array($column['column'], $columnTable[$column['table']])) {
+                                    $stmt = DatabaseUtils::replaceOnce(DatabaseUtils::PARAM_COLUMN, $this->escapeColumn($column['column']), $stmt); //TODO: refactor 'escape' functions to 'quote' functions, because that's all they are going to do.
+                                } else {
+                                    throw new DatabaseException(
+                                        $this,
+                                        __CLASS__.'->'.__METHOD__.'(): column "'.$column['column'].'" does not exist in table "'.$column['table'].'".',
+                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                    );
+                                }
+                            } else {
+                                throw new DatabaseException(
+                                    $this,
+                                    __CLASS__.'->'.__METHOD__.'(): encountered invalid [\'table\',\'column\'] array structure.',
+                                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                );
+                                $stmt = DatabaseUtils::replaceOnce(DatabaseUtils::PARAM_COLUMN, '', $stmt); //delete this placeholder (in case exception is caught)
+                                array_shift($table); //shift out the table (in case exception is caught)
+                            }
+                        } else {
+                            throw new DatabaseException(
+                                $this,
+                                __CLASS__.'->'.__METHOD__.'(): encountered column parameter of invalid type.',
+                                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                            );
+                        }
+                    }
+                }
+
+            } else {
+                //$stmt type violation
+                if (!is_string($stmt)) {
+                    throw new DatabaseException(
+                        $this,
+                        __CLASS__.'->'.__METHOD__.'(): encountered statement of non-string type.',
+                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    );
+                }
+                //$tables type violation
+                if (!is_array($tables)) {
+                    throw new DatabaseException(
+                        $this,
+                        __CLASS__.'->'.__METHOD__.'(): encountered table array of non-array type.',
+                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    );
+                }
+                //$columns type violation
+                if (!is_array($columns)) {
+                    throw new DatabaseException(
+                        $this,
+                        __CLASS__.'->'.__METHOD__.'(): encountered column array of non-array type.',
+                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    );
+                }
+                //$table type violation
+                if (!is_string($table) && $table != null) {
+                    throw new DatabaseException(
+                        $this,
+                        __CLASS__.'->'.__METHOD__.'(): encountered table argument of invalid type.',
+                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    );
+                }
+            }
+        } else {
+            throw new DatabaseException(
+                $this,
+                __CLASS__.'->'.__METHOD__.'(): missing required statement string argument.',
+                DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+            );
+        }
+
+    }
+
     /**
      * Database->getColumns() Method
      * 

@@ -7,7 +7,7 @@ interface DatabaseConditionInterface {
     protected $standardGrammarTable;
 
     //Public Methods
-    public function __construct ($struct=[]);
+    public function __construct ($struct=[], &$backref, $table);
     public function __invoke (); //invocation should return statement.
     public function __toString (); //string conversion should return itself, serialized.
     public function add ($rule); //add rule to conditional statement

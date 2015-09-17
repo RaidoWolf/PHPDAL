@@ -2,6 +2,9 @@
 
 class DatabaseUtils {
 
+    const PARAM_COLUMN = '?{column}'; //string that represents a dynamically inserted column parameter
+    const PARAM_TABLE = '?{table}'; //string that represents a dynamically inserted table parameter
+
     /**
      * DatabaseUtils::arrayDepth() Static Method
      *
@@ -54,6 +57,7 @@ class DatabaseUtils {
                 __CLASS__.'::'.__METHOD__.'() failed: missing required argument(s).',
                 DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
             );
+            return null; //in case that exception was caught
         }
 
         //follow the path into the array
@@ -66,6 +70,7 @@ class DatabaseUtils {
                     __CLASS__.'::'.__METHOD__.'() failed: unable to follow given path, as the path was not found.',
                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                 );
+                return null; //in case that exception was caught
             }
         }
 
@@ -131,6 +136,17 @@ class DatabaseUtils {
 
     }
 
+    /**
+     * DatabaseUtils::recurseArray() Static Method
+     * 
+     * simple recursive self-invoking script that uses an anonymous function / lambda to
+     * execute arbitrary code recursively through an entire array. Do not call this on an
+     * array with references to places that contain themselves, or you will cause an
+     * infinite recursion, which will run until PHP times out.
+     * 
+     * @param array $array
+     * @param callable $function
+     */
     public static function recurseArray (array $array, callable $function) {
 
         foreach ($array as $key => $value) {
@@ -140,6 +156,29 @@ class DatabaseUtils {
             } else {
                 return $function($value, $key);
             }
+        }
+
+    }
+
+    /**
+     * DatabaseUtils::replaceOnce() Static Method
+     * 
+     * Replaces the first occurrence of a string within another string. Think of it as
+     * str_replace() function with a replacement limit of 1.
+     * 
+     * @param string $needle
+     * @param string $replacement
+     * @param string $haystack
+     * @return string|boolean
+     */
+    public static function replaceOnce ($needle, $replacement, $haystack) {
+
+        $pos = strpos($haystack,$needle); //get starting position of match
+
+        if ($pos !== false) { //check if we found matches...
+            return substr_replace($haystack,$replace,$pos,strlen($needle)); //do the replacement
+        } else {
+            return false;
         }
 
     }

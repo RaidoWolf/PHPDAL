@@ -82,23 +82,29 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
             'args'              => ['key','lower','upper','key','lower','key','upper'] //argument keys and order for XRANGE
         ],
         'or'                => 'OR', //string to join 'or' boolean
+        'quoteIdentLeft'    => '"', //string to be placed at the left of an identifier
+        'quoteIdentRight'   => '"', //string to be placed at the right of an identifier
         'quoteStringLeft'   => "'", //string to be placed at the left of a string value
         'quoteStringRight'  => "'", //string to be placed at the right of a string value
         'setDelimiter'      => ',', //delimiter string to use when imploding sets
         'xor'               => 'XOR' //string to join 'xor' boolean
     ];
 
+    protected $backref = null;
     protected $statement = [];
     protected $structure = [];
+    protected $table = null;
 
     /**
      * Constructor Method
      * @param unknown $struct
      */
-    public function __construct ($struct = []) {
+    public function __construct ($struct = [], &$backref, $table) {
 
-        $this->structure = $struct;
-        $this->statement = $this->parse($struct);
+        $this->structure = $struct; //store the structure
+        $this->backref = &$backref; //store the backreference
+        $this->table = $table; //store the table context
+        $this->statement = $this->parse($struct); //generate and store the statement and parameters
 
     }
 
@@ -340,7 +346,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
      *  ]
      *  
      *  This will produce the following SQL statement (in standard SQL):
-     *  "id > 1924 OR (pos BETWEEN 100 AND 1000 AND type in ('primary', 'secondary', 'backup') AND active = 1)"
+     *  "id" > 1924 OR ("pos" BETWEEN 100 AND 1000 AND "type" in ('primary', 'secondary', 'backup') AND "active" = 1)
      */
     public function parse (array $array, $encap = false) {
     

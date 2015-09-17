@@ -2,7 +2,9 @@
 
 class PostgreSQLCondition extends DatabaseConditionModel implements DatabaseConditionInterface {
 
-    //TODO
+    protected $dbmsGrammarTable = [
+        //PostgreSQL is standards-compliant, so this is not needed.
+    ];
 
 }
 
