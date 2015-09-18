@@ -4,25 +4,23 @@ class DatabaseException implements DatabaseExceptionInterface {
 
     protected $caller;
     protected $caught;
-    
+
     // -- ERROR CODES -- //
-    
+
     // -- 0000 - Basic Errors -- //
     const EXCEPTION_NO_ERROR                    =    0; //No error has occurred.
     const EXCEPTION_TEST                        =    1; //Test exception. Should never happen in production code.
     const EXCEPTION_GENERIC_ERROR               =    2; //Some error has occurred.
-    const EXCEPTION_UNCAUGHT_EXCEPTION          =    3; //Some prior uncaught exception caused an error.
-    const EXCEPTION_INVALID_EXCEPTION           =    4; //The caught exception passed to this class was not a valid Exception object. Usually means it isn't an exception at all.
-    const EXCEPTION_CORRUPTED_OBJECT            =    5; //The data stored in the object is not valid, and therefore the object is corrupted.
+    const EXCEPTION_INVALID_EXCEPTION           =    3; //The caught exception passed to this class was not a valid Exception object. Usually means it isn't an exception at all.
+    const EXCEPTION_CORRUPTED_OBJECT            =    4; //The data stored in the object is not valid, and therefore the object is corrupted.
     // -- 1000 - Input Errors -- //
     const EXCEPTION_GENERIC_INPUT_ERROR         = 1000; //Some issue with input data.
     const EXCEPTION_INPUT_INVALID_TYPE          = 1001; //Input data of an invalid type. Usually means that one or more input values could only accept a specific type of data, but was given a different type of data.
     const EXCEPTION_INPUT_NOT_VALID             = 1002; //Data entered that was not an acceptable value. Generally implies there was a limited set of acceptable values and the given value was not among them.
-    const EXCEPTION_INVALID_DATABASE_TYPE       = 1003; //Use of invalid database type. Usually means that creation of the database object failed due to an invalid given database type.
-    const EXCEPTION_MISSING_REQUIRED_ARGUMENT   = 1004; //Missing argument where it was required by the function or method. Usually means that the function or method was used incorrectly, or you forgot something.
-    const EXCEPTION_MISSING_DEFINITION          = 1005; //Missing definition/configuration where it was required. Usually means that an optional parameter to fallback to a pre-configured value failed because the pre-configured value was missing.
-    const EXCEPTION_INPUT_ARRAY_TOO_DEEP        = 1006; //An input array is too deep to process. This usually indicates that either the input structure was misunderstood, or that some data needs to be serialized.
-    const EXCEPTION_INPUT_ARRAY_TOO_SHALLOW     = 1007; //An input array is too shallow to process. This usually indicates that either the input structure was misunderstood, or that some data was serialized where it should not have been.
+    const EXCEPTION_MISSING_REQUIRED_ARGUMENT   = 1003; //Missing argument where it was required by the function or method. Usually means that the function or method was used incorrectly, or you forgot something.
+    const EXCEPTION_MISSING_DEFINITION          = 1004; //Missing definition/configuration where it was required. Usually means that an optional parameter to fallback to a pre-configured value failed because the pre-configured value was missing.
+    const EXCEPTION_INPUT_ARRAY_TOO_DEEP        = 1005; //An input array is too deep to process. This usually indicates that either the input structure was misunderstood, or that some data needs to be serialized.
+    const EXCEPTION_INPUT_ARRAY_TOO_SHALLOW     = 1006; //An input array is too shallow to process. This usually indicates that either the input structure was misunderstood, or that some data was serialized where it should not have been.
     // -- 2000 - Database Errors -- //
     const EXCEPTION_GENERIC_DATABASE_ERROR      = 2000; //Some issue with the database or database driver.
     const EXCEPTION_TABLE_DOES_NOT_EXIST        = 2001; //Table does not exist.
@@ -54,7 +52,7 @@ class DatabaseException implements DatabaseExceptionInterface {
     const EXCEPTION_NET_CONNECTION_REFUSED      = 4003; //Connection refused.
 
     // -- 10000+ - Reserved for DBMS-Specific Exceptions -- //
-    
+
     /**
      * Constructor Method
      *
@@ -66,7 +64,7 @@ class DatabaseException implements DatabaseExceptionInterface {
             $code = null,
             &$caught = null
     ) {
-    
+
         //$caught input handler
         if ($caught != null) {
             if (!is_subclass_of($caught, 'Exception')) {
@@ -78,18 +76,18 @@ class DatabaseException implements DatabaseExceptionInterface {
                 );
             }
         }
-    
+
         //call Exception class's constructor now
         parent::__construct($message, $code, $caught);
-    
+
     }
-    
+
     public function &getCaller () {
-    
+
         return $this->caller;
-    
+
     }
-    
+
     /**
      * DatabaseException->getConstants() protected Method
      *
@@ -98,12 +96,12 @@ class DatabaseException implements DatabaseExceptionInterface {
      * @return array - Array of constants as constantName => constantValue
      */
     final protected function getConstants () {
-    
+
         $refl = new ReflectionClass(__CLASS__);
         return $refl->getConstants();
-    
+
     }
-    
+
     /**
      * DatabaseException->getErrorFlag() Method
      *
@@ -112,7 +110,7 @@ class DatabaseException implements DatabaseExceptionInterface {
      * @return string - Name of flag of the exception's error type
      */
     public function getErrorFlag () {
-    
+
         $constArray = $this->getConstants(); //get array of constants
         $error = $this->error; //get error number
         foreach ($constArray as $constName => $constValue) { //loop each constant
@@ -121,7 +119,7 @@ class DatabaseException implements DatabaseExceptionInterface {
             }
         }
         return false; //return false if there are no matches
-    
+
     }
 
 }
