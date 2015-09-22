@@ -2,15 +2,61 @@
 
 class PostgreSQLDatabase extends DatabaseModel implements DatabaseInterface {
 
-    //TODO
+    //TODO:
+    //Actually implement the Grammar Table.
 
-    /**
-     * This will extend DatabaseModel, and DatabaseModel will contain logic that
-     * pulls from a single configuration, which is what will be extended in
-     * these classes. This will be similar to the dbmsGrammarTable found in the
-     * conditions classes. Doing this will vastly reduce the amount of code
-     * rewriting we will have to do.
-     */
+    protected $grammarTable = [
+
+        'sql' => [
+
+            'columnExists' => [
+                'stmt' => 'SELECT * FROM information_schema.columns WHERE table_schema = ? AND table_name = ? AND column_name = ?;',
+                'args' => [
+                    [ 'value' => 'database',    'type' => PDO::PARAM_STR ],
+                    [ 'value' => 'table',       'type' => PDO::PARAM_STR ],
+                    [ 'value' => 'column',      'type' => PDO::PARAM_STR ]
+                ]
+            ],
+
+            'getColumns' => [
+                'stmt' => 'SELECT column_name FROM information_schema.columns WHERE table_schema = ? AND table_name = ?;',
+                'args' => [
+                    [ 'value' => 'database',    'type' => PDO::PARAM_STR ],
+                    [ 'value' => 'table',       'type' => PDO::PARAM_STR ]
+                ]
+            ],
+
+            'getTables' => [
+                'stmt' => 'SELECT * FROM information_schema.tables;',
+                'args' => []
+            ],
+
+            'insert' => [
+                'stmt' => 'INSERT INTO '.$this::PARAM_TABLE.' ( '.$this::PARAM_COLUMN_SET.' ) VALUES ( '.$this::PARAM_SET.' );',
+                'tables' => [ 'table' ],
+                'columns' => [ 'columns' ],
+                'lists' => [ 'values' ]
+            ],
+
+            //TODO:
+            //select is going to be difficult, because as it is now, the very
+            //structure of the statement changes based on things such as whether
+            //or not there are any conditions. This will most likely require
+            //either splitting the query into selectBasic and selectWithCond
+            //so that we can reflect these different structures, or possibly use
+            //the callback field to provide a custom function.
+
+            'tableExists' => [
+                'stmt' => 'SELECT EXISTS ( SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = ? AND c.relname = ? AND c.relkind = \'r\');',
+                'args' => [
+                    [ 'value' => 'database',    'type' => PDO::PARAM_STR ],
+                    [ 'value' => 'table',       'type' => PDO::PARAM_STR ]
+                ]
+            ]
+
+        ]
+
+    ];
 
 }
 

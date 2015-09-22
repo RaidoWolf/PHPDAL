@@ -1,21 +1,18 @@
 <?php
 
-<?php
+//TODO:
+//remove DBMS-specific stuff, and reference the Grammar Table
 
-class MySQLDatabase implements DatabaseInterface {
+class DatabaseModel implements DatabaseInterface {
 
     // -- PROPERTIES/MEMBERS -- //
 
-    protected $config = [
-        'defaultPort' => 3306,
-        'defaultEncoding' => 'utf8'
-    ];
+    protected $config = [];
     protected $connector;
     protected $encoding;
+    protected $grammarTable = [];
     protected $host;
     protected $info;
-    protected $lastError;
-    protected $lastStackTrace;
     protected $name;
     protected $open;
     protected $port;
@@ -23,16 +20,22 @@ class MySQLDatabase implements DatabaseInterface {
 
     // -- CONSTANTS/FLAGS -- //
 
-    const FIELD_DATA = 0;
-    const FIELD_TABLE = 1;
-    const FIELD_COLUMN = 2;
+    const FIELD_DATA        = 0;
+    const FIELD_TABLE       = 1;
+    const FIELD_COLUMN      = 2;
 
-    const KEYWORD_NONE = 0;
-    const KEYWORD_ALL = 1;
+    const KEYWORD_NONE      = 0;
+    const KEYWORD_ALL       = 1;
 
-    const SORT_NONE = 0;
-    const SORT_ASC = 1;
-    const SORT_DESC = 2;
+    const PARAM_COLUMN      = '?{column}'; //string that represents a dynamically inserted column parameter
+    const PARAM_COLUMN_SET  = '?{setcolumns}'; //string that represents a dynamically inserted set of column parameters
+    const PARAM_SET         = '?{set}'; //string that represents a dynamically inserted set of literal parameters
+    const PARAM_TABLE       = '?{table}'; //string that represents a dynamically inserted table parameter
+    const PARAM_TABLE_SET   = '?{settables}'; //string that represents a dynamically inserted set of table parameters
+
+    const SORT_NONE         = 0;
+    const SORT_ASC          = 1;
+    const SORT_DESC         = 2;
 
     /**
      * Constructor Method
@@ -915,7 +918,7 @@ class MySQLDatabase implements DatabaseInterface {
             } else {
                 throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'__METHOD__.'(): encountered count argument of invalid type.',
+                        __CLASS__.'->'.__METHOD__.'(): encountered count argument of invalid type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
@@ -1140,8 +1143,5 @@ class MySQLDatabase implements DatabaseInterface {
     }
 
 }
-
-?>
-
 
 ?>

@@ -2,6 +2,8 @@
 
 interface DatabaseInterface {
 
+    protected $grammarTable; //grammar table
+
     public function __construct ($name /*, $user, $pass, $host, $port, $table */); //only DBMS servers require last few variables
     public function __invoke ();
     public function __toString ();

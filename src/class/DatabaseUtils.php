@@ -2,9 +2,6 @@
 
 class DatabaseUtils {
 
-    const PARAM_COLUMN = '?{column}'; //string that represents a dynamically inserted column parameter
-    const PARAM_TABLE = '?{table}'; //string that represents a dynamically inserted table parameter
-
     /**
      * DatabaseUtils::arrayDepth() Static Method
      *
@@ -35,14 +32,14 @@ class DatabaseUtils {
 
     /**
      * DatabaseUtils::arrayPath() Static Method
-     * 
+     *
      * Follows an array of keys that represent the path through a multidimensional
      * array to a value. This function returns a reference to the array element, and
      * therefore, it is also possible to set the value in the given array.
-     * 
+     *
      * NOTE: Because this returns a reference, be careful not to overwrite values
      * unless you intend to do so.
-     * 
+     *
      * @param array $array (required) - the array through which to navigate
      * @param array $path (required) - the path (ordered array of keys) by which to navigate
      * @throws DatabaseException
@@ -138,12 +135,12 @@ class DatabaseUtils {
 
     /**
      * DatabaseUtils::recurseArray() Static Method
-     * 
+     *
      * simple recursive self-invoking script that uses an anonymous function / lambda to
      * execute arbitrary code recursively through an entire array. Do not call this on an
      * array with references to places that contain themselves, or you will cause an
      * infinite recursion, which will run until PHP times out.
-     * 
+     *
      * @param array $array
      * @param callable $function
      */
@@ -162,10 +159,10 @@ class DatabaseUtils {
 
     /**
      * DatabaseUtils::replaceOnce() Static Method
-     * 
+     *
      * Replaces the first occurrence of a string within another string. Think of it as
      * str_replace() function with a replacement limit of 1.
-     * 
+     *
      * @param string $needle
      * @param string $replacement
      * @param string $haystack
