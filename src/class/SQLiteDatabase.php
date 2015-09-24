@@ -5,8 +5,25 @@ class SQLiteDatabase implements DatabaseInterface {
     //TODO:
     //Actually implement the Grammar Table.
 
-    protected $grammarTable = [
+    protected $dbms = [
 
+        /**
+         * PDO DSN Configuration
+         */
+        'dsn' => [
+            'prefix' => 'sqlite',
+            'args' => [
+                [
+                    'name' => null,
+                    'value' => 'name',
+                    'required' => true
+                ]
+            ]
+        ],
+
+        /**
+         * SQL Statement Configuration
+         */
         'sql' => [
 
             'columnExists' => [
@@ -14,13 +31,7 @@ class SQLiteDatabase implements DatabaseInterface {
                 'args' => [
                     [ 'value' => 'table',   'type' => PDO::PARAM_STR ]
                 ],
-                'callback' => function ($data, $args) {
-                    if (in_array($args[0], $data)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
+                'callback' => 'inarray'
             ],
 
             'getColumns' => [
@@ -31,12 +42,12 @@ class SQLiteDatabase implements DatabaseInterface {
             ],
 
             'getTables' => [
-                'stmt' => 'SELECT name FROM sqlite_master WHERE type = \'table\';'
+                'stmt' => 'SELECT name FROM sqlite_master WHERE type = \'table\';',
                 'args' => []
             ],
 
             'insert' => [
-                'stmt' => 'INSERT INTO '.$this::PARAM_TABLE.' ( '.$this::PARAM_COLUMN_SET.' ) VALUES ('.$this::PARAM_SET.' );',
+                'stmt' => 'INSERT INTO ?{table} ( ?{setcolumns} ) VALUES ( ?{set} );',
                 'tables' => [ 'tables' ],
                 'columns' => [ 'columns' ],
                 'lists' => [ 'values' ]

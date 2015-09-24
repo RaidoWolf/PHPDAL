@@ -9,8 +9,8 @@ class DatabaseModel implements DatabaseInterface {
 
     protected $config = [];
     protected $connector;
+    protected $dbms = [];
     protected $encoding;
-    protected $grammarTable = [];
     protected $host;
     protected $info;
     protected $name;
@@ -20,22 +20,35 @@ class DatabaseModel implements DatabaseInterface {
 
     // -- CONSTANTS/FLAGS -- //
 
+    //Fields
     const FIELD_DATA        = 0;
     const FIELD_TABLE       = 1;
     const FIELD_COLUMN      = 2;
 
+    //Keywords
     const KEYWORD_NONE      = 0;
     const KEYWORD_ALL       = 1;
 
+    //Extra Prepared Statement Parameter Markers
     const PARAM_COLUMN      = '?{column}'; //string that represents a dynamically inserted column parameter
     const PARAM_COLUMN_SET  = '?{setcolumns}'; //string that represents a dynamically inserted set of column parameters
     const PARAM_SET         = '?{set}'; //string that represents a dynamically inserted set of literal parameters
     const PARAM_TABLE       = '?{table}'; //string that represents a dynamically inserted table parameter
     const PARAM_TABLE_SET   = '?{settables}'; //string that represents a dynamically inserted set of table parameters
 
+    //Sort Orders
     const SORT_NONE         = 0;
     const SORT_ASC          = 1;
     const SORT_DESC         = 2;
+
+    //Prepared Statement Input Types
+    const TYPE_BOOL         = PDO::PARAM_BOOL;          //boolean data type
+    const TYPE_INT          = PDO::PARAM_INT;           //integer data type
+    const TYPE_LOB          = PDO::PARAM_LOB;           //large object data type
+    const TYPE_NULL         = PDO::PARAM_NULL;          //null data type
+    const TYPE_OUTPUT       = PDO::PARAM_INPUT_OUTPUT;  //INOUT parameter for stored procedure (must be bitwise-OR'd with another data type)
+    const TYPE_STMT         = PDO::PARAM_STMT;          //recordset type (not supported at the moment)
+    const TYPE_STR          = PDO::PARAM_STR;           //string data type
 
     /**
      * Constructor Method
@@ -56,6 +69,8 @@ class DatabaseModel implements DatabaseInterface {
         $table  = null
     ) {
 
+        $data = []; //instantiate data array
+
         /*
          * Input Handling for $name (database name)
          *
@@ -71,6 +86,8 @@ class DatabaseModel implements DatabaseInterface {
                     __CLASS__.'->'.__METHOD__.'(): encountered database name argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
+            } else {
+                $data['name'] = $name; //add validated database name to data array
             }
         } else {
             //database name is not set
@@ -97,6 +114,8 @@ class DatabaseModel implements DatabaseInterface {
                     __CLASS__.'->'.__METHOD__.'(): encountered username argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
+            } else {
+                $data['user'] = $user; //add validated username to data array
             }
         }
 
@@ -116,6 +135,8 @@ class DatabaseModel implements DatabaseInterface {
                     __CLASS__.'->'.__METHOD__.'(): encountered password argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
+            } else {
+                $data['pass'] = $pass; //add validated password to data array
             }
         }
 
@@ -139,6 +160,8 @@ class DatabaseModel implements DatabaseInterface {
                         __CLASS__.'->'.__METHOD__.'(): encountered invalid given hostname (do not include URI scheme, port numbers, or paths!).',
                         DatabaseException::EXCEPTION_INPUT_NOT_VALID
                     );
+                } else {
+                    $data['host'] = $host; //add validated hostname to data array
                 }
             } else {
                 //hostname is not a string
@@ -164,6 +187,15 @@ class DatabaseModel implements DatabaseInterface {
                 //port is not an integer
                 if (is_numeric($port)) {
                     $port = (integer)$port;
+                    if (0 > $port || $port > 65535) {
+                        throw new DatabaseException(
+                            $this,
+                            __CLASS__.'->'.__METHOD__.'(): encountered port number argument outside of legal bounds.',
+                            DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                        );
+                    } else {
+                        $data['port'] = $port; //add validated password to data array
+                    }
                 } else {
                     throw new DatabaseException(
                         $this,
@@ -172,20 +204,12 @@ class DatabaseModel implements DatabaseInterface {
                     );
                 }
             }
-            if (0 > $port || $port > 65535) {
-                throw new DatabaseException(
-                    $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered port number argument outside of legal bounds.',
-                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
-                );
-            }
         } else {
             //port is not set
-            if ($this->type == self::TYPE_MYSQL) {
-                $port = 3306;
-            } elseif ($this->type == self::TYPE_PGSQL) {
-                $port = 5432;
-            }
+            $port = isset($this->dbms['config']['defaultPort']) ?
+                    $this->dbms['config']['defaultPort'] :
+                    null; //get default port
+            $data['port'] = $port; //add validated password to data array
         }
 
         /*
@@ -210,35 +234,37 @@ class DatabaseModel implements DatabaseInterface {
         }
 
         //Set class properties/members
-        $this->type     = $type;
-        $this->name     = $name;
-        $this->user     = $user;
-        $this->pass     = $pass;
-        $this->host     = $host;
-        $this->port     = $port;
-        $this->table    = $table;
+        $this->name     = $data['name'];
+        $this->user     = $data['user'];
+        $this->pass     = $data['pass'];
+        $this->host     = $data['host'];
+        $this->port     = $data['port'];
+        $this->table    = $data['table'];
 
         //generate DSN
-        if ($type == self::TYPE_MYSQL) {
-            $dsn = 'mysql:';
-            $dsn .= "host=$host;";
-            $dsn .= "port=$port;";
-            $dsn .= "dbname=$name";
-        } elseif ($type == self::TYPE_PGSQL) {
-            $dsn = 'pgsql:';
-            $dsn .= "host=$host;";
-            $dsn .= "port=$port;";
-            $dsn .= "dbname=$name";
-        } elseif ($type == self::TYPE_SQLITE) {
-            $dsn = 'sqlite:';
-            $dsn .= "$name";
-        } else {
-            throw new DatabaseException(
-                $this,
-                __CLASS__.'->'.__METHOD__.'(): invalid database type given.',
-                DatabaseException::EXCEPTION_INPUT_NOT_VALID
-            );
+        $dsn = $this->dbms['dsn']['prefix'].':'; //add prefix
+        $dsnargs = []; //instantiate dsn arguments array
+        foreach ($this->dbms['dsn']['args'] as $arg) { //loop over each argument
+            if ($arg['required']) { //check if argument is required
+                if (!isset($data[$arg['value']]) || $data[$arg['value']] == null) { //check if required argument is missing
+                } else {
+                    throw new DatabaseException(
+                        $this,
+                        __CLASS__.'->'.__METHOD__.'(): missing required argument "'.$arg['value'].'" to build DSN.',
+                        DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                    );
+                    continue; //skip iteration (in case exception is caught)
+                }
+            }
+
+            //create DSN argument and insert it into argument array
+            if (isset($arg['name']) && $arg['name'] != null) { //if argument has a name...
+                $dsnargs[] = $arg['name'].'='.str_replace(';', '', $data[$arg['value']]); //format like "name=value"...
+            } else { //if argument has no name...
+                $dsnargs[] = str_replace(';', '', $data[$arg['value']]); //format like "value".
+            }
         }
+        $dsn .= implode(';', $dsnargs); //combine all arguments, separate with ';', add to DSN
 
         //create PDO object with DSN (this is the actual connection)
         try {
@@ -253,15 +279,6 @@ class DatabaseModel implements DatabaseInterface {
                 $e
             );
         }
-
-    }
-
-    /**
-     * Destructor Method
-     */
-    public function __destruct () {
-
-        //dunno, PHP takes care of destruction pretty well
 
     }
 
@@ -287,7 +304,7 @@ class DatabaseModel implements DatabaseInterface {
 
         if ($table == null) {
             if ($this->hasDefaultTable()) {
-                $table = $this->getDefaultTable();
+                $table = $this->table;
             } else {
                 throw new DatabaseException(
                     $this,
@@ -307,79 +324,63 @@ class DatabaseModel implements DatabaseInterface {
             }
         }
 
-        if ($this->type == self::TYPE_MYSQL) {
-            $query = '
-                SELECT *
-                    FROM information_schema.columns
-                    WHERE
-                        TABLE_SCHEMA = ? AND
-                        TABLE_NAME = ? AND
-                        COLUMN_NAME = ?;
-            ';
-            $stmt = $this->connector->prepare($query);
-            $stmt->bindParam(1, $this->name, PDO::PARAM_STR);
-            $stmt->bindParam(2, $table, PDO::PARAM_STR);
-            $stmt->bindParam(3, $column, PDO::PARAM_STR);
-            $stmt->execute();
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if (count($results) > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } elseif ($this->type == self::TYPE_PGSQL) {
-            $query = '
-                SELECT *
-                    FROM information_schema.columns
-                    WHERE
-                        TABLE_SCHEMA = ? AND
-                        TABLE_NAME = ? AND
-                        COLUMN_NAME = ?;
-            ';
-            $stmt = $this->connector->prepare($query);
-            $stmt->bindParam(1, $this->name, PDO::PARAM_STR);
-            $stmt->bindParam(2, $table, PDO::PARAM_STR);
-            $stmt->bindParam(3, $column, PDO::PARAM_STR);
-            $stmt->execute();
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if (count($results) > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } elseif ($this->type == self::TYPE_SQLITE) {
-            $query = 'PRAGMA table_info( ? );';
-            $stmt = $this->connector->prepare($query);
-            $stmt->bindParam(1, $table, PDO::PARAM_STR);
-            $stmt->execute();
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if (in_array($column, $results)) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            throw new DatabaseException(
-                $this,
-                __CLASS__.'->'.__METHOD__.'(): invalid database type in object.',
-                DatabaseException::EXCEPTION_CORRUPTED_OBJECT
-            );
+        $query = $this->dbms['sql']['columnExists']['stmt'];
+        $query = $this->genStmt(
+            $query,
+            isset($this->dbms['sql']['columnExists']['tables']) ?   //if tables array given...
+                $this->dbms['sql']['columnExists']['tables'] :      //use it...
+                [],                                                 //otherwise use empty array.
+            isset($this->dbms['sql']['columnExists']['columns']) ?      //if columns array given...
+                $this->dbms['sql']['columnExists']['columns'] :
+                [],
+            isset($this->dbms['sql']['columnExists']['sets']) ?         //if sets array given...
+                $this->dbms['sql']['columnExists']['sets'] :
+                [],
+            isset($this->dbms['sql']['columnExists']['tableSets']) ?    //if table sets array given...
+                $this->dbms['sql']['columnExists']['tableSets'] :
+                [],
+            isset($this->dbms['sql']['columnExists']['columnSets']) ?   //if column sets array given...
+                $this->dbms['sql']['columnExists']['columnSets'] :
+                [],
+            $table
+        );
+        $stmt = $this->connector->prepare($query);
+        $i = 1;
+        foreach ($this->dbms['sql']['columnExists']['args'] as $arg) {
+            $stmt->bindParam($i, $data[$arg['value']], PDO::PARAM_STR);
+            $i++;
         }
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (count($results) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        // if (count($results) > 0) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+        // if (in_array($column, $results)) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
 
     }
 
-    public function genStmt ($stmt, $tables = null, $columns = null, $table = null) {
+    public function genStmt (
+        $stmt,
+        $tables     = [],
+        $columns    = [],
+        $sets       = [],
+        $tablesets  = [],
+        $columnsets = [],
+        $table      = null
+    ) {
 
         if (isset($stmt)) {
-
-            //optional tables array missing
-            if ($tables == null) {
-                $tables = []; //default empty array
-            }
-            //optional columns array missing
-            if ($columns == null) {
-                $columns = []; //default empty array
-            }
 
             //validate types
             if (is_string($stmt) && is_array($tables) && is_array($columns) && (is_string($table) || $table == null)) {
@@ -830,7 +831,15 @@ class DatabaseModel implements DatabaseInterface {
      * @param string $table (optional if table set in constructor) - table from which to select.
      * return array - results of the select query as an associative array.
      */
-    public function select ($columns = ['*'], $conditions = null, $start = null, $count = null, $sortBy = null, $sortDirection = null, $table = null) {
+    public function select (
+        $columns = ['*'],
+        $conditions = null,
+        $start = null,
+        $count = null,
+        $sortBy = null,
+        $sortDirection = null,
+        $table = null
+    ) {
 
         //INPUT HANDLING
 
@@ -918,7 +927,8 @@ class DatabaseModel implements DatabaseInterface {
             } else {
                 throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): encountered count argument of invalid type.',
+                        __CLASS__.'->'.
+                        s__METHOD__.'(): encountered count argument of invalid type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }

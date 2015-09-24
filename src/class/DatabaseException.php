@@ -23,11 +23,10 @@ class DatabaseException implements DatabaseExceptionInterface {
     const EXCEPTION_INPUT_ARRAY_TOO_SHALLOW     = 1006; //An input array is too shallow to process. This usually indicates that either the input structure was misunderstood, or that some data was serialized where it should not have been.
     // -- 2000 - Database Errors -- //
     const EXCEPTION_GENERIC_DATABASE_ERROR      = 2000; //Some issue with the database or database driver.
-    const EXCEPTION_TABLE_DOES_NOT_EXIST        = 2001; //Table does not exist.
-    const EXCEPTION_DB_ITEM_CANNOT_BE_CREATED   = 2002; //A database item cannot be created.
-    const EXCEPTION_DB_ITEM_CANNOT_BE_DROPPED   = 2003; //A database item cannot be destroyed.
-    const EXCEPTION_DB_ITEM_ALREADY_EXISTS      = 2004; //A database item cannot be created because it already exists.
-    const EXCEPTION_DB_ITEM_DOES_NOT_EXIST      = 2005; //A database item cannot be destroyed because it does not exist.
+    const EXCEPTION_DB_ITEM_CANNOT_BE_CREATED   = 2001; //A database item cannot be created.
+    const EXCEPTION_DB_ITEM_CANNOT_BE_DROPPED   = 2002; //A database item cannot be destroyed.
+    const EXCEPTION_DB_ITEM_ALREADY_EXISTS      = 2003; //A database item cannot be created because it already exists.
+    const EXCEPTION_DB_ITEM_DOES_NOT_EXIST      = 2004; //A database item cannot be destroyed because it does not exist.
     const EXCEPTION_DB_OPERATION_LOCKED         = 2005; //The database operation failed because of a database lock.
     const EXCEPTION_DB_OPERATION_READ_ONLY      = 2006; //The database operation failed because the database or table was read only.
     const EXCEPTION_DB_CANNOT_READ_RECORD       = 2007; //The database was unable to read a record of an unspecified type.

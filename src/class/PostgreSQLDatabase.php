@@ -5,24 +5,51 @@ class PostgreSQLDatabase extends DatabaseModel implements DatabaseInterface {
     //TODO:
     //Actually implement the Grammar Table.
 
-    protected $grammarTable = [
+    protected $dbms = [
 
+        /**
+         * PDO DSN Configuration
+         */
+        'dsn' => [
+            'prefix' => 'pgsql',
+            'args' => [
+                [
+                    'name' => 'host',
+                    'value' => 'host',
+                    'required' => true
+                ],
+                [
+                    'name' => 'port',
+                    'value' => 'port',
+                    'required' => false
+                ],
+                [
+                    'name' => 'dbname',
+                    'value' => 'name',
+                    'required' => true
+                ]
+            ]
+        ],
+
+        /**
+         * SQL Statement Configuration
+         */
         'sql' => [
 
             'columnExists' => [
                 'stmt' => 'SELECT * FROM information_schema.columns WHERE table_schema = ? AND table_name = ? AND column_name = ?;',
                 'args' => [
-                    [ 'value' => 'database',    'type' => PDO::PARAM_STR ],
-                    [ 'value' => 'table',       'type' => PDO::PARAM_STR ],
-                    [ 'value' => 'column',      'type' => PDO::PARAM_STR ]
+                    [ 'value' => 'database',    'type' => self::TYPE_STR ],
+                    [ 'value' => 'table',       'type' => self::TYPE_STR ],
+                    [ 'value' => 'column',      'type' => self::TYPE_STR ]
                 ]
             ],
 
             'getColumns' => [
                 'stmt' => 'SELECT column_name FROM information_schema.columns WHERE table_schema = ? AND table_name = ?;',
                 'args' => [
-                    [ 'value' => 'database',    'type' => PDO::PARAM_STR ],
-                    [ 'value' => 'table',       'type' => PDO::PARAM_STR ]
+                    [ 'value' => 'database',    'type' => self::TYPE_STR ],
+                    [ 'value' => 'table',       'type' => self::TYPE_STR ]
                 ]
             ],
 
@@ -32,7 +59,7 @@ class PostgreSQLDatabase extends DatabaseModel implements DatabaseInterface {
             ],
 
             'insert' => [
-                'stmt' => 'INSERT INTO '.$this::PARAM_TABLE.' ( '.$this::PARAM_COLUMN_SET.' ) VALUES ( '.$this::PARAM_SET.' );',
+                'stmt' => 'INSERT INTO ?{table} ( ?{setcolumns} ) VALUES ( ?{set} );',
                 'tables' => [ 'table' ],
                 'columns' => [ 'columns' ],
                 'lists' => [ 'values' ]
@@ -49,8 +76,8 @@ class PostgreSQLDatabase extends DatabaseModel implements DatabaseInterface {
             'tableExists' => [
                 'stmt' => 'SELECT EXISTS ( SELECT 1 FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = ? AND c.relname = ? AND c.relkind = \'r\');',
                 'args' => [
-                    [ 'value' => 'database',    'type' => PDO::PARAM_STR ],
-                    [ 'value' => 'table',       'type' => PDO::PARAM_STR ]
+                    [ 'value' => 'database',    'type' => self::TYPE_STR ],
+                    [ 'value' => 'table',       'type' => self::TYPE_STR ]
                 ]
             ]
 
