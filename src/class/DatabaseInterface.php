@@ -47,6 +47,7 @@ interface DatabaseInterface {
      * Available Protected Methods
      */
 
+     //protected function doAction ($id, $data); //perform some pre-defined action on data
      //protected function quoteColumn ($string); //quote column names
      //protected function quoteTable ($string); //quote table names
 

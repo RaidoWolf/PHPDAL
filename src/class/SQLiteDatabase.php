@@ -29,15 +29,21 @@ class SQLiteDatabase implements DatabaseInterface {
             'columnExists' => [
                 'stmt' => 'PRAGMA table_info( ? );',
                 'args' => [
-                    [ 'value' => 'table',   'type' => PDO::PARAM_STR ]
+                    [ 'value' => 'table',   'type' => self::TYPE_STR ]
                 ],
-                'callback' => 'inarray'
+                'action' => [
+                    'id' => self::ACTION_IN_ARRAY,
+                    'args' => [
+                        [ 'name' => 'needle',   'value' => 'column' ],
+                        [ 'name' => 'haystack', 'value' => 'results' ]
+                    ]
+                ]
             ],
 
             'getColumns' => [
                 'stmt' => 'PRAGMA table_info( ? );',
                 'args' => [
-                    [ 'value' => 'table',   'type' => PDO::PARAM_STR ]
+                    [ 'value' => 'table',   'type' => self::TYPE_STR ]
                 ]
             ],
 
@@ -64,7 +70,7 @@ class SQLiteDatabase implements DatabaseInterface {
             'tableExists' => [
                 'stmt' => 'SELECT name FROM sqlite_master WHERE type=\'table\' AND name = ?;',
                 'table' => [
-                    [ 'value' => 'table',   'type' => PDO::PARAM_STR ]
+                    [ 'value' => 'table',   'type' => self::TYPE_STR ]
                 ]
             ],
 

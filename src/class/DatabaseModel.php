@@ -20,35 +20,41 @@ class DatabaseModel implements DatabaseInterface {
 
     // -- CONSTANTS/FLAGS -- //
 
+    //Actions
+    const ACTION_NONE           = 0;    //do nothing
+    const ACTION_HAS_ELEMENTS   = 1;    //check if array "array" has key "key"
+    const ACTION_HAS_KEY        = 2;    //check if array "array"
+    const ACTION_IN_ARRAY       = 3;    //check if "needle" is in array "haystack"
+
     //Fields
-    const FIELD_DATA        = 0;
-    const FIELD_TABLE       = 1;
-    const FIELD_COLUMN      = 2;
+    const FIELD_DATA            = 0;
+    const FIELD_TABLE           = 1;
+    const FIELD_COLUMN          = 2;
 
     //Keywords
-    const KEYWORD_NONE      = 0;
-    const KEYWORD_ALL       = 1;
+    const KEYWORD_NONE          = 0;
+    const KEYWORD_ALL           = 1;
 
     //Extra Prepared Statement Parameter Markers
-    const PARAM_COLUMN      = '?{column}'; //string that represents a dynamically inserted column parameter
-    const PARAM_COLUMN_SET  = '?{setcolumns}'; //string that represents a dynamically inserted set of column parameters
-    const PARAM_SET         = '?{set}'; //string that represents a dynamically inserted set of literal parameters
-    const PARAM_TABLE       = '?{table}'; //string that represents a dynamically inserted table parameter
-    const PARAM_TABLE_SET   = '?{settables}'; //string that represents a dynamically inserted set of table parameters
+    const PARAM_COLUMN          = '?{column}'; //string that represents a dynamically inserted column parameter
+    const PARAM_COLUMN_SET      = '?{setcolumns}'; //string that represents a dynamically inserted set of column parameters
+    const PARAM_SET             = '?{set}'; //string that represents a dynamically inserted set of literal parameters
+    const PARAM_TABLE           = '?{table}'; //string that represents a dynamically inserted table parameter
+    const PARAM_TABLE_SET       = '?{settables}'; //string that represents a dynamically inserted set of table parameters
 
     //Sort Orders
-    const SORT_NONE         = 0;
-    const SORT_ASC          = 1;
-    const SORT_DESC         = 2;
+    const SORT_NONE             = 0;
+    const SORT_ASC              = 1;
+    const SORT_DESC             = 2;
 
     //Prepared Statement Input Types
-    const TYPE_BOOL         = PDO::PARAM_BOOL;          //boolean data type
-    const TYPE_INT          = PDO::PARAM_INT;           //integer data type
-    const TYPE_LOB          = PDO::PARAM_LOB;           //large object data type
-    const TYPE_NULL         = PDO::PARAM_NULL;          //null data type
-    const TYPE_OUTPUT       = PDO::PARAM_INPUT_OUTPUT;  //INOUT parameter for stored procedure (must be bitwise-OR'd with another data type)
-    const TYPE_STMT         = PDO::PARAM_STMT;          //recordset type (not supported at the moment)
-    const TYPE_STR          = PDO::PARAM_STR;           //string data type
+    const TYPE_BOOL             = PDO::PARAM_BOOL;          //boolean data type
+    const TYPE_INT              = PDO::PARAM_INT;           //integer data type
+    const TYPE_LOB              = PDO::PARAM_LOB;           //large object data type
+    const TYPE_NULL             = PDO::PARAM_NULL;          //null data type
+    const TYPE_OUTPUT           = PDO::PARAM_INPUT_OUTPUT;  //INOUT parameter for stored procedure (must be bitwise-OR'd with another data type)
+    const TYPE_STMT             = PDO::PARAM_STMT;          //recordset type (not supported at the moment)
+    const TYPE_STR              = PDO::PARAM_STR;           //string data type
 
     /**
      * Constructor Method
@@ -324,6 +330,9 @@ class DatabaseModel implements DatabaseInterface {
             }
         }
 
+        $vars['column'] = $column; //add column to config-accessible vars
+        $vars['table'] = $table; //add table to config-accessible vars
+
         $query = $this->dbms['sql']['columnExists']['stmt'];
         $query = $this->genStmt(
             $query,
@@ -351,22 +360,66 @@ class DatabaseModel implements DatabaseInterface {
             $i++;
         }
         $stmt->execute();
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if (count($results) > 0) {
-            return true;
+        $var['results'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //if action is defined
+        if (isset($this->dbms['sql']['columnExists']['action'])) {
+            $data = []; //instantiate data array
+            //if action has arguments
+            if (isset($this->dbms['sql']['columnsExists']['action']['args'])) {
+                //add each argument to the data array
+                foreach ($this->dbms['sql']['columnExists']['action']['args'] as $arg) {
+                    $data[$arg['name']] = $vars[$arg['value']]; //
+                }
+            } else {
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): Action given no variables.',
+                    DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                );
+            }
+            //if action has an id
+            if (isset($this->dbms['sql']['columnExists']['action']['id'])) {
+                return $this->doAction($this->dbms['sql']['columnExists']['action']['id'], $data);
+            } else {
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): Action given no ID.',
+                    DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                );
+            }
         } else {
-            return false;
+            //default action
+            $data = [
+                'needle' => $var['column'],
+                'haystack' => $var['results']
+            ];
+            return $this->doAction(self::ACTION_HAS_ELEMENTS, $data);
         }
-        // if (count($results) > 0) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
-        // if (in_array($column, $results)) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
+
+    }
+
+    protected function doAction ($id, $data) {
+
+        switch ($id) {
+            case self::ACTION_NONE:
+                return $data;
+                break;
+            case self::ACTION_HAS_ELEMENTS:
+                return count($results) > 0;
+                break;
+            case self::ACTION_HAS_KEY:
+                return array_has_key($data['key'], $data['array']);
+                break;
+            case self::ACTION_IN_ARRAY:
+                return in_array($data['needle'], $data['haystack']);
+                break;
+            default:
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): Unknown action id called.',
+                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                );
+        }
 
     }
 
@@ -383,7 +436,15 @@ class DatabaseModel implements DatabaseInterface {
         if (isset($stmt)) {
 
             //validate types
-            if (is_string($stmt) && is_array($tables) && is_array($columns) && (is_string($table) || $table == null)) {
+            if (
+                is_string($stmt) &&
+                is_array($tables) &&
+                is_array($columns) &&
+                is_array($sets) &&
+                is_array($tablesets) &&
+                is_array($columnsets) &&
+                (is_string($table) || $table == null)
+            ) {
 
                 if (count($tables) != 0) {
                     $validTables = $this->getTables();
@@ -396,7 +457,7 @@ class DatabaseModel implements DatabaseInterface {
                                 __CLASS__.'->'.__METHOD__.'(): table "'.$table.'" does not exist.',
                                 DatabaseException::EXCEPTION_INPUT_NOT_VALID
                             );
-                            $stmt = DatabaseUtils::replaceOnce(DatabaseUtils::PARAM_TABLE, '', $stmt); //delete this placeholder (in case exception is caught)
+                            $stmt = DatabaseUtils::replaceOnce(self::PARAM_TABLE, '', $stmt); //delete this placeholder (in case exception is caught)
                             array_shift($table); //shift out the table (in case exception is caught)
                         }
                     }
@@ -418,13 +479,27 @@ class DatabaseModel implements DatabaseInterface {
 
                         if ($typeof_column == 'string') {
                             //TODO: check $table, then $this->table, then exception. do the replacement if any are found.
+                            if (
+                                (!isset($table) || $table == null) &&
+                                (isset($this->table) && $this->table != null)
+                            ) {
+                                $table = $this->table;
+                            } else {
+                                throw new DatabaseException(
+                                    $this,
+                                    __CLASS__.'->'.__METHOD__.'(): no table defined.',
+                                    DatabaseException::EXCEPTION_MISSING_DEFINITION
+                                );
+                                continue; //skip this iteration (in case exception was caught)
+                            }
+                            //TODO: Do replacement here
                         } elseif ($typeof_column == 'array') {
                             if (array_key_exists('table', $column) && array_key_exists('column', $column)) {
                                 if (!array_key_exists($column['table'], $columnsTable)) {
                                     $columnsTable[$column['table']] = $this->getColumns($column['table']);
                                 }
                                 if (in_array($column['column'], $columnTable[$column['table']])) {
-                                    $stmt = DatabaseUtils::replaceOnce(DatabaseUtils::PARAM_COLUMN, $this->quoteColumn($column['column']), $stmt);
+                                    $stmt = DatabaseUtils::replaceOnce(self::PARAM_COLUMN, $this->quoteColumn($column['column']), $stmt);
                                 } else {
                                     throw new DatabaseException(
                                         $this,
@@ -438,7 +513,7 @@ class DatabaseModel implements DatabaseInterface {
                                     __CLASS__.'->'.__METHOD__.'(): encountered invalid [\'table\',\'column\'] array structure.',
                                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                 );
-                                $stmt = DatabaseUtils::replaceOnce(DatabaseUtils::PARAM_COLUMN, '', $stmt); //delete this placeholder (in case exception is caught)
+                                $stmt = DatabaseUtils::replaceOnce(self::PARAM_COLUMN, '', $stmt); //delete this placeholder (in case exception is caught)
                                 array_shift($table); //shift out the table (in case exception is caught)
                             }
                         } else {
@@ -448,6 +523,25 @@ class DatabaseModel implements DatabaseInterface {
                                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                             );
                         }
+                    }
+                    foreach ($sets as $set) {
+                        $typeof_set = gettype($set);
+                        $count = count($set);
+                        $pseudoArray = [];
+                        for ($i = 0; $i < $count; $i++) {
+                            $pseudoArray[] = '?';
+                        }
+                        $pseudoSet = implode(',', $pseudoArray);
+                        $stmt = DatabaseUtils::replaceOnce(self::PARAM_SET, $pseudoSet, $stmt);
+                        //TODO: review this loop.
+                    }
+                    foreach ($tablesets as $set) {
+                        $typeof_set = gettype($set);
+                        //TODO
+                    }
+                    foreach ($columnsets as $set) {
+                        $typeof_set = gettype($set);
+                        //TODO
                     }
                 }
 
@@ -473,6 +567,30 @@ class DatabaseModel implements DatabaseInterface {
                     throw new DatabaseException(
                         $this,
                         __CLASS__.'->'.__METHOD__.'(): encountered column array of non-array type.',
+                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    );
+                }
+                //$sets type violation
+                if (!is_array($sets)) {
+                    throw new DatabaseException(
+                        $this,
+                        __CLASS__.'->'.__METHOD__.'(): encountered set array of non-array type.',
+                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    );
+                }
+                //$tablesets type violation
+                if (!is_array($tablesets)) {
+                    throw new DatabaseException(
+                        $this,
+                        __CLASS__.'->'.__METHOD__.'(): encountered table-set array of non-array type.',
+                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    );
+                }
+                //$columnsets type violation
+                if (!is_array($columnsets)) {
+                    throw new DatabaseException(
+                        $this,
+                        __CLASS__.'->'.__METHOD__.'(): encountered column-set array of non-array type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
