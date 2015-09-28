@@ -54,25 +54,38 @@ class SQLiteDatabase implements DatabaseInterface {
 
             'insert' => [
                 'stmt' => 'INSERT INTO ?{table} ( ?{setcolumns} ) VALUES ( ?{set} );',
-                'tables' => [ 'tables' ],
-                'columns' => [ 'columns' ],
-                'lists' => [ 'values' ]
+                'tables' => [ 'table' ],
+                'sets' => [ 'values' ],
+                'columnSets' => [ 'columns' ]
             ],
 
-            //TODO:
-            //select is going to be difficult, because as it is now, the very
-            //structure of the statement changes based on things such as whether
-            //or not there are any conditions. This will most likely require
-            //either splitting the query into selectBasic and selectWithCond
-            //so that we can reflect these different structures, or possibly use
-            //the callback field to provide a custom function.
+            'selectConditional' => [
+                'stmt' => 'SELECT ?{setcolumns} FROM ?{table} WHERE ${conditions} LIMIT ?, ?;',
+                'args' => [
+                    [ 'value' => 'start',   'type' => self::TYPE_INT ],
+                    [ 'value' => 'limit',   'type' => self::TYPE_INT ]
+                ],
+                'tables' => [ 'table' ],
+                'columnSets' => [ 'columns' ],
+                'conditions' => [ 'conditions' ]
+            ],
+
+            'selectUnconditional' => [
+                'stmt' => 'SELECT ?{setcolumns} FROM ${table} LIMIT ?, ?;',
+                'args' => [
+                    [ 'value' => 'start',   'type' => self::TYPE_INT ],
+                    [ 'value' => 'limit',   'type' => self::TYPE_INT ]
+                ],
+                'tables' => [ 'table' ],
+                'columnSets' => [ 'columns' ]
+            ],
 
             'tableExists' => [
                 'stmt' => 'SELECT name FROM sqlite_master WHERE type=\'table\' AND name = ?;',
                 'table' => [
                     [ 'value' => 'table',   'type' => self::TYPE_STR ]
                 ]
-            ],
+            ]
 
         ]
 

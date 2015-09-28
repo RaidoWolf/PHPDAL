@@ -1,8 +1,5 @@
 <?php
 
-//TODO:
-//remove DBMS-specific stuff, and reference the Grammar Table
-
 class DatabaseModel implements DatabaseInterface {
 
     // -- PROPERTIES/MEMBERS -- //
@@ -38,6 +35,7 @@ class DatabaseModel implements DatabaseInterface {
     //Extra Prepared Statement Parameter Markers
     const PARAM_COLUMN          = '?{column}'; //string that represents a dynamically inserted column parameter
     const PARAM_COLUMN_SET      = '?{setcolumns}'; //string that represents a dynamically inserted set of column parameters
+    const PARAM_CONDITIONS      = '?{conditions}'; //string that represents a dynamically inserted condition parameter
     const PARAM_SET             = '?{set}'; //string that represents a dynamically inserted set of literal parameters
     const PARAM_TABLE           = '?{table}'; //string that represents a dynamically inserted table parameter
     const PARAM_TABLE_SET       = '?{settables}'; //string that represents a dynamically inserted set of table parameters
@@ -351,6 +349,9 @@ class DatabaseModel implements DatabaseInterface {
             isset($this->dbms['sql']['columnExists']['columnSets']) ?   //if column sets array given...
                 $this->dbms['sql']['columnExists']['columnSets'] :
                 [],
+            isset($this->dbms['sql']['columnExists']['conditions']) ?   //if conditions array given...
+                $this->dbms['sql']['columnExists']['conditions'] :
+                [],
             $table
         );
         $stmt = $this->connector->prepare($query);
@@ -419,17 +420,19 @@ class DatabaseModel implements DatabaseInterface {
                     __CLASS__.'->'.__METHOD__.'(): Unknown action id called.',
                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                 );
+                break;
         }
 
     }
 
-    public function genStmt (
+    protected function genStmt (
         $stmt,
         $tables     = [],
         $columns    = [],
         $sets       = [],
         $tablesets  = [],
         $columnsets = [],
+        $conditions = [],
         $table      = null
     ) {
 
@@ -437,111 +440,216 @@ class DatabaseModel implements DatabaseInterface {
 
             //validate types
             if (
-                is_string($stmt) &&
-                is_array($tables) &&
-                is_array($columns) &&
-                is_array($sets) &&
-                is_array($tablesets) &&
-                is_array($columnsets) &&
+                is_string($stmt)        &&
+                is_array($tables)       &&
+                is_array($columns)      &&
+                is_array($sets)         &&
+                is_array($tablesets)    &&
+                is_array($columnsets)   &&
+                is_array($conditions)   &&
                 (is_string($table) || $table == null)
             ) {
+                $validTables = $this->getTables();
+                $columnsTable = [];
 
-                if (count($tables) != 0) {
-                    $validTables = $this->getTables();
-                    foreach ($tables as $table) {
-                        if (in_array($table, $validTables)) {
+                // -- TABLES -- //
+                foreach ($tables as $table) {
+                    if (in_array($table, $validTables)) {
 
+                    } else {
+                        throw new DatabaseException(
+                            $this,
+                            __CLASS__.'->'.__METHOD__.'(): table "'.$table.'" does not exist.',
+                            DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                        );
+                        $stmt = DatabaseUtils::replaceOnce(self::PARAM_TABLE, '', $stmt); //delete this placeholder (in case exception is caught)
+                        array_shift($table); //shift out the table (in case exception is caught)
+                    }
+                }
+
+                // -- COLUMNS -- //
+                foreach ($columns as $column) {
+
+                    $typeof_column = gettype($column);
+
+                    if (isset($this->table)) {
+                        if (!in_array($this->table, $validTables)) {
+                            throw new DatabaseException(
+                                $this,
+                                __CLASS__.'->'.__METHOD__.'(): default table "'.$this->table.'" does not exist.',
+                                DatabaseException::EXCEPTION_CORRUPTED_OBJECT
+                            );
+                        }
+                    }
+                    $columnsTable[$this->table] = $this->getColumns($this->table);
+
+                    if ($typeof_column == 'string') {
+                        //TODO: check $table, then $this->table, then exception. do the replacement if any are found.
+                        if (
+                            (!isset($table) || $table == null) &&
+                            (isset($this->table) && $this->table != null)
+                        ) {
+                            $table = $this->table;
                         } else {
                             throw new DatabaseException(
                                 $this,
-                                __CLASS__.'->'.__METHOD__.'(): table "'.$table.'" does not exist.',
-                                DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                __CLASS__.'->'.__METHOD__.'(): no table defined.',
+                                DatabaseException::EXCEPTION_MISSING_DEFINITION
                             );
-                            $stmt = DatabaseUtils::replaceOnce(self::PARAM_TABLE, '', $stmt); //delete this placeholder (in case exception is caught)
-                            array_shift($table); //shift out the table (in case exception is caught)
+                            continue; //skip this iteration (in case exception was caught)
                         }
-                    }
-                    foreach ($columns as $column) {
-
-                        $typeof_column = gettype($column);
-
-                        $columnsTable = [];
-                        if (isset($this->table)) {
-                            if (!in_array($this->table, $validTables)) {
-                                throw new DatabaseException(
-                                    $this,
-                                    __CLASS__.'->'.__METHOD__.'(): default table "'.$this->table.'" does not exist.',
-                                    DatabaseException::EXCEPTION_CORRUPTED_OBJECT
-                                );
+                        //TODO: Do replacement here
+                    } elseif ($typeof_column == 'array') {
+                        if (array_key_exists('table', $column) && array_key_exists('column', $column)) {
+                            if (!array_key_exists($column['table'], $columnsTable)) {
+                                $columnsTable[$column['table']] = $this->getColumns($column['table']);
                             }
-                        }
-                        $columnsTable[$this->table] = $this->getColumns($this->table);
-
-                        if ($typeof_column == 'string') {
-                            //TODO: check $table, then $this->table, then exception. do the replacement if any are found.
-                            if (
-                                (!isset($table) || $table == null) &&
-                                (isset($this->table) && $this->table != null)
-                            ) {
-                                $table = $this->table;
+                            if (in_array($column['column'], $columnTable[$column['table']])) {
+                                $stmt = DatabaseUtils::replaceOnce(self::PARAM_COLUMN, $this->quoteColumn($column['column']), $stmt);
                             } else {
                                 throw new DatabaseException(
                                     $this,
-                                    __CLASS__.'->'.__METHOD__.'(): no table defined.',
-                                    DatabaseException::EXCEPTION_MISSING_DEFINITION
-                                );
-                                continue; //skip this iteration (in case exception was caught)
-                            }
-                            //TODO: Do replacement here
-                        } elseif ($typeof_column == 'array') {
-                            if (array_key_exists('table', $column) && array_key_exists('column', $column)) {
-                                if (!array_key_exists($column['table'], $columnsTable)) {
-                                    $columnsTable[$column['table']] = $this->getColumns($column['table']);
-                                }
-                                if (in_array($column['column'], $columnTable[$column['table']])) {
-                                    $stmt = DatabaseUtils::replaceOnce(self::PARAM_COLUMN, $this->quoteColumn($column['column']), $stmt);
-                                } else {
-                                    throw new DatabaseException(
-                                        $this,
-                                        __CLASS__.'->'.__METHOD__.'(): column "'.$column['column'].'" does not exist in table "'.$column['table'].'".',
-                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
-                                    );
-                                }
-                            } else {
-                                throw new DatabaseException(
-                                    $this,
-                                    __CLASS__.'->'.__METHOD__.'(): encountered invalid [\'table\',\'column\'] array structure.',
+                                    __CLASS__.'->'.__METHOD__.'(): column "'.$column['column'].'" does not exist in table "'.$column['table'].'".',
                                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                 );
-                                $stmt = DatabaseUtils::replaceOnce(self::PARAM_COLUMN, '', $stmt); //delete this placeholder (in case exception is caught)
-                                array_shift($table); //shift out the table (in case exception is caught)
                             }
                         } else {
                             throw new DatabaseException(
                                 $this,
-                                __CLASS__.'->'.__METHOD__.'(): encountered column parameter of invalid type.',
-                                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                                __CLASS__.'->'.__METHOD__.'(): encountered invalid [\'table\',\'column\'] array structure.',
+                                DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                            );
+                            $stmt = DatabaseUtils::replaceOnce(self::PARAM_COLUMN, '', $stmt); //delete this placeholder (in case exception is caught)
+                            array_shift($table); //shift out the table (in case exception is caught)
+                        }
+                    } else {
+                        throw new DatabaseException(
+                            $this,
+                            __CLASS__.'->'.__METHOD__.'(): encountered column parameter of invalid type.',
+                            DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                        );
+                    }
+                }
+
+                // -- SETS -- //
+                foreach ($sets as $set) {
+                    $typeof_set = gettype($set);
+                    $count = count($set);
+                    $pseudoArray = [];
+                    for ($i = 0; $i < $count; $i++) {
+                        $pseudoArray[] = '?';
+                    }
+                    $pseudoSet = implode(',', $pseudoArray);
+                    $stmt = DatabaseUtils::replaceOnce(self::PARAM_SET, $pseudoSet, $stmt);
+                    //NOTE: This will only create a preparable statement.
+                    //You'll still have to bind the parameters for basic sets.
+                }
+
+                // -- TABLE SETS -- //
+                foreach ($tablesets as $set) {
+                    $typeof_set = gettype($set);
+
+                    if (in_array($table, $validTables)) {
+
+                    } else {
+                        throw new DatabaseException(
+                            $this,
+                            __CLASS__.'->'.__METHOD__.'(): table "'.$table.'" does not exist.',
+                            DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                        );
+                        $stmt = DatabaseUtils::replaceOnce(self::PARAM_TABLE, '', $stmt); //delete this placeholder (in case exception is caught)
+                        array_shift($table); //shift out the table (in case exception is caught)
+                    }
+                }
+
+                // -- COLUMN SETS -- //
+                foreach ($columnsets as $set) {
+                    $typeof_set = gettype($set);
+
+                    if (isset($this->table)) {
+                        if (!in_array($this->table, $validTables)) {
+                            throw new DatabaseException(
+                                $this,
+                                __CLASS__.'->'.__METHOD__.'(): default table "'.$this->table.'" does not exist.',
+                                DatabaseException::EXCEPTION_CORRUPTED_OBJECT
                             );
                         }
                     }
-                    foreach ($sets as $set) {
-                        $typeof_set = gettype($set);
-                        $count = count($set);
-                        $pseudoArray = [];
-                        for ($i = 0; $i < $count; $i++) {
-                            $pseudoArray[] = '?';
+                    $columnsTable[$this->table] = $this->getColumns($this->table);
+
+                    if ($typeof_column == 'string') {
+                        //TODO: check $table, then $this->table, then exception. do the replacement if any are found.
+                        if (
+                            (!isset($table) || $table == null) &&
+                            (isset($this->table) && $this->table != null)
+                        ) {
+                            $table = $this->table;
+                        } else {
+                            throw new DatabaseException(
+                                $this,
+                                __CLASS__.'->'.__METHOD__.'(): no table defined.',
+                                DatabaseException::EXCEPTION_MISSING_DEFINITION
+                            );
+                            continue; //skip this iteration (in case exception was caught)
                         }
-                        $pseudoSet = implode(',', $pseudoArray);
-                        $stmt = DatabaseUtils::replaceOnce(self::PARAM_SET, $pseudoSet, $stmt);
-                        //TODO: review this loop.
+                        //TODO: Do replacement here
+                    } elseif ($typeof_column == 'array') {
+                        if (array_key_exists('table', $column) && array_key_exists('column', $column)) {
+                            if (!array_key_exists($column['table'], $columnsTable)) {
+                                $columnsTable[$column['table']] = $this->getColumns($column['table']);
+                            }
+                            if (in_array($column['column'], $columnTable[$column['table']])) {
+                                $stmt = DatabaseUtils::replaceOnce(self::PARAM_COLUMN, $this->quoteColumn($column['column']), $stmt);
+                            } else {
+                                throw new DatabaseException(
+                                    $this,
+                                    __CLASS__.'->'.__METHOD__.'(): column "'.$column['column'].'" does not exist in table "'.$column['table'].'".',
+                                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                );
+                                continue; //skip this iteration (if exception is caught)
+                            }
+                        } else {
+                            throw new DatabaseException(
+                                $this,
+                                __CLASS__.'->'.__METHOD__.'(): encountered invalid [\'table\',\'column\'] array structure.',
+                                DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                            );
+                            $stmt = DatabaseUtils::replaceOnce(self::PARAM_COLUMN, '', $stmt); //delete this placeholder (in case exception is caught)
+                            continue; //skip this iteration (if exception is caught)
+                        }
+                    } else {
+                        throw new DatabaseException(
+                            $this,
+                            __CLASS__.'->'.__METHOD__.'(): encountered column parameter of invalid type.',
+                            DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                        );
+                        continue; //skip this iteration (if exception is caught)
                     }
-                    foreach ($tablesets as $set) {
-                        $typeof_set = gettype($set);
-                        //TODO
-                    }
-                    foreach ($columnsets as $set) {
-                        $typeof_set = gettype($set);
-                        //TODO
+                }
+
+                // -- CONDITIONS -- //
+                foreach ($conditions as $condition) {
+                    $typeof_condition = gettype($condition);
+
+                    if ($typeof_condition == 'object') {
+                        if (is_subclass_of($condition, 'DatabaseConditionModel')) {
+                            $strCond = $condition->getStatement();
+                            $stmt = DatabaseUtils::replaceOnce(self::PARAM_CONDITION, $strCond, $stmt);
+                        } else {
+                            throw new DatabaseException(
+                                $this,
+                                __CLASS__.'->'.__METHOD__.'(): encountered condition parameter not descended from DatabaseConditionModel.',
+                                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                            );
+                            $stmt = DatabaseUtils::replaceOnce(self::PARAM_CONDITION, '', $stmt);
+                            continue; //skip this iteration (in case exception is caught)
+                        }
+                    } else {
+                        throw new DatabaseException(
+                            $this,
+                            __CLASS__.'->'.__METHOD__.'(): encountered condition parameter of invalid type.',
+                            DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                        );
                     }
                 }
 
@@ -633,38 +741,70 @@ class DatabaseModel implements DatabaseInterface {
             }
         }
 
-        if ($this->type == self::TYPE_MYSQL) {
-            $statement = 'SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`=\'?\' AND `TABLE_NAME`=\'?\';';
-            $parameters = [$this->name, $table];
-        } elseif ($this->type == self::TYPE_PGSQL) {
-            $statement = 'SELECT column_name FROM information_schema.columns WHERE table_schema=\'?\' AND table_name=\'?\';';
-            $parameters = [$this->name, $table];
-        } elseif ($this->type == self::TYPE_SQLITE) {
-            $statement = 'PRAGMA table_info(\'?\');';
-            $parameters = [$table];
+        //TODO: this is still not complete yet.
+
+        $query = $this->dbms['sql']['getColumns']['stmt'];
+        $query = $this->genStmt(
+            $query,
+            isset($this->dbms['sql']['getColumns']['tables']) ?     //if tables array given...
+                $this->dbms['sql']['getColumns']['tables'] :        //use it...
+                [],                                                 //otherwise use empty array.
+            isset($this->dbms['sql']['getColumns']['columns']) ?        //if columns array given...
+                $this->dbms['sql']['getColumns']['columns'] :
+                [],
+            isset($this->dbms['sql']['getColumns']['sets']) ?           //if sets array given...
+                $this->dbms['sql']['getColumns']['sets'] :
+                [],
+            isset($this->dbms['sql']['getColumns']['tableSets']) ?      //if table sets array given...
+                $this->dbms['sql']['getColumns']['tableSets'] :
+                [],
+            isset($this->dbms['sql']['getColumns']['columnSets']) ?     //if column sets array given...
+                $this->dbms['sql']['getColumns']['columnSets'] :
+                [],
+            isset($this->dbms['sql']['getColumns']['conditions']) ?     //if conditions array given...
+                $this->dbms['sql']['getColumns']['conditions'] :
+                [],
+            $table
+        );
+        $stmt = $this->connector->prepare($query);
+        $i = 1;
+        foreach ($this->dbms['sql']['getColumns']['args'] as $arg) {
+            $stmt->bindParam($i, $data[$arg['value']], PDO::PARAM_STR);
+            $i++;
+        }
+        $stmt->execute();
+        $var['results'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //if action is defined
+        if (isset($this->dbms['sql']['getColumns']['action'])) {
+            $data = []; //instantiate data array
+            //if action has arguments
+            if (isset($this->dbms['sql']['getColumns']['action']['args'])) {
+                //add each argument to the data array
+                foreach ($this->dbms['sql']['getColumns']['action']['args'] as $arg) {
+                    $data[$arg['name']] = $vars[$arg['value']]; //
+                }
+            } else {
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): Action given no variables.',
+                    DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                );
+            }
+            //if action has an id
+            if (isset($this->dbms['sql']['getColumns']['action']['id'])) {
+                return $this->doAction($this->dbms['sql']['getColumns']['action']['id'], $data);
+            } else {
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): Action given no ID.',
+                    DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                );
+            }
         } else {
-            throw new DatabaseException(
-                $this,
-                __CLASS__.'->'.__METHOD__.'(): invalid database type setting.',
-                DatabaseException::EXCEPTION_INPUT_NOT_VALID
-            );
+            //default action
+            $data = $var['results'];
+            return $this->doAction(self::ACTION_NONE, $data);
         }
-
-        //prepare and execute the statement
-        $stmt = $this->connector->prepare($statement);
-        try {
-            $exec = $stmt->execute([$parameters]);
-        } catch (PDOException $e) {
-            throw new DatabaseException (
-                $this,
-                __CLASS__.'->'.__METHOD__.'(): caught exception thrown by PDO.',
-                DatabaseException::EXCEPTION_GENERIC_DATABASE_ERROR,
-                $e
-            );
-        }
-
-        //fetch and return the result
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     }
 
