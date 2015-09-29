@@ -36,6 +36,7 @@ require_once __DIR__.'/class/DatabaseException.php';            //Cross-DBMS Exc
 require_once __DIR__.'/class/DatabaseExceptionInterface.php';   //Database Exception Interface
 require_once __DIR__.'/class/DatabaseInterface.php';            //Database Class Interface
 require_once __DIR__.'/class/DatabaseState.php';                //Database State/Schema/Structure Manager Class
+require_once __DIR__.'/class/DatabaseStatement.php';            //Database Prepared Statements Class
 require_once __DIR__.'/class/DatabaseUtils.php';                //Database Utilities (static)
 
 /*

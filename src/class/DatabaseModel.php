@@ -13,6 +13,7 @@ class DatabaseModel implements DatabaseInterface {
     protected $name;
     protected $open;
     protected $port;
+    protected $stmtTable = [];
     protected $table;
 
     // -- CONSTANTS/FLAGS -- //
@@ -769,8 +770,21 @@ class DatabaseModel implements DatabaseInterface {
         $stmt = $this->connector->prepare($query);
         $i = 1;
         foreach ($this->dbms['sql']['getColumns']['args'] as $arg) {
-            $stmt->bindParam($i, $data[$arg['value']], PDO::PARAM_STR);
-            $i++;
+            if (array_key_exists('value', $arg)) {
+                $stmt->bindParam(
+                    $i,
+                    $data[$arg['value']],
+                    array_key_exists('type', $arg) ? $arg['type'] : self::TYPE_STR
+                );
+                $i++;
+            } else {
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): encountered parameter without value key.',
+                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                );
+                continue; //skip this iteration (in case that exception was caught)
+            }
         }
         $stmt->execute();
         $var['results'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -805,6 +819,12 @@ class DatabaseModel implements DatabaseInterface {
             $data = $var['results'];
             return $this->doAction(self::ACTION_NONE, $data);
         }
+
+    }
+
+    public function getConnector () {
+
+        return $this->connector;
 
     }
 
@@ -1000,6 +1020,106 @@ class DatabaseModel implements DatabaseInterface {
         }
 
         return $this; //for method chaining (since this is a mutator)
+
+    }
+
+    /**
+     * DatabaseModel->prepare() Method
+     *
+     * Prepare a statement for execution
+     *
+     * @param  string $stmt       Statement string to prepare.
+     * @param  array  $tables     Tables to dynamically insert.
+     * @param  array  $columns    Columns to dynamically insert.
+     * @param  array  $sets       Standard sets to dynamically prepare.
+     * @param  array  $tablesets  Sets of tables to dynamically insert.
+     * @param  array  $columnsets Sets of columns to dynamically insert.
+     * @param  array  $conditions Conditions to dynamically insert.
+     * @return DatabaseStatement  DatabaseStatement object representing the prepared statement.
+     * @throws DatabaseException  If you dun goof.
+     */
+    public function prepare (
+        $stmt,
+        $args       = [],
+        $tables     = [],
+        $columns    = [],
+        $sets       = [],
+        $tablesets  = [],
+        $columnsets = [],
+        $conditions = [],
+        $action     = null
+    ) {
+
+        $stmt = $this->genStmt(
+            $stmt,
+            $tables,
+            $columns,
+            $sets,
+            $tablesets,
+            $columnsets,
+            $conditions,
+            $table
+        );
+
+        //check statement table for existing prepared statement
+        $stmtHash = md5($stmt);
+        if (array_key_exists($stmtHash, $this->stmtTable)) {
+            $stmt = $this->stmtTable[$stmtHash]; //use existing statement if available
+        } else {
+            $stmt = $this->connector->prepare($query); //create new statement
+            $this->stmtTable[$stmtHash] = $stmt; //store it in statement table
+        }
+        $i = 1;
+        foreach ($args as $arg) {
+            if (array_key_exists('value', $arg)) {
+                $stmt->bindParam(
+                    $i,
+                    $data[$arg['value']],
+                    array_key_exists('type', $arg) ? $arg['type'] : self::TYPE_STR
+                );
+                $i++;
+            } else {
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): encountered parameter without value key.',
+                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                );
+                continue; //skip this iteration (in case that exception was caught)
+            }
+        }
+        $stmt->execute();
+        $var['results'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //if action is defined
+        if (isset($this->dbms['sql']['getColumns']['action'])) {
+            $data = []; //instantiate data array
+            //if action has arguments
+            if (isset($this->dbms['sql']['getColumns']['action']['args'])) {
+                //add each argument to the data array
+                foreach ($this->dbms['sql']['getColumns']['action']['args'] as $arg) {
+                    $data[$arg['name']] = $vars[$arg['value']]; //
+                }
+            } else {
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): Action given no variables.',
+                    DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                );
+            }
+            //if action has an id
+            if (isset($this->dbms['sql']['getColumns']['action']['id'])) {
+                return $this->doAction($this->dbms['sql']['getColumns']['action']['id'], $data);
+            } else {
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): Action given no ID.',
+                    DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                );
+            }
+        } else {
+            //default action
+            $data = $var['results'];
+            return $this->doAction(self::ACTION_NONE, $data);
+        }
 
     }
 

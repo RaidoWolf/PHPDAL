@@ -8,6 +8,13 @@ class SQLiteDatabase implements DatabaseInterface {
     protected $dbms = [
 
         /**
+         * DBMS-Specific Classes
+         */
+        'classes' => [
+            'condition' => 'SQLiteCondition'
+        ],
+
+        /**
          * PDO DSN Configuration
          */
         'dsn' => [

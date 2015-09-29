@@ -8,6 +8,13 @@ class PostgreSQLDatabase extends DatabaseModel implements DatabaseInterface {
     protected $dbms = [
 
         /**
+         * DBMS-specific Classes
+         */
+        'classes' => [
+            'condition' => 'PostgreSQLCondition'
+        ],
+
+        /**
          * PDO DSN Configuration
          */
         'dsn' => [

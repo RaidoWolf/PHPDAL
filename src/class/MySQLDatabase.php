@@ -8,6 +8,13 @@ class MySQLDatabase extends DatabaseModel implements DatabaseInterface {
     protected $dbms = [
 
         /**
+         * DBMS-Specific Classes
+         */
+        'classes' => [
+            'condition' => 'MySQLCondition'
+        ],
+
+        /**
          * PDO DSN Configuration
          */
         'dsn' => [
