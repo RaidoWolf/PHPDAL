@@ -19,10 +19,11 @@ class DatabaseModel implements DatabaseInterface {
     // -- CONSTANTS/FLAGS -- //
 
     //Actions
-    const ACTION_NONE           = 0;    //do nothing
-    const ACTION_HAS_ELEMENTS   = 1;    //check if array "array" has key "key"
-    const ACTION_HAS_KEY        = 2;    //check if array "array"
-    const ACTION_IN_ARRAY       = 3;    //check if "needle" is in array "haystack"
+    const ACTION_NONE           = 0;    //do nothing.
+    const ACTION_HAS_ELEMENTS   = 1;    //check if data argument is an array with at least 1 element.
+    const ACTION_KEY_EXISTS     = 2;    //check if key "key" exists in array "array".
+    const ACTION_KEY_ISSET      = 3;    //check if key "key" is set (not null) in array "array".
+    const ACTION_IN_ARRAY       = 4;    //check if "needle" is in array "haystack".
 
     //Fields
     const FIELD_DATA            = 0;
@@ -400,6 +401,19 @@ class DatabaseModel implements DatabaseInterface {
 
     }
 
+    /**
+     * DatabaseModel->doAction() Protected Method
+     *
+     * Perform a predefined callback-style action on a given data set. If you
+     * use this, take note of the referenced keys for the given action. The
+     * intended purpose of this method was to provide a way for alternative
+     * final data processing to be configured per-DBMS without having to
+     * entirely rewrite methods.
+     *
+     * @param  int     $id   The ID of the action to use. Recommend using the constants for this.
+     * @param  unknown $data The ambigous block of data. Usually this will be an array, especailly when multiple values are used.
+     * @return unknown       The output of the action. This could be just about anything.
+     */
     protected function doAction ($id, $data) {
 
         switch ($id) {
@@ -407,10 +421,13 @@ class DatabaseModel implements DatabaseInterface {
                 return $data;
                 break;
             case self::ACTION_HAS_ELEMENTS:
-                return count($results) > 0;
+                return count($data) > 0;
                 break;
-            case self::ACTION_HAS_KEY:
-                return array_has_key($data['key'], $data['array']);
+            case self::ACTION_KEY_EXISTS:
+                return array_key_exists($data['key'], $data['array']);
+                break;
+            case self::ACTION_KEY_ISSET:
+                return isset($data['array'][$data['key']]);
                 break;
             case self::ACTION_IN_ARRAY:
                 return in_array($data['needle'], $data['haystack']);
@@ -426,6 +443,76 @@ class DatabaseModel implements DatabaseInterface {
 
     }
 
+    /**
+     * DatabaseException->exec() Method
+     *
+     * Prepare and execute a statement. This method is recommended for single-
+     * use queries. It is optimized by checking a table of MD5 hashes of
+     * existing prepared statements. Regardless of this optimization, for any
+     * queries that will be run multiple times, it is strongly recommended that
+     * you use the DatabaseStatement->exec() method. Using that method, there
+     * will need to be no MD5 checksums, hash table checks, string comparisons,
+     * or compilation. This is provided only for convenience.
+     *
+     * @param  string $query      The statement to prepare for execution
+     * @param  array  $args       Array of arguments to the given statement
+     * @param  array  $tables     Array of table values to insert
+     * @param  array  $columns    Array of column values to insert
+     * @param  array  $sets       Array of set values to insert
+     * @param  array  $tablesets  Array of table set values to insert.
+     * @param  array  $columnsets Array of column set values to insert.
+     * @param  array  $conditions Array of DatabaseCondition objects to insert.
+     * @param  int    $action     ID of action to execute on final data. Recommend using constants for this.
+     * @param  array  $actionargs Array representing data to give to action using $val keys.
+     * @return array              Array of data returned from the execution.
+     */
+    public function exec (
+        $query,
+        $args       = [],
+        $tables     = [],
+        $columns    = [],
+        $sets       = [],
+        $tablesets  = [],
+        $columnsets = [],
+        $conditions = [],
+        $action     = self::ACTION_NONE,
+        $actionargs = []
+    ) {
+
+        $stmt = $this->prepare(
+            $stmt,
+            $tables,
+            $columns,
+            $sets,
+            $tablesets,
+            $columnsets,
+            $conditions
+        );
+
+        //TODO
+
+    }
+
+    /**
+     * DatabaseModel->genStmt Protected Method
+     *
+     * Create a dynamically generated preparable statement. This allows emulated
+     * parameterized identifiers, sets, and conditions. Identifiers are santized
+     * by checking if they exist in the actual context. Sets are santized as
+     * normal prepared statement parameters. Conditions are sanitized by being
+     * generated with DatabaseCondition class from an array structure only.
+     *
+     * @param  string $stmt       Unpreparable statement string with extra parameter placeholders.
+     * @param  array  $tables     Array of table values to insert.
+     * @param  array  $columns    Array of column values to insert.
+     * @param  array  $sets       Array of set values to insert.
+     * @param  array  $tablesets  Array of table set values to insert.
+     * @param  array  $columnsets Array of column set values to insert.
+     * @param  array  $conditions Array of DatabaseCondition objects to insert.
+     * @param  string $table      (optional if defined in constructor) Default context table.
+     * @return string             Preparable statement. (Note that values of sets will still need to be given at execution time)
+     * @throws DatabaseException  If you dun goof.
+     */
     protected function genStmt (
         $stmt,
         $tables     = [],
@@ -725,8 +812,11 @@ class DatabaseModel implements DatabaseInterface {
     /**
      * DatabaseModel->getColumns() Method
      *
-     * @param string $table (optional) - name of table, unless table defined by constructor
-     * @return array - array of columns in the table
+     * Get an array of existing columns in a given (or default) table.
+     *
+     * @param  string $table     (optional) Name of table, unless table defined by constructor
+     * @return array             Array of columns in the table.
+     * @throws DatabaseException If you dun goof.
      */
     public function getColumns ($table = null) {
 
@@ -828,12 +918,28 @@ class DatabaseModel implements DatabaseInterface {
 
     }
 
+    /**
+     * DatabaseModel->getDefaultTable() Method
+     *
+     * Get the default table (if defined) used in this database connection.
+     *
+     * @return string|null       Default table, as defined, or null if undefined.
+     * @throws DatabaseException If you dun goof.
+     */
     public function getDefaultTable () {
 
         return $this->table;
 
     }
 
+    /**
+     * DatabaseModel->getTables() Method
+     *
+     * Get an array of existing tables in the database.
+     *
+     * @return array             Array of existing tablese in the database.
+     * @throws DatabaseException If you dun goof.
+     */
     public function getTables () {
 
         if ($this->type == self::TYPE_MYSQL) {
@@ -886,9 +992,9 @@ class DatabaseModel implements DatabaseInterface {
     /**
      * DatabaseModel->insert() Method
      *
-     * @param array $in (required) - associative array of input to be inserted, keys being the name of columns
-     * @param string $table (optional if defined in constructor) - table to use
-     * @return Database - reference to self
+     * @param  array    $in    (required) Associative array of input to be inserted, keys being the name of columns
+     * @param  string   $table (optional if defined in constructor) Table to use
+     * @return Database        reference to self
      */
     public function insert ($in, $table = null) {
 
@@ -1040,14 +1146,12 @@ class DatabaseModel implements DatabaseInterface {
      */
     public function prepare (
         $stmt,
-        $args       = [],
         $tables     = [],
         $columns    = [],
         $sets       = [],
         $tablesets  = [],
         $columnsets = [],
-        $conditions = [],
-        $action     = null
+        $conditions = []
     ) {
 
         $stmt = $this->genStmt(
@@ -1063,63 +1167,14 @@ class DatabaseModel implements DatabaseInterface {
 
         //check statement table for existing prepared statement
         $stmtHash = md5($stmt);
-        if (array_key_exists($stmtHash, $this->stmtTable)) {
+        if ($this->stmtTable[$stmtHash]) {
             $stmt = $this->stmtTable[$stmtHash]; //use existing statement if available
         } else {
             $stmt = $this->connector->prepare($query); //create new statement
             $this->stmtTable[$stmtHash] = $stmt; //store it in statement table
         }
-        $i = 1;
-        foreach ($args as $arg) {
-            if (array_key_exists('value', $arg)) {
-                $stmt->bindParam(
-                    $i,
-                    $data[$arg['value']],
-                    array_key_exists('type', $arg) ? $arg['type'] : self::TYPE_STR
-                );
-                $i++;
-            } else {
-                throw new DatabaseException(
-                    $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered parameter without value key.',
-                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
-                );
-                continue; //skip this iteration (in case that exception was caught)
-            }
-        }
-        $stmt->execute();
-        $var['results'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        //if action is defined
-        if (isset($this->dbms['sql']['getColumns']['action'])) {
-            $data = []; //instantiate data array
-            //if action has arguments
-            if (isset($this->dbms['sql']['getColumns']['action']['args'])) {
-                //add each argument to the data array
-                foreach ($this->dbms['sql']['getColumns']['action']['args'] as $arg) {
-                    $data[$arg['name']] = $vars[$arg['value']]; //
-                }
-            } else {
-                throw new DatabaseException(
-                    $this,
-                    __CLASS__.'->'.__METHOD__.'(): Action given no variables.',
-                    DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
-                );
-            }
-            //if action has an id
-            if (isset($this->dbms['sql']['getColumns']['action']['id'])) {
-                return $this->doAction($this->dbms['sql']['getColumns']['action']['id'], $data);
-            } else {
-                throw new DatabaseException(
-                    $this,
-                    __CLASS__.'->'.__METHOD__.'(): Action given no ID.',
-                    DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
-                );
-            }
-        } else {
-            //default action
-            $data = $var['results'];
-            return $this->doAction(self::ACTION_NONE, $data);
-        }
+
+        return $stmt;
 
     }
 
@@ -1133,9 +1188,9 @@ class DatabaseModel implements DatabaseInterface {
      * an array of known valid columns in the table. Never require the end-user
      * to do escaping themselves.
      *
-     * @param   string              $string - The column name to quote
-     * @return  string              The quoted version of the input string
-     * @throws  DatabaseException   If you dun goof
+     * @param  string            $string The column name to quote
+     * @return string                    The quoted version of the input string
+     * @throws DatabaseException         If you dun goof
      */
     protected function quoteColumn ($string) {
 
@@ -1167,12 +1222,12 @@ class DatabaseModel implements DatabaseInterface {
      * NOTE: THIS DOES NOT ESCAPE DATA! It is only meant as a precaution against
      * unusual characters causing errors in statement execution.
      * DEVELOPERS: Please make sure all data using this is also checked against
-     * an array of known valid columns in the table. Never require the end-user
-     * to do escaping themselves.
+     * an array of known valid tables in the database. Never require the
+     * end-user to do escaping themselves.
      *
-     * @param   string              $string - the table name to quote
-     * @return  string              The quoted version of the input string
-     * @throws  DatabaseException   If you dun goof
+     * @param  string            $string The table name to quote
+     * @return string                    The quoted version of the input string
+     * @throws DatabaseException         If you dun goof
      */
     protected function quoteTable ($string) {
 
@@ -1200,14 +1255,18 @@ class DatabaseModel implements DatabaseInterface {
     /**
      * DatabaseModel->select() Method
      *
-     * @param array|string $columns (optional) - columns to return. if left empty/null, will default to all columns (*)
-     * @param DatabaseCondition|array|string $conditions (optional) - conditions to lookup. If left empty/null, will default to no conditions.
-     * @param int $start (optional) - starting index from which to begin selecting. If left empty, defaults to 0.
-     * @param int $count (optional) - maximum number of results to return. If left empty, defaults to no limit.
-     * @param string $sortBy (optional) - column with which to sort the table. If left empty, defaults to the first column in the table.
-     * @param int $sortDirection (optional - (uses flags) direction to sort the table. If left empty, defaults to none. Options are SORT_NONE, SORT_ASC, SORT_DESC
-     * @param string $table (optional if table set in constructor) - table from which to select.
-     * return array - results of the select query as an associative array.
+     * Selects data from the database based on conditions and returns the
+     * matching rows as the given columns.
+     *
+     * @param  array|string                   $columns       (optional) Columns to return. if left empty/null, will default to all columns (*)
+     * @param  DatabaseCondition|array|string $conditions    (optional) Conditions to lookup. If left empty/null, will default to no conditions.
+     * @param  int                            $start         (optional) Starting index from which to begin selecting. If left empty, defaults to 0.
+     * @param  int                            $count         (optional) Maximum number of results to return. If left empty, defaults to no limit.
+     * @param  string                         $sortBy        (optional) Column with which to sort the table. If left empty, defaults to the first column in the table.
+     * @param  int                            $sortDirection (optional, Uses flags) direction to sort the table. If left empty, defaults to none. Options are SORT_NONE, SORT_ASC, SORT_DESC
+     * @param  string                         $table         (optional if table set in constructor) Table from which to select.
+     * @return array                                         Results of the select query as an associative array.
+     * @throws DatabaseException                             If you dun goof.
      */
     public function select (
         $columns = ['*'],
@@ -1475,6 +1534,15 @@ class DatabaseModel implements DatabaseInterface {
 
     }
 
+    /**
+     * DatabaseModel->tableExists() Method
+     *
+     * Check if table exists in the database.
+     *
+     * @param  string            $table The name of the table for which to check.
+     * @return bool              True: table exists | False: table does not exist.
+     * @throws DatabaseException If you dun goof.
+     */
     public function tableExists ($table) {
 
         if ($this->type == self::TYPE_MYSQL) {

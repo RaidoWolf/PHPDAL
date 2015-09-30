@@ -17,7 +17,7 @@ interface DatabaseInterface {
 
     //protected $dbms //DBMS-specific configuration (use this to define DBMS grammar)
 
-    public function __construct (
+    public function __construct ( //constructor
         $name//,
         //$user,
         //$pass,
@@ -33,22 +33,52 @@ interface DatabaseInterface {
     public function createView (); //create new view in database
     public function delete (); //delete rows from table
     public function drop (); //drop table/trigger/view
-    public function getColumns ($table = null); //get an array of columns in table
+    public function exec ( //prepare and execute a statement
+        $query,
+        $args           = [],
+        $tables         = [],
+        $columns        = [],
+        $sets           = [],
+        $tablesets      = [],
+        $columnsets     = [],
+        $conditions     = [],
+        $action         = self::ACTION_NONE,
+        $actionargs     = []
+    );
+    public function getColumns ( //get an array of columns in table
+        $table          = null
+    );
     public function getDefaultTable (); //get the default table in object
     public function getTables (); //get an array of tables in database
     public function hasDefaultTable (); //check if object has a default table
-    public function insert ($in, $table=null); //insert rows into table
+    public function insert ( //insert rows into table
+        $in,
+        $table          = null
+    );
+    public function prepare ( //prepare a statement for execution
+        $query,
+        $tables         = [],
+        $columns        = [],
+        $sets           = [],
+        $tablesets      = [],
+        $columnsets     = [],
+        $conditions     = []
+    );
     public function select (
-        $columns=['*'],
-        $conditions=null,
-        $start=null,
-        $count=null,
-        $sortBy=null,
-        $sortDirection=null,
-        $table=null
+        $columns        = ['*'],
+        $conditions     = null,
+        $start          = null,
+        $count          = null,
+        $sortBy         = null,
+        $sortDirection  = null,
+        $table          = null
     ); //select rows from table
-    public function tableExists ($table); //check if the table exists
-    public function update ($array); //update rows in the table
+    public function tableExists ( //check if the table exists
+        $table
+    );
+    public function update ( //update rows in the table
+        $array
+    );
 
 }
 

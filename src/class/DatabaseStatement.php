@@ -20,8 +20,9 @@ class DatabaseStatement {
     const TYPE_STR              = PDO::PARAM_STR;           //string data type
 
     //Member Variables
-    protected $argCount;    //Count of arguments (to verify all database parameters are given).
     protected $connector;   //PDO Connection from parent object.
+    protected $count;       //Count of arguments (to verify all database parameters are given).
+    protected $executions;  //Count of times this prepared statement was executed.
     protected $parent;      //Parent object (the object that created this object).
     protected $query;       //Original query string, which was prepared.
     protected $signature;   //For comparing existing statements and optimizing database operations.
@@ -34,11 +35,11 @@ class DatabaseStatement {
     ) {
 
         //set variables
-        $this->argCount = count($args); //set argument count
-        $this->connector = $connector;  //set connector (will be an object reference)
-        $this->parent = $parent;        //set parent object (will be an object reference)
-        $this->query = $query;          //set query string
-        $this->signature = md5($query); //create and set the MD5 signature
+        $this->count = substr_count($query, '?');   //set argument count
+        $this->connector = $connector;              //set connector (will be an object reference)
+        $this->parent = $parent;                    //set parent object (will be an object reference)
+        $this->query = $query;                      //set query string
+        $this->signature = md5($query);             //create and set the MD5 signature
 
         //prepare statement
         $this->stmt = $this->connector->prepare($this->query); //create and set PDO prepared statement object
@@ -58,15 +59,15 @@ class DatabaseStatement {
         }
 
         if (is_array($args)) {
-            if (count($args) == $this->argCount) {
+            if (count($args) == $this->count) {
                 $i = 1;
                 foreach ($args as $arg) {
                     if (is_array($arg)) {
-                        if (array_key_exists('value', $arg)) {
+                        if (isset($arg['value'])) {
                             $this->stmt->bindParam(
                                 $i,
                                 $arg['value'],
-                                array_key_exists('type', $arg) ? $arg['type'] : self::TYPE_STR
+                                isset($arg['type']) ? $arg['type'] : self::TYPE_STR
                             );
                             $i++;
                         } else {
@@ -104,6 +105,7 @@ class DatabaseStatement {
                     __CLASS__.'->'.__METHOD__.'(): incorrect number of values in arguments array.',
                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                 );
+                return false; //in case exception is caught
             }
         } else {
             throw new DatabaseException(
@@ -111,13 +113,27 @@ class DatabaseStatement {
                 __CLASS__.'->'.__METHOD__.'(): encountered input of invalid type.',
                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
             );
+            return false; //in case exception is caught
         }
+
+        try {
+            $this->stmt->exec(); //try to execute the statement.
+        } catch (PDOException $e) { //catch any exceptions and...
+            throw new DatabaseException( //throw our own.
+                $this,
+                __CLASS__.'->'.__METHOD__.'(): caught exception thrown by PDO during statement execution.',
+                DatabaseException::EXCEPTION_GENERIC_DATABASE_ERROR,
+                $e
+            );
+            return false; //in case exception is caught
+        }
+        $this->executions++; //increment execution counter
 
     }
 
     public function getArgCount () {
 
-        return $this->argCount;
+        return $this->count;
 
     }
 
