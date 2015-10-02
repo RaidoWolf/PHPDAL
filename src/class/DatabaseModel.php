@@ -35,12 +35,12 @@ class DatabaseModel implements DatabaseInterface {
     const KEYWORD_ALL           = 1;
 
     //Extra Prepared Statement Parameter Markers
-    const PARAM_COLUMN          = '?{column}'; //string that represents a dynamically inserted column parameter
-    const PARAM_COLUMN_SET      = '?{setcolumns}'; //string that represents a dynamically inserted set of column parameters
-    const PARAM_CONDITIONS      = '?{conditions}'; //string that represents a dynamically inserted condition parameter
-    const PARAM_SET             = '?{set}'; //string that represents a dynamically inserted set of literal parameters
-    const PARAM_TABLE           = '?{table}'; //string that represents a dynamically inserted table parameter
-    const PARAM_TABLE_SET       = '?{settables}'; //string that represents a dynamically inserted set of table parameters
+    const PARAM_COLUMN          = '?{column}';      //string that represents a dynamically inserted column parameter
+    const PARAM_COLUMN_SET      = '?{setcolumns}';  //string that represents a dynamically inserted set of column parameters
+    const PARAM_CONDITIONS      = '?{conditions}';  //string that represents a dynamically inserted condition parameter
+    const PARAM_SET             = '?{set}';         //string that represents a dynamically inserted set of literal parameters
+    const PARAM_TABLE           = '?{table}';       //string that represents a dynamically inserted table parameter
+    const PARAM_TABLE_SET       = '?{settables}';   //string that represents a dynamically inserted set of table parameters
 
     //Sort Orders
     const SORT_NONE             = 0;
