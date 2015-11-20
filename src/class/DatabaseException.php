@@ -21,6 +21,7 @@ class DatabaseException implements DatabaseExceptionInterface {
     const EXCEPTION_MISSING_DEFINITION          = 1004; //Missing definition/configuration where it was required. Usually means that an optional parameter to fallback to a pre-configured value failed because the pre-configured value was missing.
     const EXCEPTION_INPUT_ARRAY_TOO_DEEP        = 1005; //An input array is too deep to process. This usually indicates that either the input structure was misunderstood, or that some data needs to be serialized.
     const EXCEPTION_INPUT_ARRAY_TOO_SHALLOW     = 1006; //An input array is too shallow to process. This usually indicates that either the input structure was misunderstood, or that some data was serialized where it should not have been.
+    const EXCEPTION_MISSING_CONNECTION          = 1007; //An inter-object connection (typically a reference stored somewhere) crucial to the function has not been established.
     // -- 2000 - Database Errors -- //
     const EXCEPTION_GENERIC_DATABASE_ERROR      = 2000; //Some issue with the database or database driver.
     const EXCEPTION_DB_ITEM_CANNOT_BE_CREATED   = 2001; //A database item cannot be created.
