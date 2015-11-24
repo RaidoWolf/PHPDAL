@@ -30,6 +30,9 @@ class SchemaModel implements SchemaInterface {
     const TYPE_VARCHAR      = 025; //Value representing variable length string up to 255 characters (requires length definition). Length over 255 will convert to TYPE_TEXT.
     const TYPE_YEAR         = 026; //Value representing a year in two digits (70-69 as 1970-2069) or four digits (1901-2155).
 
+    protected $database;
+    protected $databaseValid;
+
     protected $schemas = [
         'tables'    => [],
         'views'     => [],
@@ -109,18 +112,44 @@ class SchemaModel implements SchemaInterface {
 
     public function schemaConform () {
 
-        if ($this->isBound()) {
+        if ($this->validateDatabaseObject()) {
             if (!$this->schemaMatches()) {
-                //TODO: Implement alter all tables to match the schema in object.
+                if ($this->schemaMatches()) {
+                    return true; //schema already matches
+                } else {
+                    $output = true;
+
+                    //conform the existing tables
+                    foreach ($this->tables as $table) {
+                        $thisResult = $this->tableConform($table);
+                        if (!$thisResult) {
+                            $output = false;
+                        }
+                    }
+
+                    //conform the existing views
+                    foreach ($this->views as $view) {
+                        $thisResult = $this->viewConform($view);
+                        if (!$thisResult) {
+                            $output = false;
+                        }
+                    }
+
+                    //conform the existing triggers
+                    foreach ($this->triggers as $trigger) {
+                        $thisResult = $this->triggerConform($trigger);
+                        if (!$thisResult) {
+                            $output = false;
+                        }
+                    }
+
+                    return $output;
+                }
             } else {
                 return true; //schema already conforms.
             }
         } else {
-            throw new DatabaseException(
-                $this,
-                __CLASS__.'->'.__METHOD__.'(): Not bound to a Database object.',
-                DatabaseException::EXCEPTION_MISSING_CONNECTION
-            );
+            return false;
         }
 
     }
@@ -133,18 +162,18 @@ class SchemaModel implements SchemaInterface {
 
     public function tableConform ($table) {
 
-        if ($this->isBound()) {
+        if ($this->validateDatabaseObject()) {
             if (!$this->tableMatches($table)) {
-                //TODO: Implement alter table to match the schema in object.
+                if ($this->tableMatches($table)) {
+                    return true; //table already matches
+                } else {
+                    //TODO: Figure this out
+                }
             } else {
-                return true; //schema already conforms
+                return true; //table already conforms
             }
         } else {
-            throw new DatabaseException(
-                $this,
-                __CLASS__.'->'.__METHOD__.'(): Not bound to a Database object.',
-                DatabaseException::EXCEPTION_MISSING_CONNECTION
-            );
+            return false;
         }
 
     }
@@ -152,6 +181,83 @@ class SchemaModel implements SchemaInterface {
     public function tableMatches ($table) {
 
         //TODO: Implement check if schema for given table in object matches actual schema.
+
+    }
+
+    public function triggerConform ($trigger) {
+
+        if ($this->validateDatabaseObject()) {
+            if (!$this->tableMatches($trigger)) {
+                if ($this->triggerMatches($trigger)) {
+                    return true; //trigger already matches
+                } else {
+                    //TODO: Figure this out
+                }
+            } else {
+                return true; //trigger already conforms
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+    public function triggerMatches ($trigger) {
+
+        //TODO: Implement trigger conformity checker.
+
+    }
+
+    protected function validateDatabaseObject () {
+
+        if (isset($this->databaseValid) && $this->databaseValid != null) {
+            return $this->databaseValid;
+        } else {
+            if (!isset($this->database) || $this->database == null) {
+                if (is_object($this->database)) {
+                    if (is_subclass_of($this->database, 'Database')) {
+                        $this->databaseValid = true;
+                        return true;
+                    } else {
+                        throw new DatabaseException(
+                            $this,
+                            __CLASS__.'->'.__METHOD__.'(): Database connection must be an object descended of class Database.',
+                            DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                        );
+                        $this->databaseValid = false;
+                        return false;
+                    }
+                } else {
+                    throw new DatabaseException(
+                        $this,
+                        __CLASS__.'->'.__METHOD__.'(): Database connection must be an object descended of class Database.',
+                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    );
+                    $this->databaseValid = false;
+                    return false;
+                }
+            } else {
+                throw new DatabaseException(
+                    $this,
+                    __CLASS__.'->'.__METHOD__.'(): Not bount to a Database object.',
+                    DatabaseException::EXCEPTION_MISSING_CONNECTION
+                );
+                $this->databaseValid = false;
+                return false;
+            }
+        }
+
+    }
+
+    public function viewConform ($view) {
+
+        //TODO: Implement view conformity forcer.
+
+    }
+
+    public function viewMatches ($view) {
+
+        //TODO: Implement view conformity checker.
 
     }
 

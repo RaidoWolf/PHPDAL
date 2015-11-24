@@ -18,6 +18,10 @@ interface SchemaInterface {
     public function schemaMatches ();
     public function tableConform ($table);
     public function tableMatches ($table);
+    public function triggerConform ($trigger);
+    public function triggerMatches ($trigger);
+    public function viewConform ($view);
+    public function viewMatches ($view);
 
 }
 
