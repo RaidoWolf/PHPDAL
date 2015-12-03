@@ -1,6 +1,6 @@
 <?php
 
-class DatabaseException implements DatabaseExceptionInterface {
+class DatabaseException extends Exception implements DatabaseExceptionInterface {
 
     protected $caller;
     protected $caught;
@@ -95,7 +95,7 @@ class DatabaseException implements DatabaseExceptionInterface {
      *
      * @return array - Array of constants as constantName => constantValue
      */
-    final protected function getConstants () {
+    public function getConstants () {
 
         $refl = new ReflectionClass(__CLASS__);
         return $refl->getConstants();

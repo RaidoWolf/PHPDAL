@@ -17,34 +17,26 @@ interface DatabaseInterface {
 
     //protected $dbms //DBMS-specific configuration (use this to define DBMS grammar)
 
-    public function __construct ( //constructor
-        $name//,
-        //$user,
-        //$pass,
-        //$host,
-        //$port,
-        //$table
-    ); //only DBMS servers require last few variables, but implement them in order please
     public function __invoke (); //return true if the object is useable, false if not
     public function __toString (); //serialize the object
-    public function columnExists (); //check if column exists in table
-    public function createTable (); //create new table in database
-    public function createTrigger (); //create new trigger in database
-    public function createView (); //create new view in database
-    public function delete (); //delete rows from table
-    public function drop (); //drop table/trigger/view
-    public function exec ( //prepare and execute a statement
-        $query,
-        $args           = [],
-        $tables         = [],
-        $columns        = [],
-        $sets           = [],
-        $tablesets      = [],
-        $columnsets     = [],
-        $conditions     = [],
-        $action         = self::ACTION_NONE,
-        $actionargs     = []
-    );
+    public function columnExists ($column, $table = null); //check if column exists in table
+    //public function createTable (); //create new table in database
+    //public function createTrigger (); //create new trigger in database
+    //public function createView (); //create new view in database
+    //public function delete (); //delete rows from table
+    //public function drop (); //drop table/trigger/view
+    //public function exec ( //prepare and execute a statement
+    //    $query,
+    //    $args           = [],
+    //    $tables         = [],
+    //    $columns        = [],
+    //    $sets           = [],
+    //    $tablesets      = [],
+    //    $columnsets     = [],
+    //    $conditions     = [],
+    //    $action         = self::ACTION_NONE,
+    //    $actionargs     = []
+    //);
     public function getColumns ( //get an array of columns in table
         $table          = null
     );
@@ -55,15 +47,15 @@ interface DatabaseInterface {
         $in,
         $table          = null
     );
-    public function prepare ( //prepare a statement for execution
-        $query,
-        $tables         = [],
-        $columns        = [],
-        $sets           = [],
-        $tablesets      = [],
-        $columnsets     = [],
-        $conditions     = []
-    );
+    //public function prepare ( //prepare a statement for execution
+    //    $query,
+    //    $tables         = [],
+    //    $columns        = [],
+    //    $sets           = [],
+    //    $tablesets      = [],
+    //    $columnsets     = [],
+    //    $conditions     = []
+    //);
     public function select (
         $columns        = ['*'],
         $conditions     = null,
@@ -76,9 +68,9 @@ interface DatabaseInterface {
     public function tableExists ( //check if the table exists
         $table
     );
-    public function update ( //update rows in the table
-        $array
-    );
+    //public function update ( //update rows in the table
+    //    $array
+    //);
 
 }
 

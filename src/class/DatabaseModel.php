@@ -1,6 +1,6 @@
 <?php
 
-class DatabaseModel implements DatabaseInterface {
+class DatabaseModel implements CustomDatabaseInterface {
 
     // -- PROPERTIES/MEMBERS -- //
 

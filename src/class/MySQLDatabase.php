@@ -1,6 +1,6 @@
 <?php
 
-class MySQLDatabase extends DatabaseModel implements DatabaseInterface {
+class MySQLDatabase extends DatabaseModel implements CustomDatabaseInterface {
 
     //TODO:
     //Actually implement the Grammar Table.

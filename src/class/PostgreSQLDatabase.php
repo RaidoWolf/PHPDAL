@@ -1,6 +1,6 @@
 <?php
 
-class PostgreSQLDatabase extends DatabaseModel implements DatabaseInterface {
+class PostgreSQLDatabase extends DatabaseModel implements CustomDatabaseInterface {
 
     //TODO:
     //Actually implement the Grammar Table.

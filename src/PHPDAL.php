@@ -28,13 +28,15 @@
  * @author Alexander Barber
  */
 
+require_once __DIR__.'/class/DatabaseInterface.php';            //Database Class Interface
 require_once __DIR__.'/class/CrossDatabaseInterface.php';       //Cross-DBMS Interface
+require_once __DIR__.'/class/CustomDatabaseInterface.php';      //DBMS Database Interface
+require_once __DIR__.'/class/DatabaseModel.php';                //DBMS Database Model
 require_once __DIR__.'/class/Database.php';                     //Cross-DBMS Class
 require_once __DIR__.'/class/DatabaseConditionInterface.php';   //Database Condition Interface
 require_once __DIR__.'/class/DatabaseConditionModel.php';       //Database Condition Model
-require_once __DIR__.'/class/DatabaseException.php';            //Cross-DBMS Exception (and Database Exception Model)
 require_once __DIR__.'/class/DatabaseExceptionInterface.php';   //Database Exception Interface
-require_once __DIR__.'/class/DatabaseInterface.php';            //Database Class Interface
+require_once __DIR__.'/class/DatabaseException.php';            //Cross-DBMS Exception (and Database Exception Model)
 require_once __DIR__.'/class/DatabaseState.php';                //Database State/Schema/Structure Manager Class
 require_once __DIR__.'/class/DatabaseStatement.php';            //Database Prepared Statements Class
 require_once __DIR__.'/class/DatabaseUtils.php';                //Database Utilities (static)

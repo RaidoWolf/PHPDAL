@@ -1,6 +1,6 @@
 <?php
 
-class SQLiteDatabase implements DatabaseInterface {
+class SQLiteDatabase extends DatabaseModel implements CustomDatabaseInterface {
 
     //TODO:
     //Actually implement the Grammar Table.
