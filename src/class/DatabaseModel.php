@@ -89,7 +89,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 //database name is not a string
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered database name argument of invalid type.',
+                    __METHOD__.'(): encountered database name argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             } else {
@@ -99,7 +99,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             //database name is not set
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'(): missing required database name argument.',
+                __METHOD__.'(): missing required database name argument.',
                 DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
             );
         }
@@ -117,7 +117,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 //username is not a string
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered username argument of invalid type.',
+                    __METHOD__.'(): encountered username argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             } else {
@@ -138,7 +138,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 //password is not a string
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered password argument of invalid type.',
+                    __METHOD__.'(): encountered password argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             } else {
@@ -163,7 +163,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                     //hostname has invalid syntax
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): encountered invalid given hostname (do not include URI scheme, port numbers, or paths!).',
+                        __METHOD__.'(): encountered invalid given hostname (do not include URI scheme, port numbers, or paths!).',
                         DatabaseException::EXCEPTION_INPUT_NOT_VALID
                     );
                 } else {
@@ -196,7 +196,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                     if (0 > $port || $port > 65535) {
                         throw new DatabaseException(
                             $this,
-                            __CLASS__.'->'.__METHOD__.'(): encountered port number argument outside of legal bounds.',
+                            __METHOD__.'(): encountered port number argument outside of legal bounds.',
                             DatabaseException::EXCEPTION_INPUT_NOT_VALID
                         );
                     } else {
@@ -205,7 +205,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 } else {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): encountered port number argument of invalid type.',
+                        __METHOD__.'(): encountered port number argument of invalid type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
@@ -233,7 +233,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 //table is not a string
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered table argument of invalid type.',
+                    __METHOD__.'(): encountered table argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
@@ -256,7 +256,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 } else {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): missing required argument "'.$arg['value'].'" to build DSN.',
+                        __METHOD__.'(): missing required argument "'.$arg['value'].'" to build DSN.',
                         DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
                     );
                     continue; //skip iteration (in case exception is caught)
@@ -280,7 +280,7 @@ class DatabaseModel implements CustomDatabaseInterface {
         } catch (PDOException $e) {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'(): caught exception when opening the database connection',
+                __METHOD__.'(): caught exception when opening the database connection',
                 DatabaseException::EXCEPTION_GENERIC_DATABASE_ERROR,
                 $e
             );
@@ -314,7 +314,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): missing required table definition or argument.',
+                    __METHOD__.'(): missing required table definition or argument.',
                     DatabaseException::EXCEPTION_MISSING_DEFINITION
                 );
             }
@@ -322,7 +322,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             if (!$this->tableExists($table)) {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): table provided in argument does not exist.',
+                    __METHOD__.'(): table provided in argument does not exist.',
                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                 );
                 //just in case someone decides to be all dangerous and catch that exception.
@@ -376,7 +376,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): Action given no variables.',
+                    __METHOD__.'(): Action given no variables.',
                     DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
                 );
             }
@@ -386,7 +386,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): Action given no ID.',
+                    __METHOD__.'(): Action given no ID.',
                     DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
                 );
             }
@@ -435,7 +435,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             default:
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): Unknown action id called.',
+                    __METHOD__.'(): Unknown action id called.',
                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                 );
                 break;
@@ -547,7 +547,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                     } else {
                         throw new DatabaseException(
                             $this,
-                            __CLASS__.'->'.__METHOD__.'(): table "'.$table.'" does not exist.',
+                            __METHOD__.'(): table "'.$table.'" does not exist.',
                             DatabaseException::EXCEPTION_INPUT_NOT_VALID
                         );
                         $stmt = DatabaseUtils::replaceOnce(self::PARAM_TABLE, '', $stmt); //delete this placeholder (in case exception is caught)
@@ -564,7 +564,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                         if (!in_array($this->table, $validTables)) {
                             throw new DatabaseException(
                                 $this,
-                                __CLASS__.'->'.__METHOD__.'(): default table "'.$this->table.'" does not exist.',
+                                __METHOD__.'(): default table "'.$this->table.'" does not exist.',
                                 DatabaseException::EXCEPTION_CORRUPTED_OBJECT
                             );
                         }
@@ -581,7 +581,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                         } else {
                             throw new DatabaseException(
                                 $this,
-                                __CLASS__.'->'.__METHOD__.'(): no table defined.',
+                                __METHOD__.'(): no table defined.',
                                 DatabaseException::EXCEPTION_MISSING_DEFINITION
                             );
                             continue; //skip this iteration (in case exception was caught)
@@ -597,14 +597,14 @@ class DatabaseModel implements CustomDatabaseInterface {
                             } else {
                                 throw new DatabaseException(
                                     $this,
-                                    __CLASS__.'->'.__METHOD__.'(): column "'.$column['column'].'" does not exist in table "'.$column['table'].'".',
+                                    __METHOD__.'(): column "'.$column['column'].'" does not exist in table "'.$column['table'].'".',
                                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                 );
                             }
                         } else {
                             throw new DatabaseException(
                                 $this,
-                                __CLASS__.'->'.__METHOD__.'(): encountered invalid [\'table\',\'column\'] array structure.',
+                                __METHOD__.'(): encountered invalid [\'table\',\'column\'] array structure.',
                                 DatabaseException::EXCEPTION_INPUT_NOT_VALID
                             );
                             $stmt = DatabaseUtils::replaceOnce(self::PARAM_COLUMN, '', $stmt); //delete this placeholder (in case exception is caught)
@@ -613,7 +613,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                     } else {
                         throw new DatabaseException(
                             $this,
-                            __CLASS__.'->'.__METHOD__.'(): encountered column parameter of invalid type.',
+                            __METHOD__.'(): encountered column parameter of invalid type.',
                             DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                         );
                     }
@@ -642,7 +642,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                     } else {
                         throw new DatabaseException(
                             $this,
-                            __CLASS__.'->'.__METHOD__.'(): table "'.$table.'" does not exist.',
+                            __METHOD__.'(): table "'.$table.'" does not exist.',
                             DatabaseException::EXCEPTION_INPUT_NOT_VALID
                         );
                         $stmt = DatabaseUtils::replaceOnce(self::PARAM_TABLE, '', $stmt); //delete this placeholder (in case exception is caught)
@@ -658,7 +658,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                         if (!in_array($this->table, $validTables)) {
                             throw new DatabaseException(
                                 $this,
-                                __CLASS__.'->'.__METHOD__.'(): default table "'.$this->table.'" does not exist.',
+                                __METHOD__.'(): default table "'.$this->table.'" does not exist.',
                                 DatabaseException::EXCEPTION_CORRUPTED_OBJECT
                             );
                         }
@@ -675,7 +675,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                         } else {
                             throw new DatabaseException(
                                 $this,
-                                __CLASS__.'->'.__METHOD__.'(): no table defined.',
+                                __METHOD__.'(): no table defined.',
                                 DatabaseException::EXCEPTION_MISSING_DEFINITION
                             );
                             continue; //skip this iteration (in case exception was caught)
@@ -691,7 +691,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                             } else {
                                 throw new DatabaseException(
                                     $this,
-                                    __CLASS__.'->'.__METHOD__.'(): column "'.$column['column'].'" does not exist in table "'.$column['table'].'".',
+                                    __METHOD__.'(): column "'.$column['column'].'" does not exist in table "'.$column['table'].'".',
                                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                                 );
                                 continue; //skip this iteration (if exception is caught)
@@ -699,7 +699,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                         } else {
                             throw new DatabaseException(
                                 $this,
-                                __CLASS__.'->'.__METHOD__.'(): encountered invalid [\'table\',\'column\'] array structure.',
+                                __METHOD__.'(): encountered invalid [\'table\',\'column\'] array structure.',
                                 DatabaseException::EXCEPTION_INPUT_NOT_VALID
                             );
                             $stmt = DatabaseUtils::replaceOnce(self::PARAM_COLUMN, '', $stmt); //delete this placeholder (in case exception is caught)
@@ -708,7 +708,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                     } else {
                         throw new DatabaseException(
                             $this,
-                            __CLASS__.'->'.__METHOD__.'(): encountered column parameter of invalid type.',
+                            __METHOD__.'(): encountered column parameter of invalid type.',
                             DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                         );
                         continue; //skip this iteration (if exception is caught)
@@ -726,7 +726,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                         } else {
                             throw new DatabaseException(
                                 $this,
-                                __CLASS__.'->'.__METHOD__.'(): encountered condition parameter not descended from DatabaseConditionModel.',
+                                __METHOD__.'(): encountered condition parameter not descended from DatabaseConditionModel.',
                                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                             );
                             $stmt = DatabaseUtils::replaceOnce(self::PARAM_CONDITION, '', $stmt);
@@ -735,7 +735,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                     } else {
                         throw new DatabaseException(
                             $this,
-                            __CLASS__.'->'.__METHOD__.'(): encountered condition parameter of invalid type.',
+                            __METHOD__.'(): encountered condition parameter of invalid type.',
                             DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                         );
                     }
@@ -746,7 +746,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if (!is_string($stmt)) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): encountered statement of non-string type.',
+                        __METHOD__.'(): encountered statement of non-string type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
@@ -754,7 +754,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if (!is_array($tables)) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): encountered table array of non-array type.',
+                        __METHOD__.'(): encountered table array of non-array type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
@@ -762,7 +762,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if (!is_array($columns)) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): encountered column array of non-array type.',
+                        __METHOD__.'(): encountered column array of non-array type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
@@ -770,7 +770,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if (!is_array($sets)) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): encountered set array of non-array type.',
+                        __METHOD__.'(): encountered set array of non-array type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
@@ -778,7 +778,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if (!is_array($tablesets)) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): encountered table-set array of non-array type.',
+                        __METHOD__.'(): encountered table-set array of non-array type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
@@ -786,7 +786,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if (!is_array($columnsets)) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): encountered column-set array of non-array type.',
+                        __METHOD__.'(): encountered column-set array of non-array type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
@@ -794,7 +794,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if (!is_string($table) && $table != null) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): encountered table argument of invalid type.',
+                        __METHOD__.'(): encountered table argument of invalid type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
@@ -802,7 +802,7 @@ class DatabaseModel implements CustomDatabaseInterface {
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'(): missing required statement string argument.',
+                __METHOD__.'(): missing required statement string argument.',
                 DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
             );
         }
@@ -826,7 +826,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): missing table setting and/or table argument.',
+                    __METHOD__.'(): missing table setting and/or table argument.',
                     DatabaseException::EXCEPTION_MISSING_DEFINITION
                 );
             }
@@ -870,7 +870,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered parameter without value key.',
+                    __METHOD__.'(): encountered parameter without value key.',
                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                 );
                 continue; //skip this iteration (in case that exception was caught)
@@ -890,7 +890,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): Action given no variables.',
+                    __METHOD__.'(): Action given no variables.',
                     DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
                 );
             }
@@ -900,7 +900,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): Action given no ID.',
+                    __METHOD__.'(): Action given no ID.',
                     DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
                 );
             }
@@ -960,7 +960,7 @@ class DatabaseModel implements CustomDatabaseInterface {
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'(): invalid database type in object.',
+                __METHOD__.'(): invalid database type in object.',
                 DatabaseException::EXCEPTION_CORRUPTED_OBJECT
             );
         }
@@ -1003,14 +1003,14 @@ class DatabaseModel implements CustomDatabaseInterface {
             if ($typeof_table != 'string') {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered table argument of invalid type.',
+                    __METHOD__.'(): encountered table argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             } else {
                 if (!$this->tableExists($table)) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): table "'.$table.'" does not exist.',
+                        __METHOD__.'(): table "'.$table.'" does not exist.',
                         DatabaseException::EXCEPTION_INPUT_NOT_VALID
                     );
                 }
@@ -1059,7 +1059,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): invalid database type in object.',
+                    __METHOD__.'(): invalid database type in object.',
                     DatabaseException::EXCEPTION_CORRUPTED_OBJECT
                 );
             }
@@ -1083,7 +1083,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 } catch (PDOException $e) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): caught exception thrown by PDO.',
+                        __METHOD__.'(): caught exception thrown by PDO.',
                         DatabaseException::EXCEPTION_GENERIC_DATABASE_ERROR,
                         $e
                     );
@@ -1104,7 +1104,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                     } catch (PDOException $e) {
                         throw new DatabaseException(
                             $this,
-                            __CLASS__.'->'.__METHOD__.'(): caught exception thrown by PDO.',
+                            __METHOD__.'(): caught exception thrown by PDO.',
                             DatabaseException::EXCEPTION_GENERIC_DATABASE_ERROR,
                             $e
                         );
@@ -1113,14 +1113,14 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered array of excessive depth. Max depth = 2.',
+                    __METHOD__.'(): encountered array of excessive depth. Max depth = 2.',
                     DatabaseException::EXCEPTION_INPUT_ARRAY_TOO_DEEP
                 );
             }
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'(): encountered input of invalid type. Must be an array.',
+                __METHOD__.'(): encountered input of invalid type. Must be an array.',
                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
             );
         }
@@ -1201,14 +1201,14 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): given argument was not of type string.',
+                    __METHOD__.'(): given argument was not of type string.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'(): missing required argument.',
+                __METHOD__.'(): missing required argument.',
                 DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
             );
         }
@@ -1238,14 +1238,14 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): given argument was not of type string.',
+                    __METHOD__.'(): given argument was not of type string.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'(): missing required argument.',
+                __METHOD__.'(): missing required argument.',
                 DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
             );
         }
@@ -1289,7 +1289,7 @@ class DatabaseModel implements CustomDatabaseInterface {
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'(): encountered columns argument of invalid type',
+                __METHOD__.'(): encountered columns argument of invalid type',
                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
             );
         }
@@ -1304,7 +1304,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 } else {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): object not of class DatabaseCondtion provdided for conditions argument.',
+                        __METHOD__.'(): object not of class DatabaseCondtion provdided for conditions argument.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
@@ -1314,7 +1314,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if (!$conditions = json_decode($conditions, true)) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): string provided for conditions argument failed to be parsed as JSON.',
+                        __METHOD__.'(): string provided for conditions argument failed to be parsed as JSON.',
                         DatabaseException::EXCEPTION_INPUT_NOT_VALID
                     );
                 }
@@ -1322,7 +1322,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered conditions argument of invalid type.',
+                    __METHOD__.'(): encountered conditions argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
@@ -1336,14 +1336,14 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if ($start < 0) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): negative number given for start index argument.',
+                        __METHOD__.'(): negative number given for start index argument.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered start index argument of invalid type.',
+                    __METHOD__.'(): encountered start index argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
@@ -1357,7 +1357,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if ($count < 0) {
                     throw new DatabaseException(
                             $this,
-                            __CLASS__.'->'.__METHOD__.'(): negative number given for count argument.',
+                            __METHOD__.'(): negative number given for count argument.',
                             DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                 }
@@ -1391,7 +1391,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             ) {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): invalid sort direction provided.',
+                    __METHOD__.'(): invalid sort direction provided.',
                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                 );
             }
@@ -1409,14 +1409,14 @@ class DatabaseModel implements CustomDatabaseInterface {
                     //table given in argument doesn't exist
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): table "'.$table.'" does not exist.',
+                        __METHOD__.'(): table "'.$table.'" does not exist.',
                         DatabaseException::EXCEPTION_INPUT_NOT_VALID
                     );
                 }
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered table argument of invalid type.',
+                    __METHOD__.'(): encountered table argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
@@ -1427,7 +1427,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): missing default table and/or table argument.',
+                    __METHOD__.'(): missing default table and/or table argument.',
                     DatabaseException::EXCEPTION_MISSING_DEFINITION
                 );
             }
@@ -1440,14 +1440,14 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if (!in_array($sortBy, $this->getColumns($table))) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): sort column "'.$sortBy.'" does not exist.',
+                        __METHOD__.'(): sort column "'.$sortBy.'" does not exist.',
                         DatabaseException::EXCEPTION_INPUT_NOT_VALID
                     );
                 }
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): encountered sort-by argument of invalid type.',
+                    __METHOD__.'(): encountered sort-by argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
@@ -1466,7 +1466,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 if (!$this->columnExists($columns[$i])) {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): column "'.$columns[$i].'" does not exist.',
+                        __METHOD__.'(): column "'.$columns[$i].'" does not exist.',
                         DatabaseException::EXCEPTION_DB_ITEM_DOES_NOT_EXIST
                     );
                     unset($columns[$i]);
@@ -1493,7 +1493,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): invalid keyword caught (check columns argument).',
+                    __METHOD__.'(): invalid keyword caught (check columns argument).',
                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                 );
             }
@@ -1523,7 +1523,7 @@ class DatabaseModel implements CustomDatabaseInterface {
         } catch (PDOException $e) {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'(): caught exception thrown by PDO.',
+                __METHOD__.'(): caught exception thrown by PDO.',
                 DatabaseException::EXCEPTION_GENERIC_DATABASE_ERROR,
                 $e
             );
@@ -1591,7 +1591,7 @@ class DatabaseModel implements CustomDatabaseInterface {
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'(): invalid database type in object.',
+                __METHOD__.'(): invalid database type in object.',
                 DatabaseException::EXCEPTION_CORRUPTED_OBJECT
             );
         }

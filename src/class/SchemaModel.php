@@ -68,7 +68,7 @@ class SchemaModel implements SchemaInterface {
         } else {
             throw new DatabaseException(
                 $this,
-                __CLASS__.'->'.__METHOD__.'(): Not bound to a Database object.'
+                __METHOD__.'(): Not bound to a Database object.'
             );
         }
 
@@ -221,7 +221,7 @@ class SchemaModel implements SchemaInterface {
                     } else {
                         throw new DatabaseException(
                             $this,
-                            __CLASS__.'->'.__METHOD__.'(): Database connection must be an object descended of class Database.',
+                            __METHOD__.'(): Database connection must be an object descended of class Database.',
                             DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                         );
                         $this->databaseValid = false;
@@ -230,7 +230,7 @@ class SchemaModel implements SchemaInterface {
                 } else {
                     throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.__METHOD__.'(): Database connection must be an object descended of class Database.',
+                        __METHOD__.'(): Database connection must be an object descended of class Database.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                     );
                     $this->databaseValid = false;
@@ -239,7 +239,7 @@ class SchemaModel implements SchemaInterface {
             } else {
                 throw new DatabaseException(
                     $this,
-                    __CLASS__.'->'.__METHOD__.'(): Not bount to a Database object.',
+                    __METHOD__.'(): Not bount to a Database object.',
                     DatabaseException::EXCEPTION_MISSING_CONNECTION
                 );
                 $this->databaseValid = false;
