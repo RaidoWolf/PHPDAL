@@ -51,7 +51,7 @@ class DatabaseUtils {
         if (!isset($array) || !isset($path)) {
             throw new DatabaseException(
                 __CLASS__,
-                __CLASS__.'::'.__METHOD__.'() failed: missing required argument(s).',
+                __METHOD__.'() failed: missing required argument(s).',
                 DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
             );
             return null; //in case that exception was caught
@@ -64,7 +64,7 @@ class DatabaseUtils {
             } else { //next path segment doesn't exist...
                 throw new DatabaseException(
                     __CLASS__,
-                    __CLASS__.'::'.__METHOD__.'() failed: unable to follow given path, as the path was not found.',
+                    __METHOD__.'() failed: unable to follow given path, as the path was not found.',
                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                 );
                 return null; //in case that exception was caught

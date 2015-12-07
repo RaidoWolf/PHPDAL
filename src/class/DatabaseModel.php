@@ -1364,8 +1364,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             } else {
                 throw new DatabaseException(
                         $this,
-                        __CLASS__.'->'.
-                        s__METHOD__.'(): encountered count argument of invalid type.',
+                        __METHOD__.'(): encountered count argument of invalid type.',
                         DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
