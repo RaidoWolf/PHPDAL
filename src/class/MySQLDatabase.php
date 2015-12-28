@@ -53,7 +53,7 @@ class MySQLDatabase extends DatabaseModel implements CustomDatabaseInterface {
             ],
 
             'getColumns' => [
-                'stmt' => 'SELECT column_name FROM information_schema.column WHERE table_schema = ? AND table_name = ?;',
+                'stmt' => 'SELECT column_name FROM information_schema.columns WHERE table_schema = ? AND table_name = ?;',
                 'args' => [
                     [ 'value' => 'database',    'type' => self::TYPE_STR ],
                     [ 'value' => 'table',       'type' => self::TYPE_STR ]

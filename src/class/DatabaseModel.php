@@ -6,7 +6,9 @@ class DatabaseModel implements CustomDatabaseInterface {
 
     protected $config = [];
     protected $connector;
-    protected $dbms = [];
+    protected $dbms = [
+        //Everything in here should be replaced by DBMS-specific classes, so nothing is defined
+    ];
     protected $encoding;
     protected $host;
     protected $info;
@@ -173,10 +175,12 @@ class DatabaseModel implements CustomDatabaseInterface {
                 //hostname is not a string
                 throw new DatabaseException(
                     $this,
-                    __CLASS_.'->'.__METHOD__.'(): encountered hostname argument of invalid type.',
+                    __METHOD__.'(): encountered hostname argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
             }
+        } else {
+            $data['host'] = $host; //add default hostname to data array
         }
 
         /*
@@ -213,9 +217,9 @@ class DatabaseModel implements CustomDatabaseInterface {
         } else {
             //port is not set
             $port = isset($this->dbms['config']['defaultPort']) ?
-                    $this->dbms['config']['defaultPort'] :
-                    null; //get default port
-            $data['port'] = $port; //add validated password to data array
+                $this->dbms['config']['defaultPort'] : //get default port
+                null; //no port available
+            $data['port'] = $port; //add validated port number to data array
         }
 
         /*
@@ -236,7 +240,11 @@ class DatabaseModel implements CustomDatabaseInterface {
                     __METHOD__.'(): encountered table argument of invalid type.',
                     DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                 );
+            } else {
+                $data['table'] = $table;
             }
+        } else {
+            $data['table'] = $table;
         }
 
         //Set class properties/members
@@ -253,10 +261,9 @@ class DatabaseModel implements CustomDatabaseInterface {
         foreach ($this->dbms['dsn']['args'] as $arg) { //loop over each argument
             if ($arg['required']) { //check if argument is required
                 if (!isset($data[$arg['value']]) || $data[$arg['value']] == null) { //check if required argument is missing
-                } else {
                     throw new DatabaseException(
                         $this,
-                        __METHOD__.'(): missing required argument "'.$arg['value'].'" to build DSN.',
+                        __METHOD__.'(): missing required argument "'.$arg['value'].'" to build DSN.'.json_encode($data),
                         DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
                     );
                     continue; //skip iteration (in case exception is caught)
@@ -807,6 +814,8 @@ class DatabaseModel implements CustomDatabaseInterface {
             );
         }
 
+        return $stmt;
+
     }
 
     /**
@@ -837,26 +846,27 @@ class DatabaseModel implements CustomDatabaseInterface {
         $query = $this->dbms['sql']['getColumns']['stmt'];
         $query = $this->genStmt(
             $query,
-            isset($this->dbms['sql']['getColumns']['tables']) ?     //if tables array given...
+            (isset($this->dbms['sql']['getColumns']['tables']) ?     //if tables array given...
                 $this->dbms['sql']['getColumns']['tables'] :        //use it...
-                [],                                                 //otherwise use empty array.
-            isset($this->dbms['sql']['getColumns']['columns']) ?        //if columns array given...
+                []),                                                 //otherwise use empty array.
+            (isset($this->dbms['sql']['getColumns']['columns']) ?        //if columns array given...
                 $this->dbms['sql']['getColumns']['columns'] :
-                [],
-            isset($this->dbms['sql']['getColumns']['sets']) ?           //if sets array given...
+                []),
+            (isset($this->dbms['sql']['getColumns']['sets']) ?           //if sets array given...
                 $this->dbms['sql']['getColumns']['sets'] :
-                [],
-            isset($this->dbms['sql']['getColumns']['tableSets']) ?      //if table sets array given...
+                []),
+            (isset($this->dbms['sql']['getColumns']['tableSets']) ?      //if table sets array given...
                 $this->dbms['sql']['getColumns']['tableSets'] :
-                [],
-            isset($this->dbms['sql']['getColumns']['columnSets']) ?     //if column sets array given...
+                []),
+            (isset($this->dbms['sql']['getColumns']['columnSets']) ?     //if column sets array given...
                 $this->dbms['sql']['getColumns']['columnSets'] :
-                [],
-            isset($this->dbms['sql']['getColumns']['conditions']) ?     //if conditions array given...
+                []),
+            (isset($this->dbms['sql']['getColumns']['conditions']) ?     //if conditions array given...
                 $this->dbms['sql']['getColumns']['conditions'] :
-                [],
+                []),
             $table
         );
+        error_log($query);
         $stmt = $this->connector->prepare($query);
         $i = 1;
         foreach ($this->dbms['sql']['getColumns']['args'] as $arg) {
@@ -942,28 +952,11 @@ class DatabaseModel implements CustomDatabaseInterface {
      */
     public function getTables () {
 
-        if ($this->type == self::TYPE_MYSQL) {
-            $query = 'SELECT * FROM information_schema.tables;';
-            $stmt = $this->connector->prepare($query);
-            $stmt->execute();
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } elseif ($this->type == self::TYPE_PGSQL) {
-            $query = 'SELECT * FROM information_schema.tables;';
-            $stmt = $this->connector->prepare($query);
-            $stmt->execute();
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } elseif ($this->type == self::TYPE_SQLITE) {
-            $query = 'SELECT name FROM sqlite_master WHERE type=\'table\';';
-            $stmt = $this->connector->prepare($query);
-            $stmt->execute();
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            throw new DatabaseException(
-                $this,
-                __METHOD__.'(): invalid database type in object.',
-                DatabaseException::EXCEPTION_CORRUPTED_OBJECT
-            );
-        }
+        $stmt = $this->connector->prepare(
+            $this->dbms['sql']['getTables']['stmt']
+        );
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $results;
 
@@ -1327,7 +1320,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 );
             }
         } else {
-            $conditions = new DatabaseCondition([]); //default to no conditions
+            $conditions = new $this->dbms['classes']['condition']([]); //default to no conditions
         }
 
         //$start validation
@@ -1544,6 +1537,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      */
     public function tableExists ($table) {
 
+        //TODO: Decentralize the DBMS-specific implementations of tableExists
         if ($this->type == self::TYPE_MYSQL) {
             $query = 'SHOW TABLES LIKE ?;';
             $stmt = $this->connector->prepare($query);
