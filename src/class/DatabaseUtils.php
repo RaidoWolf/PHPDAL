@@ -3,14 +3,14 @@
 class DatabaseUtils {
 
     /**
-     * DatabaseUtils::arrayDepth() Static Method
+     * DatabaseUtils::arrayMaxDepth() Static Method
      *
      * calculates depth of an array (how many nested arrays need/can be traversed)
      *
      * @param array $array - Array on which to calculate depth
      * @return integer - Maximum depth of the array
      */
-    public static function arrayDepth (array $array) {
+    public static function arrayMaxDepth (array $array) {
 
         //starting maximum depth is 1
         $maxDepth = 1;
@@ -18,7 +18,8 @@ class DatabaseUtils {
         //detect depth with recursive iteration
         foreach ($array as $value) { //loop each element at this level of the array
             if (is_array($value)) { //for each element that is an array...
-                $depth = self::arrayDepth($value) + 1; //recurse this array (call self) and add 1 to its output
+                //TODO: Implement stack-depth limiting right here.
+                $depth = self::arrayMaxDepth($value) + 1; //recurse this array (call self) and add 1 to its output
                 if ($depth > $maxDepth) { //if deeper than previously encountered
                     $maxDepth = $depth; //set maximum depth to current depth
                 }
@@ -27,6 +28,35 @@ class DatabaseUtils {
 
         //return calculated maximum depth
         return $maxDepth;
+
+    }
+
+    /**
+     * DatabaseUtils::arrayMinDepth() Static Method
+     *
+     * calculates the minimum depth of nested arrays in an array
+     *
+     * @param array $array - Array on which to calculate depth
+     * @return integer - Minimum depth of the array
+     */
+    public static function arrayMinDepth (array $array) {
+
+        //starting minimum depth is 1
+        $maxDepth = 1;
+
+        //map depth with recursive iteration and store it in a depth map
+        $depthMap = [];
+        foreach ($array as $value) {
+            if (is_array($value)) {
+                //TODO: Implement stack-depth limiting right here.
+                $depthMap[] = self::arrayMinDepth($value) + 1;
+            } else {
+                $depthMap[] = 1;
+            }
+        }
+
+        //return the minimum in the depth map (the minimum depth of the array)
+        return min($depthMap);
 
     }
 

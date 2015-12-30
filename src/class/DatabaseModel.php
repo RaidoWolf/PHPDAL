@@ -161,7 +161,7 @@ class DatabaseModel implements CustomDatabaseInterface {
             //hostname is set
             if (gettype($host) == 'string') {
                 //hostname is a string
-                if (!DatabaseTools::isValidHost($host)) {
+                if (!DatabaseUtils::isValidHost($host)) {
                     //hostname has invalid syntax
                     throw new DatabaseException(
                         $this,
@@ -1015,53 +1015,27 @@ class DatabaseModel implements CustomDatabaseInterface {
         if ($typeof_in == 'array') {
             //input is an array
 
+            $sql = $this->dbms['sql']['insert'];
+
+            //TODO: Generate data array so we can dynamically process input data.
+
             //generate the statement
-            if ($this->type == self::TYPE_MYSQL) {
-                //MySQL version
-                $qmArray = array();
-                for ($i; $i < count($in); $i++) {
-                    $qmArray[] = '?';
-                }
-                $query  = 'INSERT INTO ? (';
-                $query .= implode(',', $qmArray);
-                $query .= ') VALUES (';
-                $query .= implode(',', $qmArray);
-                $query .= ');';
-            } elseif ($this->type == self::TYPE_PGSQL) {
-                //PostgreSQL version
-                $qmArray = array();
-                for ($i; $i < count($in); $i++) {
-                    $qmArray[] = '?';
-                }
-                $query  = 'INSERT INTO ? (';
-                $query .= implode(',', $qmArray);
-                $query .= ') VALUES (';
-                $query .= implode(',', $qmArray);
-                $query .= ');';
-            } elseif ($this->type == self::TYPE_SQLITE) {
-                //SQLite3 version
-                $qmArray = array();
-                for ($i; $i < count($in); $i++) {
-                    $qmArray[] = '?';
-                }
-                $query  = 'INSERT INTO ? (';
-                $query .= implode(',', $qmArray);
-                $query .= ') VALUES (';
-                $query .= implode(',', $qmArray);
-                $query .= ');';
-            } else {
-                throw new DatabaseException(
-                    $this,
-                    __METHOD__.'(): invalid database type in object.',
-                    DatabaseException::EXCEPTION_CORRUPTED_OBJECT
-                );
-            }
+            $query = self::genStmt(
+                $this->dbms['sql']['insert']['stmt'],
+                ( isset($sql['tables'])     ? $data[$sql['tables']['value']]    : null ),
+                ( isset($sql['columns'])    ? $data[$sql['columns']['value']]   : null ),
+                ( isset($sql['sets'])       ? $data[$sql['sets']['value']]      : null ),
+                ( isset($sql['tablesets'])  ? $data[$sql['tablesets']['value']] : null ),
+                ( isset($sql['columnsets']) ? $data[$sql['columnsets']['value']]: null ),
+                ( isset($sql['conditions']) ? $data[$sql['conditions']['value']]: null ),
+                $table
+            );
 
             //prepare the statement
             $statement = $this->connector->prepare($query);
 
             //execute the statement
-            $depth = DatabaseTools::arrayDepth($in);
+            $depth = DatabaseUtils::arrayMaxDepth($in);
             if ($depth == 1) {
                 //array depth 1 - single row insert
                 $executionArray = array($table);
