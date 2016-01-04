@@ -2,8 +2,7 @@
 
 class PostgreSQLDatabase extends DatabaseModel implements CustomDatabaseInterface {
 
-    //TODO:
-    //Actually implement the Grammar Table.
+    const UPPER_LIMIT = 18446744073709551615;
 
     protected $dbms = [
 
@@ -50,6 +49,15 @@ class PostgreSQLDatabase extends DatabaseModel implements CustomDatabaseInterfac
                     [ 'value' => 'table',       'type' => self::TYPE_STR ],
                     [ 'value' => 'column',      'type' => self::TYPE_STR ]
                 ]
+            ],
+
+            'delete' => [
+                'stmt' => 'DELETE FROM ${table} WHERE ${condition} LIMIT ?, ?;',
+                'args' => [
+                    [ 'value' => 'start',       'type' => self::TYPE_INT ],
+                    [ 'value' => 'limit',       'type' => self::TYPE_INT ]
+                ],
+                'tables' => [ 'table' ]
             ],
 
             'getColumns' => [

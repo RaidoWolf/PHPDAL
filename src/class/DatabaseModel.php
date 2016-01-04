@@ -18,7 +18,7 @@ class DatabaseModel implements CustomDatabaseInterface {
     protected $stmtTable = [];
     protected $table;
 
-    // -- CONSTANTS/FLAGS -- //
+    // -- CONSTANTS/FLAGS/ENUMS -- //
 
     //Actions
     const ACTION_NONE           = 0;    //do nothing.
@@ -57,6 +57,10 @@ class DatabaseModel implements CustomDatabaseInterface {
     const TYPE_OUTPUT           = PDO::PARAM_INPUT_OUTPUT;  //INOUT parameter for stored procedure (must be bitwise-OR'd with another data type)
     const TYPE_STMT             = PDO::PARAM_STMT;          //recordset type (not supported at the moment)
     const TYPE_STR              = PDO::PARAM_STR;           //string data type
+
+    //Random Informational Constants
+    const DEFAULT_OFFSET        = 0;                    //This is the default offset value. This should always be 0, but in case that's not true, it's a constant.
+    const UPPER_LIMIT           = 18446744073709551615; //This is 2^64-1, the maximum 64-bit unsigned integer. This is the most common upper limit for DBMS, but it could be different.
 
     /**
      * Constructor Method
@@ -409,6 +413,24 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
+     * DatabaseModel->delete() Method
+     *
+     * Deletes rows matching given condition array
+     *
+     * @param  array  $condition (required) - conditioon array passed to DBMS condition object
+     * @param  int    $start     (optional) - offset at which to start deleting
+     * @param  int    $limit     (optional) - limit number of rows to affect
+     * @param  string $table     (optional) - name of table, not needed if table is predefined
+     * @return bool              returns true on success, false on failure
+     * @throws DatabaseException if someone dun goofed
+     */
+    public function delete ($condition, $start = null, $limit = null, $table = null) {
+
+        //TODO: Implement 'delete' functionality
+
+    }
+
+    /**
      * DatabaseModel->doAction() Protected Method
      *
      * Perform a predefined callback-style action on a given data set. If you
@@ -486,17 +508,105 @@ class DatabaseModel implements CustomDatabaseInterface {
         $actionargs = []
     ) {
 
-        $stmt = $this->prepare(
-            $stmt,
-            $tables,
-            $columns,
-            $sets,
-            $tablesets,
-            $columnsets,
-            $conditions
-        );
+        if (empty($query)) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): missing required query argument.',
+                DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+            );
+            return false; //in case exception is caught
+        }
+        if (!is_array($args)) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): args argument must be an array.',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+            );
+            return false; //in case exception is caught
+        }
+        if (!is_array($tables)) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): tables argument must be an array.',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+            );
+            return false; //in case exception is caught
+        }
+        if (!is_array($columns)) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): columns argument must be an array.',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+            );
+            return false; //in case exception is caught
+        }
+        if (!is_array($sets)) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): sets argument must be an array.',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+            );
+            return false; //in case exception is caught
+        }
+        if (!is_array($tablesets)) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): tablesets argument must be an array.',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+            );
+            return false; //in case exception is caught
+        }
+        if (!is_array($columnsets)) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): columnsets argument must be an array.',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+            );
+        }
+        if (
+            !is_array($conditions) &&
+            !(
+                is_object($conditions) &&
+                is_subclass_of($conditions, $this->dbms['classes']['condition'])
+            )
+        ) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): conditions argument must be an array or an object descended from class '.$this->dbms['classes']['condition'].'.',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+            );
+        }
+        if (!is_int($action)) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): action argument must be an integer (see '.__CLASS__.'::ACTION_* constants).',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+            );
+        }
+        if (!is_array($actionargs)) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): action arguments argument must be an array.',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+            );
+        }
 
-        //TODO
+        $grammar = [ //this thing is just temporary I think
+            'stmt' => $query,
+            'args' => $args,
+            'tables' => $tables,
+            'columns' => $columns,
+            'sets' => $sets,
+            'tablesets' => $tablesets,
+            'columnsets' => $columnsets,
+            'conditions' => $conditions,
+            'action' => [
+                'id' => $action,
+                'args' => $actionargs
+            ]
+        ];
+
+        //TODO: Implement this function as a more end-user-friendly wrapper around DatabaseModel->runQuery();
 
     }
 
@@ -866,7 +976,7 @@ class DatabaseModel implements CustomDatabaseInterface {
                 []),
             $table
         );
-        error_log($query);
+        //DEBUG error_log($query);
         $stmt = $this->connector->prepare($query);
         $i = 1;
         foreach ($this->dbms['sql']['getColumns']['args'] as $arg) {
@@ -929,16 +1039,54 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
+     * DatabaseModel->getDatabaseName() method
+     *
+     * Get the name or filename of the connected database.
+     *
+     * @return string Name or filename of the database.
+     */
+    public function getDatabaseName () {
+
+        return $this->name;
+
+    }
+
+    /**
      * DatabaseModel->getDefaultTable() Method
      *
      * Get the default table (if defined) used in this database connection.
      *
-     * @return string|null       Default table, as defined, or null if undefined.
-     * @throws DatabaseException If you dun goof.
+     * @return string|null Default table, as defined, or null if undefined.
      */
     public function getDefaultTable () {
 
         return $this->table;
+
+    }
+
+    /**
+     * DatabaseModel->getHostname() Method
+     *
+     * Get the hostname of the database server, if available, or null if not.
+     *
+     * @return string|null Hostname of the database server, or null if undefined.
+     */
+    public function getHostname () {
+
+        return $this->host;
+
+    }
+
+    /**
+     * DatabaseModel->getPortNumber() Method
+     *
+     * Get the TCP/IP port number of the database server, if available, or null if not.
+     *
+     * @return integer|null Port number of the database server, or null if undefined.
+     */
+    public function getPortNumber () {
+
+        return $this->port;
 
     }
 
@@ -984,6 +1132,8 @@ class DatabaseModel implements CustomDatabaseInterface {
 
     /**
      * DatabaseModel->insert() Method
+     *
+     * Insert data into the database.
      *
      * @param  array    $in    (required) Associative array of input to be inserted, keys being the name of columns
      * @param  string   $table (optional if defined in constructor) Table to use
@@ -1097,55 +1247,6 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
-     * DatabaseModel->prepare() Method
-     *
-     * Prepare a statement for execution
-     *
-     * @param  string $stmt       Statement string to prepare.
-     * @param  array  $tables     Tables to dynamically insert.
-     * @param  array  $columns    Columns to dynamically insert.
-     * @param  array  $sets       Standard sets to dynamically prepare.
-     * @param  array  $tablesets  Sets of tables to dynamically insert.
-     * @param  array  $columnsets Sets of columns to dynamically insert.
-     * @param  array  $conditions Conditions to dynamically insert.
-     * @return DatabaseStatement  DatabaseStatement object representing the prepared statement.
-     * @throws DatabaseException  If you dun goof.
-     */
-    public function prepare (
-        $stmt,
-        $tables     = [],
-        $columns    = [],
-        $sets       = [],
-        $tablesets  = [],
-        $columnsets = [],
-        $conditions = []
-    ) {
-
-        $stmt = $this->genStmt(
-            $stmt,
-            $tables,
-            $columns,
-            $sets,
-            $tablesets,
-            $columnsets,
-            $conditions,
-            $table
-        );
-
-        //check statement table for existing prepared statement
-        $stmtHash = md5($stmt);
-        if ($this->stmtTable[$stmtHash]) {
-            $stmt = $this->stmtTable[$stmtHash]; //use existing statement if available
-        } else {
-            $stmt = $this->connector->prepare($query); //create new statement
-            $this->stmtTable[$stmtHash] = $stmt; //store it in statement table
-        }
-
-        return $stmt;
-
-    }
-
-    /**
      * DatabaseModel->quoteColumn() Method
      *
      * Quote column identifiers for dynamically generated statements.
@@ -1216,6 +1317,138 @@ class DatabaseModel implements CustomDatabaseInterface {
                 DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
             );
         }
+
+    }
+
+    /**
+     * DatabaseModel->runQuery() Method
+     *
+     * Takes a DBMS grammar table sql array and some input data, and runs the query.
+     * This is meant to be the main worker method to execute a query. Because using
+     * this function depends on very strict implementation of PHPDAL data structures,
+     * lest it fail completely, this is NOT a public method. If you want to run an
+     * arbitrary query, you are looking for DatabaseModel->exec().
+     *
+     * @param  array $sql     DBMS grammar table array structure.
+     * @param  array $extData External data to be passed in.
+     * @return mixed          Final output of query and action function.
+     */
+    protected function runQuery ($sql, $extData) {
+
+        //Input validation
+        if (!is_array($sql)) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): SQL array argument was not an array.',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+            );
+            return false; //in case exception is caught
+        }
+        if (!isset($sql['stmt'])) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): SQL array is missing stmt parameter.',
+                DatabaseException::EXCEPTION_MISSING_DEFINITION
+            );
+        }
+        if (!is_array($data)) {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): data array argument was not an array.',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+            );
+            return false; //in case exception is caught
+        }
+
+        //build standard $data array
+        $data = [
+            'database'  => ( isset($data['database'])   ? $data['database']     : $this->getDatabaseName()  ),
+            'hostname'  => ( isset($data['hostname'])   ? $data['hostname']     : $this->getHostname()      ),
+            'limit'     => ( isset($data['limit'])      ? $data['limit']        : self::UPPER_LIMIT         ),
+            'port'      => ( isset($data['port'])       ? $data['port']         : $this->getPortNumber()    ),
+            'start'     => ( isset($data['start'])      ? $data['start']        : self::DEFAULT_OFFSET      ),
+            'table'     => ( isset($data['table'])      ? $data['table']        : $this->getDefaultTable()  ),
+
+            'results'   => null //this variable is reserved for the query results, so DO NOT USE IT!
+        ];
+
+        //merge extData array with the data array
+        foreach ($extData as $value => $key) {
+            if (in_array($key, ['results'])) { //this uses in_array() so new reserved variables can be defined
+                throw new DatabaseException(
+                    $this,
+                    __METHOD__.'(): encountered extData parameter attempting to use a reserved name.',
+                    DatabaseException::EXCEPTION_USING_RESERVED_KEYWORD
+                );
+                return false; //in case exception is caught
+            }
+            $data[$key] = $value; //insert value into $data array
+        }
+
+        //generate the final preparable statement
+        $query = $this->genStmt(
+            $sql['stmt'],
+            ( isset($sql['tables'])         ? $data[$sql['tables']]         : null ),
+            ( isset($sql['columns'])        ? $data[$sql['columns']]        : null ),
+            ( isset($sql['sets'])           ? $data[$sql['sets']]           : null ),
+            ( isset($sql['tablesets'])      ? $data[$sql['tablesets']]      : null ),
+            ( isset($sql['columnsets'])     ? $data[$sql['columnsets']]     : null ),
+            ( isset($sql['conditions'])     ? $data[$sql['conditions']]     : null ),
+            $data['table']
+        );
+
+        //store prepared statement in $this->stmtTable by query's MD5 checksum
+        $md5 = md5($query);
+        if (!isset($this->stmtTable[$md5])) {
+            $this->stmtTable[$md5] = $this->connector->prepare($query);
+        }
+        $stmt = $this->stmtTable[$md5];
+
+        //merge the arguments and sets into the bindable arguments array
+        $args = [];
+        foreach ($sql['args'] as $arg) {
+            //TODO: How the hell am I supposed to know where to put the exploded sets?
+            //NOTE: I very much regret my failure to use named parameters now. I knew it would happen eventually, and I was stupid to have waited this long. Fffffffiretruck.
+        }
+
+        //bind all arguments to the prepared statement
+        foreach ($args as $arg) {
+            //TODO: bind all arguments to prepared statement
+        }
+
+        $data['results'] = $stmt->execute();
+
+        if (
+            isset($sql['action']) &&
+            is_array($sql['action']) &&
+            count($sql['action']) > 0
+        ) {
+            $args = [];
+            foreach ($sql['action']['args'] as $arg) {
+                //Verify that both necessary parameters are present.
+                if (!isset($arg['name'])) {
+                    throw new DatabaseException(
+                        $this,
+                        __METHOD__.'(): encountered action argument without name parameter.',
+                        DatabaseException::EXCEPTION_MISSING_DEFINITION
+                    );
+                    return false; //in case exception is caught
+                }
+                if (!isset($arg['value'])) {
+                    throw new DatabaseException(
+                        $this,
+                        __METHOD__.'(): encountered action argument without value parameter.',
+                        DatabaseException::EXCEPTION_MISSING_DEFINITION
+                    );
+                    return false; //in case exception is caught
+                }
+
+                $args[$arg['name']] = $data[$arg['value']]; //add value of variable to $args array at given name
+            }
+            $data['results'] = $this->doAction($sql['action']['id'], $args); //run the action
+        }
+
+        return $data['results'];
 
     }
 
@@ -1342,7 +1575,7 @@ class DatabaseModel implements CustomDatabaseInterface {
         //$start validation
         if ($start != null && $count == null) {
             //only start index is set
-            $count = '18446744073709551615'; //good luck storing a database with that many rows (MySQL upper limit).
+            $count = self::UPPER_LIMIT;
         } elseif ($start == null && $count != null) {
             //only row count is set
             $start = '0';

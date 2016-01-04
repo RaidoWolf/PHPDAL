@@ -37,6 +37,12 @@ interface DatabaseInterface {
     //    $action         = self::ACTION_NONE,
     //    $actionargs     = []
     //);
+    public function delete ( //delete rows matching condition
+        $condition,
+        $start          = null,
+        $limit          = null,
+        $table          = null
+    );
     public function getColumns ( //get an array of columns in table
         $table          = null
     );
@@ -47,15 +53,6 @@ interface DatabaseInterface {
         $in,
         $table          = null
     );
-    //public function prepare ( //prepare a statement for execution
-    //    $query,
-    //    $tables         = [],
-    //    $columns        = [],
-    //    $sets           = [],
-    //    $tablesets      = [],
-    //    $columnsets     = [],
-    //    $conditions     = []
-    //);
     public function select (
         $columns        = ['*'],
         $conditions     = null,

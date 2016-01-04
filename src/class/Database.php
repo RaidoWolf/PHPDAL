@@ -38,8 +38,8 @@ class Database implements CrossDatabaseInterface {
      * @param string $user (required for secured) -
      * @param string $pass (required for secured) -
      * @param string $host (required for remote, optional because it defaults to localhost) -
-     * @param integer $port (required for remote, optional because it defaults to server type's default port) - 
-     * @param strign $table (optional) - 
+     * @param integer $port (required for remote, optional because it defaults to server type's default port) -
+     * @param strign $table (optional) -
      */
     public function __construct (
         $type,
@@ -53,7 +53,7 @@ class Database implements CrossDatabaseInterface {
 
         /*
          * Input Handling for $type (database type)
-         * 
+         *
          * $type is required, must be a string, and must be one of the following list of
          * valid strings: mysql, pgsql, or sqlite.
          */
@@ -140,7 +140,7 @@ class Database implements CrossDatabaseInterface {
 
     /**
      * Invocation Method
-     * 
+     *
      * @see DatabaseInterface::__invoke()
      */
     public function __invoke () {
@@ -151,7 +151,7 @@ class Database implements CrossDatabaseInterface {
 
     /**
      * String Conversion Method
-     * 
+     *
      * @see DatabaseInterface::__toString()
      */
     public function __toString () {
@@ -162,9 +162,9 @@ class Database implements CrossDatabaseInterface {
 
     /**
      * Database->columnExists() Method
-     * 
+     *
      * Tests if a given column exists in a given table.
-     * 
+     *
      * @param string $column (required) - name of column for which to test
      * @param string $table (optional) - name of table, unless table predefined
      * @return boolean - true if column exists, false if not
@@ -177,12 +177,30 @@ class Database implements CrossDatabaseInterface {
     }
 
     /**
+     * Database->delete() Method
+     *
+     * Deletes rows matching given condition array
+     *
+     * @param  array  $condition (required) - conditioon array passed to DBMS condition object
+     * @param  int    $start     (optional) - offset at which to start deleting
+     * @param  int    $limit     (optional) - limit number of rows to affect
+     * @param  string $table     (optional) - name of table, not needed if table is predefined
+     * @return bool              returns true on success, false on failure
+     * @throws DatabaseException if someone dun goofed
+     */
+    public function delete ($condition, $start = null, $limit = null, $table = null) {
+
+        return $this->child->delete($condition, $start, $limit, $table);
+
+    }
+
+    /**
      * Database->getChild() Method
-     * 
-     * Getter for mutable reference to child object (MySQLDatabase, 
+     *
+     * Getter for mutable reference to child object (MySQLDatabase,
      * PostgreSQLDatabase, or SQLiteDatabase).
-     * 
-     * @return &MySQLDatabase|&PostgreSQLDatabase|&SQLiteDatabase - child database object
+     *
+     * @return &DatabaseModel - child database object
      * @see CrossDatabaseInterface::getChild()
      */
     public function &getChild () {
@@ -193,9 +211,9 @@ class Database implements CrossDatabaseInterface {
 
     /**
      * Database->getColumns() Method
-     * 
+     *
      * Getter for array of all columns in a given table.
-     * 
+     *
      * @param string $table (optional) - name of table, unless table predefined
      * @return array - array of columns in the table
      * @see DatabaseInterface::getColumns()
@@ -208,9 +226,9 @@ class Database implements CrossDatabaseInterface {
 
     /**
      * Database->getDefaultTable() Method
-     * 
+     *
      * Getter for default table defined in the constructor or Database->setTable().
-     * 
+     *
      * @return string - default table (value of $this->child->table)
      * @see DatabaseInterface::getDefaultTable()
      */
@@ -222,9 +240,9 @@ class Database implements CrossDatabaseInterface {
 
     /**
      * Database->getTables() Method
-     * 
+     *
      * Getter for array of tables in the database.
-     * 
+     *
      * @return array - array of tables in the database
      * @see DatabaseInterface::getTables()
      */
@@ -236,9 +254,9 @@ class Database implements CrossDatabaseInterface {
 
     /**
      * Database->getType() Method
-     * 
+     *
      * Getter for database type.
-     * 
+     *
      * @return string database type, value of $this->type
      * @see DatabaseInterface::getType()
      */
@@ -250,9 +268,9 @@ class Database implements CrossDatabaseInterface {
 
     /**
      * Database->hasDefaultTable() Method
-     * 
+     *
      * Checks if default table (defined in constructor or Database->setTable) is defined.
-     * 
+     *
      * @return boolean - true if default table is defined, false if not
      * @see DatabaseInterface::hasDefaultTable()
      */
@@ -268,10 +286,10 @@ class Database implements CrossDatabaseInterface {
 
     /**
      * Database->insert() Method
-     * 
+     *
      * Insert new data into the database.
      * This method is a chainable mutator.
-     * 
+     *
      * @param array $in (required) - associative array of input to be inserted, keys being the name of columns
      * @param string $table (optional if defined in constructor) - table to use
      * @return Database - reference to self
@@ -285,7 +303,7 @@ class Database implements CrossDatabaseInterface {
 
     /**
      * Database->select() Method
-     * 
+     *
      * @param array|string $columns (optional) - columns to return. if left empty/null, will default to all columns (*)
      * @param DatabaseCondition|array|string $conditions (optional) - conditions to lookup. If left empty/null, will default to no conditions.
      * @param int $start (optional) - starting index from which to begin selecting. If left empty, defaults to 0.
@@ -303,9 +321,9 @@ class Database implements CrossDatabaseInterface {
 
     /**
      * Database->tableExists() Method
-     * 
+     *
      * Checks if a given table exists in the database
-     * 
+     *
      * @param string $table (required) - table for which to check
      * @return boolean - true if table exists, false if not
      * @see DatabaseInterface::tableExists()

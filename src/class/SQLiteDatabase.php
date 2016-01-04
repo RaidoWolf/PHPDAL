@@ -2,8 +2,7 @@
 
 class SQLiteDatabase extends DatabaseModel implements CustomDatabaseInterface {
 
-    //TODO:
-    //Actually implement the Grammar Table.
+    const UPPER_LIMIT = 18446744073709551615;
 
     protected $dbms = [
 
@@ -45,6 +44,15 @@ class SQLiteDatabase extends DatabaseModel implements CustomDatabaseInterface {
                         [ 'name' => 'haystack', 'value' => 'results' ]
                     ]
                 ]
+            ],
+
+            'delete' => [
+                'stmt' => 'DELETE FROM ${table} WHERE ${condition} LIMIT ?, ?;',
+                'args' => [
+                    [ 'value' => 'start',   'type' => self::TYPE_INT ],
+                    [ 'value' => 'limit',   'type' => self::TYPE_INT ]
+                ],
+                'tables' => [ 'table' ]
             ],
 
             'getColumns' => [
