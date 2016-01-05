@@ -45,11 +45,12 @@ class DatabaseStatement {
     ) {
 
         //set variables
-        $this->count        = substr_count($query, '?');   //set argument count
-        $this->connector    = $connector;              //set connector (will be an object reference)
-        $this->parent       = $parent;                    //set parent object (will be an object reference)
-        $this->query        = $query;                      //set query string
-        $this->signature    = md5($query);             //create and set the MD5 signature
+        $this->count        = substr_count($query, '?');    //set argument count
+        $this->connector    = $connector;                   //set connector (will be an object reference)
+        $this->parent       = $parent;                      //set parent object (will be an object reference)
+        $this->query        = $query;                       //set query string
+        //TODO: Revisit this signature property concept. Is it needed? Should this be SHA256 instead? MD5 has known collisions.
+        $this->signature    = md5($query);                  //create and set the MD5 signature
 
         //prepare statement
         $this->stmt         = $this->connector->prepare($this->query); //create and set PDO prepared statement object

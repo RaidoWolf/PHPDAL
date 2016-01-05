@@ -37,6 +37,7 @@ class DatabaseModel implements CustomDatabaseInterface {
     const KEYWORD_ALL           = 1;
 
     //Extra Prepared Statement Parameter Markers
+    const PARAM_BASIC           = '?$';             //string that represents a dynamically inserted basic variable parameter
     const PARAM_COLUMN          = '?{column}';      //string that represents a dynamically inserted column parameter
     const PARAM_COLUMN_SET      = '?{setcolumns}';  //string that represents a dynamically inserted set of column parameters
     const PARAM_CONDITIONS      = '?{conditions}';  //string that represents a dynamically inserted condition parameter
@@ -1397,12 +1398,11 @@ class DatabaseModel implements CustomDatabaseInterface {
             $data['table']
         );
 
-        //store prepared statement in $this->stmtTable by query's MD5 checksum
-        $md5 = md5($query);
-        if (!isset($this->stmtTable[$md5])) {
-            $this->stmtTable[$md5] = $this->connector->prepare($query);
+        //store prepared statement in $this->stmtTable
+        if (!isset($this->stmtTable[$query])) {
+            $this->stmtTable[$query] = $this->connector->prepare($query);
         }
-        $stmt = $this->stmtTable[$md5];
+        $stmt = $this->stmtTable[$query];
 
         //merge the arguments and sets into the bindable arguments array
         $args = [];
