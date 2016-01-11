@@ -160,6 +160,12 @@ class Database implements CrossDatabaseInterface {
 
     }
 
+    public function columnConform ($table, $column) {
+
+        return $this->child->columnConform($table, $column);
+
+    }
+
     /**
      * Database->columnExists() Method
      *
@@ -173,6 +179,12 @@ class Database implements CrossDatabaseInterface {
     public function columnExists ($column, $table = null) {
 
         return $this->child->columnExists($column, $table);
+
+    }
+
+    public function columnMatches ($column, $table = null) {
+
+        return $this->child->columnMatches($column, $table);
 
     }
 
@@ -191,6 +203,61 @@ class Database implements CrossDatabaseInterface {
     public function delete ($condition, $start = null, $limit = null, $table = null) {
 
         return $this->child->delete($condition, $start, $limit, $table);
+
+    }
+
+    /**
+     * DatabaseException->exec() Method
+     *
+     * Prepare and execute a statement. This method is recommended for single-
+     * use queries. It is optimized by checking a table of MD5 hashes of
+     * existing prepared statements. Regardless of this optimization, for any
+     * queries that will be run multiple times, it is strongly recommended that
+     * you use the DatabaseStatement->exec() method. Using that method, there
+     * will need to be no MD5 checksums, hash table checks, string comparisons,
+     * or compilation. This is provided only for convenience.
+     *
+     * @param  string $query      The statement to prepare for execution
+     * @param  array  $args       Array of arguments to the given statement
+     * @param  array  $tables     Array of table values to insert
+     * @param  array  $columns    Array of column values to insert
+     * @param  array  $sets       Array of set values to insert
+     * @param  array  $tablesets  Array of table set values to insert.
+     * @param  array  $columnsets Array of column set values to insert.
+     * @param  array  $conditions Array of DatabaseCondition objects to insert.
+     * @param  int    $action     ID of action to execute on final data. Recommend using constants for this.
+     * @param  array  $actionargs Array representing data to give to action using $val keys.
+     * @return array              Array of data returned from the execution.
+     */
+    public function exec (
+        $query,
+        $args       = [],
+        $tables     = [],
+        $columns    = [],
+        $sets       = [],
+        $tablesets  = [],
+        $columnsets = [],
+        $conditions = [],
+        $action     = DatabaseModel::ACTION_NONE,
+        $actionargs = []
+    ) {
+        return $this->child->exec(
+            $query,
+            $args,
+            $tables,
+            $columns,
+            $sets,
+            $tablesets,
+            $columnsets,
+            $conditions,
+            $action,
+            $actionargs
+        );
+    }
+
+    public function getAllSchemas () {
+
+        return $this->child->getAllSchemas();
 
     }
 
@@ -224,6 +291,24 @@ class Database implements CrossDatabaseInterface {
 
     }
 
+    public function getConnector () {
+
+        return $this->child->getConnector();
+
+    }
+
+    public function getCreateQuery () {
+
+        return $this->child->getCreateQuery();
+
+    }
+
+    public function getDatabaseName () {
+
+        return $this->child->getDatabaseName();
+
+    }
+
     /**
      * Database->getDefaultTable() Method
      *
@@ -235,6 +320,24 @@ class Database implements CrossDatabaseInterface {
     public function getDefaultTable () {
 
         return $this->child->getDefaultTable();
+
+    }
+
+    public function getHostname () {
+
+        return $this->child->getHostname();
+
+    }
+
+    public function getPortNumber () {
+
+        return $this->child->getPortNumber();
+
+    }
+
+    public function getSchema ($name) {
+
+        return $this->child->getSchema($name);
 
     }
 
@@ -301,6 +404,18 @@ class Database implements CrossDatabaseInterface {
 
     }
 
+    public function schemaConform () {
+
+        return $this->child->schemaConform();
+
+    }
+
+    public function schemaMatches () {
+
+        return $this->child->schemaConform();
+
+    }
+
     /**
      * Database->select() Method
      *
@@ -313,9 +428,31 @@ class Database implements CrossDatabaseInterface {
      * @param string $table (optional if table set in constructor) - table from which to select.
      * @return array - results of the select query as an associative array.
      */
-    public function select ($columns = ['*'], $conditions = null, $start = null, $count = null, $sortBy = null, $sortDirection = null, $table = null) {
+    public function select (
+        $columns = ['*'],
+        $conditions = null,
+        $start = null,
+        $count = null,
+        $sortBy = null,
+        $sortDirection = null,
+        $table = null
+    ) {
 
-        return $this->child->select($columns, $conditions, $start, $count, $sortBy, $sortDirection, $table);
+        return $this->child->select(
+            $columns,
+            $conditions,
+            $start,
+            $count,
+            $sortBy,
+            $sortDirection,
+            $table
+        );
+
+    }
+
+    public function tableConform ($table = null) {
+
+        return $this->child->tableConform($table);
 
     }
 
@@ -331,6 +468,36 @@ class Database implements CrossDatabaseInterface {
     public function tableExists ($table) {
 
         return $this->child->tableExists($table);
+
+    }
+
+    public function tableMatches ($table = null) {
+
+        return $this->child->tableMatches($table);
+
+    }
+
+    public function triggerConform ($trigger) {
+
+        return $this->child->triggerConform($trigger);
+
+    }
+
+    public function triggerMatches ($trigger) {
+
+        return $this->child->triggerMatches($trigger);
+
+    }
+
+    public function viewConform ($view) {
+
+        return $this->child->viewConform($view);
+
+    }
+
+    public function viewMatches ($view) {
+
+        return $this->child->viewMatches($view);
 
     }
 

@@ -301,7 +301,7 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
-     * Invocation Method
+     * Invocation Method ( $DatabaseModelInstance() )
      */
     public function __invoke () {
 
@@ -310,7 +310,7 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
-     * String Conversion Method
+     * String Conversion Method ( (string) $DatabaseModelInstance )
      */
     public function __toString () {
 
@@ -318,6 +318,45 @@ class DatabaseModel implements CustomDatabaseInterface {
 
     }
 
+    /**
+     * DatabaseModel->columnConform() Method
+     *
+     * Alter column to conform with the given schema.
+     *
+     * @param  string $table     Name of the table to alter.
+     * @param  string $column    Name of the column to alter.
+     * @return bool              True on success, false on failure.
+     * @throws DatabaseException If someone dun goofed.
+     */
+    public function columnConform ($column, $table = null) {
+
+        if ($this->hasSchema()) {
+            if (!$this->columnMatches($column, $table)) {
+                //TODO: Implement alter column to match the schema in the object.
+            } else {
+                return true; //schema already conforms
+            }
+        } else {
+            throw new DatabaseException(
+                $this,
+                __METHOD__.'(): No schema available.',
+                DatabaseException::EXCEPTION_MISSING_DEFINITION
+            );
+            return false;
+        }
+
+    }
+
+    /**
+     * DatabaseModel->columnExists() Method
+     *
+     * Check if a given column exists.
+     *
+     * @param  string $column    Name of the column for which to check.
+     * @param  string $table     Name of the table in which to check (optional if default table).
+     * @return bool              True if exists, false if not.
+     * @throws DatabaseException If someone dun goofed.
+     */
     public function columnExists ($column, $table = null) {
 
         if ($table == null) {
@@ -414,6 +453,22 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
+     * DatabaseModel->columnMatches() Method
+     *
+     * Check if column matches the given schema.
+     *
+     * @param  string $column    Name of the column to check.
+     * @param  string $table     Name of the table in which to check.
+     * @return bool              True if it matches, false if not.
+     * @throws DatabaseException If someone dun goofed.
+     */
+    public function columnMatches ($column, $table = null) {
+
+        //TODO: Implement check if schema for given column in object matches actual schema.
+
+    }
+
+    /**
      * DatabaseModel->delete() Method
      *
      * Deletes rows matching given condition array
@@ -440,9 +495,10 @@ class DatabaseModel implements CustomDatabaseInterface {
      * final data processing to be configured per-DBMS without having to
      * entirely rewrite methods.
      *
-     * @param  int     $id   The ID of the action to use. Recommend using the constants for this.
-     * @param  unknown $data The ambigous block of data. Usually this will be an array, especailly when multiple values are used.
-     * @return unknown       The output of the action. This could be just about anything.
+     * @param  int     $id       The ID of the action to use. Recommend using the constants for this.
+     * @param  unknown $data     The ambigous block of data. Usually this will be an array, especailly when multiple values are used.
+     * @return unknown           The output of the action. This could be just about anything.
+     * @throws DatabaseException If someone dun goofed.
      */
     protected function doAction ($id, $data) {
 
@@ -495,6 +551,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      * @param  int    $action     ID of action to execute on final data. Recommend using constants for this.
      * @param  array  $actionargs Array representing data to give to action using $val keys.
      * @return array              Array of data returned from the execution.
+     * @throws DatabaseException  If someone dun goofed.
      */
     public function exec (
         $query,
@@ -629,7 +686,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      * @param  array  $conditions Array of DatabaseCondition objects to insert.
      * @param  string $table      (optional if defined in constructor) Default context table.
      * @return string             Preparable statement. (Note that values of sets will still need to be given at execution time)
-     * @throws DatabaseException  If you dun goof.
+     * @throws DatabaseException  If someone dun goofed.
      */
     protected function genStmt (
         $stmt,
@@ -930,13 +987,26 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
+     * DatabaseModel->getAllSchemas() Method
+     *
+     * Get an array of all schemas available to the database.
+     *
+     * @return array Array of schemas available to the database, sorted by identity/versioning info.
+     */
+    public function getAllSchemas () {
+
+        return $this->schemas;
+
+    }
+
+    /**
      * DatabaseModel->getColumns() Method
      *
      * Get an array of existing columns in a given (or default) table.
      *
      * @param  string $table     (optional) Name of table, unless table defined by constructor
      * @return array             Array of columns in the table.
-     * @throws DatabaseException If you dun goof.
+     * @throws DatabaseException If someone dun goofed.
      */
     public function getColumns ($table = null) {
 
@@ -1033,9 +1103,29 @@ class DatabaseModel implements CustomDatabaseInterface {
 
     }
 
+    /**
+     * DatabaseModel->getConnector() Method
+     *
+     * Get the database connection object (a PDO object).
+     *
+     * @return PDO Database connection object.
+     */
     public function getConnector () {
 
         return $this->connector;
+
+    }
+
+    /**
+     * DatabaseModel->getCreateQuery() Method
+     *
+     * Get the query that would create the current database schema.
+     *
+     * @return string Query to generate current schema.
+     */
+    public function getCreateQuery () {
+
+        //TODO: Implement query string generator for schemas.
 
     }
 
@@ -1091,13 +1181,19 @@ class DatabaseModel implements CustomDatabaseInterface {
 
     }
 
+    public function getSchema ($name) {
+
+        //TODO: Implement schema lookup function.
+
+    }
+
     /**
      * DatabaseModel->getTables() Method
      *
      * Get an array of existing tables in the database.
      *
      * @return array             Array of existing tablese in the database.
-     * @throws DatabaseException If you dun goof.
+     * @throws DatabaseException If someone dun goofed.
      */
     public function getTables () {
 
@@ -1112,15 +1208,44 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
-     * DatabaseModel->getType() Getter Method
-     * @return string $this->type
+     * DatabaseModel->handleValueIn() Method
+     *
+     * Handle data being input to the DBMS with DBMS feature emulation.
+     *
+     * @param  [type] $table [description]
+     * @param  [type] $key   [description]
+     * @param  [type] $value [description]
+     * @return [type]        [description]
      */
-    public function getType () {
+    protected function handleValueIn ($table, $key, $value) {
 
-        return $this->type;
+        //TODO: Implement DBMS input feature emulation.
 
     }
 
+    /**
+     * DatabaseModel->handleValueOut() Method
+     *
+     * Handle data being output from the DBMS with DBMS feature emulation.
+     *
+     * @param  [type] $table [description]
+     * @param  [type] $key   [description]
+     * @param  [type] $value [description]
+     * @return [type]        [description]
+     */
+    protected function handleValueOut ($table, $key, $value) {
+
+        //TODO: Implement DBMS output feature emulation.
+
+    }
+
+    /**
+     * DatabaseModel->hasDefaultTable() Method
+     *
+     * Check if this object has a defined default table.
+     *
+     * @return boolean True if $this has a default table, false otherwise.
+     */
     public function hasDefaultTable () {
 
         if (isset($this->table) && $this->table != null) {
@@ -1259,7 +1384,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      *
      * @param  string            $string The column name to quote
      * @return string                    The quoted version of the input string
-     * @throws DatabaseException         If you dun goof
+     * @throws DatabaseException         If someone dun goofed.
      */
     protected function quoteColumn ($string) {
 
@@ -1296,7 +1421,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      *
      * @param  string            $string The table name to quote
      * @return string                    The quoted version of the input string
-     * @throws DatabaseException         If you dun goof
+     * @throws DatabaseException         If someone dun goofed.
      */
     protected function quoteTable ($string) {
 
@@ -1453,6 +1578,72 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
+     * DatabaseModel->schemaConform() Method
+     *
+     * Alter the entire database schema to conform with the given schema.
+     *
+     * @return bool True on success, false on failure.
+     */
+    public function schemaConform () {
+
+        //TODO: Modify this and other schema-conformity methods to fit DatabaseModel.
+
+        if ($this->hasSchema()) {
+            if (!$this->schemaMatches()) {
+                if ($this->schemaMatches()) {
+                    return true; //schema already matches
+                } else {
+                    $output = true;
+
+                    //conform the existing tables
+                    foreach ($this->tables as $table) {
+                        $thisResult = $this->tableConform($table);
+                        if (!$thisResult) {
+                            $output = false;
+                        }
+                    }
+
+                    //conform the existing views
+                    foreach ($this->views as $view) {
+                        $thisResult = $this->viewConform($view);
+                        if (!$thisResult) {
+                            $output = false;
+                        }
+                    }
+
+                    //conform the existing triggers
+                    foreach ($this->triggers as $trigger) {
+                        $thisResult = $this->triggerConform($trigger);
+                        if (!$thisResult) {
+                            $output = false;
+                        }
+                    }
+
+                    return $output;
+                }
+            } else {
+                return true; //schema already conforms.
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     * DatabaseModel->schemaMatches() Method
+     *
+     * Check if database schema matches given schema.
+     *
+     * @return bool True if they match, false if not.
+     */
+    public function schemaMatches () {
+
+        //TODO: Implement check if schema object matches actual schema.
+
+    }
+
+    /**
      * DatabaseModel->select() Method
      *
      * Selects data from the database based on conditions and returns the
@@ -1466,7 +1657,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      * @param  int                            $sortDirection (optional, Uses flags) direction to sort the table. If left empty, defaults to none. Options are SORT_NONE, SORT_ASC, SORT_DESC
      * @param  string                         $table         (optional if table set in constructor) Table from which to select.
      * @return array                                         Results of the select query as an associative array.
-     * @throws DatabaseException                             If you dun goof.
+     * @throws DatabaseException                             If someone dun goofed.
      */
     public function select (
         $columns = ['*'],
@@ -1734,13 +1925,39 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
+     * DatabaseModel->tableConform() Method
+     *
+     * Alter the table to conform with the given schema.
+     *
+     * @param  [type] $table [description]
+     * @return [type]        [description]
+     */
+    public function tableConform ($table = null) {
+
+        if ($this->hasSchema()) {
+            if (!$this->tableMatches($table)) {
+                if ($this->tableMatches($table)) {
+                    return true; //table already matches
+                } else {
+                    //TODO: Figure this out
+                }
+            } else {
+                return true; //table already conforms
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
      * DatabaseModel->tableExists() Method
      *
      * Check if table exists in the database.
      *
      * @param  string            $table The name of the table for which to check.
      * @return bool              True: table exists | False: table does not exist.
-     * @throws DatabaseException If you dun goof.
+     * @throws DatabaseException If someone dun goofed.
      */
     public function tableExists ($table) {
 
@@ -1795,6 +2012,88 @@ class DatabaseModel implements CustomDatabaseInterface {
                 DatabaseException::EXCEPTION_CORRUPTED_OBJECT
             );
         }
+
+    }
+
+    /**
+     * DatabaseModel->tableMatches() Method
+     *
+     * Check if table matches given schema.
+     *
+     * @param  [type] $table [description]
+     * @return [type]        [description]
+     */
+    public function tableMatches ($table = null) {
+
+        //TODO: Implement check if schema for given table in object matches actual schema.
+
+    }
+
+    /**
+     * DatabaseModel->triggerConform() Method
+     *
+     * Alter trigger to conform with given schema.
+     *
+     * @param  [type] $trigger [description]
+     * @return [type]          [description]
+     */
+    public function triggerConform ($trigger) {
+
+        if ($this->hasSchema()) {
+            if (!$this->tableMatches($trigger)) {
+                if ($this->triggerMatches($trigger)) {
+                    return true; //trigger already matches
+                } else {
+                    //TODO: Figure this out
+                }
+            } else {
+                return true; //trigger already conforms
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     * DatabaseModel->triggerMatches() Method
+     *
+     * Check if trigger matches given schema.
+     *
+     * @param  [type] $trigger [description]
+     * @return [type]          [description]
+     */
+    public function triggerMatches ($trigger) {
+
+        //TODO: Implement trigger conformity checker.
+
+    }
+
+    /**
+     * DatabaseModel->viewConform() Method
+     *
+     * Alter view to conform with given schema.
+     *
+     * @param  [type] $view [description]
+     * @return [type]       [description]
+     */
+    public function viewConform ($view) {
+
+        //TODO: Implement view conformity forcer.
+
+    }
+
+    /**
+     * DatabaseModel->viewMatches() Method
+     *
+     * Check if view matches the given schema.
+     *
+     * @param  [type] $view [description]
+     * @return [type]       [description]
+     */
+    public function viewMatches ($view) {
+
+        //TODO: Implement view conformity checker.
 
     }
 
