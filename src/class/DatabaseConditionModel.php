@@ -2,6 +2,33 @@
 
 class DatabaseConditionModel implements DatabaseConditionInterface {
 
+    /**
+     * DatabaseConditionModel Constructor
+     *
+     * The idea for the new DatabaseConditionModel is that the objects should
+     * represent the lowest layer of a database condition. Thus, an instance of
+     * DatabaseConditionModel should contain three things, the name of the property
+     * to match, the value of the property to match, and the relation of the name and
+     * the property (equals, not-equals, greater-than, in, etc.)
+     *
+     * However, to maximize interoperability, the next layer of condition objects,
+     * which will act as a container and relationship manager for instances of
+     * DatabaseConditionModel when used to provide filtering for DatabaseModel
+     * instances, must extend this class so that it can not only be matched by a call
+     * to is_subclass_of() or a type declaration in a function parameter.
+     * Additionally, however, extending this class will also provide the basis for a
+     * common interface to exist for all representations of database conditions.
+     */
+    public function __construct () {
+
+        //TODO
+
+    }
+
+}
+
+class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
+
     /*
      * DBMS-specific Grammar Table
      */
@@ -132,14 +159,14 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
 
     /**
      * DatabaseConditionModel->add() Method
-     * 
+     *
      * Add (array_merge) a condition structure to the existing condition structure.
-     * 
+     *
      * @throws DatabaseException if you dun goof
      * @see DatabaseConditionInterface::add()
      */
     public function add ($rule) {
-    
+
         $typeof_rule = gettype($rule);
         $typeof_structure = gettype($this->structure);
         if ($typeof_rule == 'array') {
@@ -173,14 +200,14 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
             );
         }
-    
+
     }
 
     /**
      * DatabaseConditionModel->del() Method
-     * 
-     * Delete (array_diff) a condition structure from existing condition structure. 
-     * 
+     *
+     * Delete (array_diff) a condition structure from existing condition structure.
+     *
      * @throws DatabaseException if you dun goof
      * @see DatabaseConditionInterface::del()
      */
@@ -209,9 +236,9 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
 
     /**
      * DatabaseConditionModel->getGrammar() Method
-     * 
+     *
      * Looks up a value in the grammar tables.
-     * 
+     *
      * @param string $key
      * @throws DatabaseException if you dun goof
      * @return string|boolean
@@ -304,9 +331,9 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
      *      !~, NLIKE       - NOT LIKE - Uses database driver's pattern matching to check if 'key' is not like 'value'.
      *      :0, ISNULL      - IS - Tests if 'key' is a null value.
      *      !:0, NISNUL     - IS NOT - Tests if 'key' is not a null value.
-     * 
+     *
      * The folliowing is an example condition structure. This must be passed as a PHP array.
-     * 
+     *
      *  [
      *      [
      *          'comparator' => 'OR',
@@ -344,12 +371,12 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
      *          ]
      *      ]
      *  ]
-     *  
+     *
      *  This will produce the following SQL statement (in standard SQL):
      *  "id" > 1924 OR ("pos" BETWEEN 100 AND 1000 AND "type" in ('primary', 'secondary', 'backup') AND "active" = 1)
      */
     public function parse (array $array, $encap = false) {
-    
+
         $outArray = [
             'stmt' => '',
             'args' => []
@@ -395,7 +422,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                         } elseif (array_key_exists('type', $value)) {
                             //comparison object encountered
                             $type = $value['type'];
-                            
+
                             //make sure all given values are scalar
                             foreach ($value as $data) {
                                 if (!is_scalar($data)) {
@@ -406,12 +433,12 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                                 }
                                 continue 2; //skip this iteration on outer loop (in case exception is caught)
                             }
-                            
+
                             //if a set is given, convert it into a single string
                             if (isset($value['set'])) {
                                 $value['setstring'] = implode($this->getGrammar('setDelimiter'), $value['set']);
                             }
-                            
+
                             //parse operations structures
                             if          ($type == '='       || $type == 'EQ')       {
                                 $grammar = $this->getGrammar('op_eq');
@@ -520,7 +547,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
                                 );
                                 continue; //skip this iteration (in case exception is caught)
                             }
-                            
+
                             //insert all arguments into $tmp['args']
                             foreach ($grammar['args'] as $arg) {
                                 if (!isset($value[$arg])) {
@@ -573,7 +600,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
             );
             return false; //indicate failure (in case exception is caught)
         }
-    
+
         //combine statement segments into a singular statement string
         if ($comparator == 'AND') {
             $outArray['stmt'] = implode($this->getGrammar('and'), $tmpStmt);
@@ -592,15 +619,15 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
             );
             return false; //indicate failure (in case exception is caught)
         }
-    
+
         //encapsulate the statement/segment if necessary
         if ($encap) {
             $outArray['stmt'] = $this->getGrammar('encapLeft').$outArray['stmt'].$this->getGrammar('encapRight');
         }
-    
+
         //return stuff
         return $outArray;
-    
+
     }
 
 }

@@ -2,6 +2,15 @@
 
 interface DatabaseConditionInterface {
 
+    public function __construct ();
+    public function __invoke ();
+    public function __toString ();
+    public function getStatement ();
+
+}
+
+interface DatabaseConditionInterfaceOld {
+
     public function __construct ($struct=[], &$backref, $table);
     public function __invoke (); //invocation should return statement.
     public function __toString (); //string conversion should return itself, serialized.
