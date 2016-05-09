@@ -1,12 +1,12 @@
 <?php
 
-class MySQLConditionNew extends DatabaseConditionModel implements DatabaseConditionInterface {
+final class MySQLConditionNew extends DatabaseConditionModel implements DatabaseConditionInterface {
 
     //TODO
 
 }
 
-class MySQLCondition extends DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
+final class MySQLCondition extends DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
 
     protected $dbmsGrammarTable = [
         'quoteIdentLeft'    => '`', //string to be placed at the left of an identifier

@@ -1,6 +1,6 @@
 <?php
 
-class PostgreSQLConditionGroup extends DatabaseConditionGroupModel implements DatabaseConditionGroupInterface {
+final class PostgreSQLConditionGroup extends DatabaseConditionGroupModel implements DatabaseConditionGroupInterface {
 
     //TODO
 

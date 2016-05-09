@@ -1,6 +1,6 @@
 <?php
 
-class DatabaseUtils {
+final class DatabaseUtils {
 
     /**
      * DatabaseUtils::arrayMaxDepth() Static Method

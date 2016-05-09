@@ -1,6 +1,6 @@
 <?php
 
-class SQLiteDatabase extends DatabaseModel implements CustomDatabaseInterface {
+final class SQLiteDatabase extends DatabaseModel implements CustomDatabaseInterface {
 
     const UPPER_LIMIT = 18446744073709551615;
 

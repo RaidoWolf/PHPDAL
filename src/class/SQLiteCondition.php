@@ -1,12 +1,12 @@
 <?php
 
-class SQLiteConditionNew extends DatabaseConditionModel implements DatabaseConditionInterface {
+final class SQLiteConditionNew extends DatabaseConditionModel implements DatabaseConditionInterface {
 
     //TODO
 
 }
 
-class SQLiteCondition extends DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
+final class SQLiteCondition extends DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
 
     //TODO
 

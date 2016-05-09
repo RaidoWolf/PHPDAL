@@ -1,6 +1,6 @@
 <?php
 
-class SQLiteConditionGroup extends DatabaseConditionGroupModel implements DatabaseConditionGroupInterface {
+final class SQLiteConditionGroup extends DatabaseConditionGroupModel implements DatabaseConditionGroupInterface {
 
     //TODO
 

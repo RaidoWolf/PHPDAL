@@ -1,6 +1,6 @@
 <?php
 
-class MySQLConditionGroup extends DatabaseConditionGroupModel implements DatabaseConditionGroupInterface {
+final class MySQLConditionGroup extends DatabaseConditionGroupModel implements DatabaseConditionGroupInterface {
 
     //TODO
 

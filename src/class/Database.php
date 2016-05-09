@@ -1,6 +1,6 @@
 <?php
 
-class Database implements CrossDatabaseInterface {
+final class Database implements CrossDatabaseInterface {
 
     // -- PROPERTIES/MEMBERS -- //
 
