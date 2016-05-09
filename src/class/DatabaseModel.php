@@ -1207,6 +1207,12 @@ class DatabaseModel implements CustomDatabaseInterface {
 
     }
 
+    protected function getToken ($key) {
+
+        return DatabaseGrammarModel::getToken($key);
+
+    }
+
     /**
      * DatabaseModel->handleValueIn() Method
      *

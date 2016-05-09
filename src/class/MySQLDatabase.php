@@ -10,7 +10,9 @@ final class MySQLDatabase extends DatabaseModel implements CustomDatabaseInterfa
          * DBMS-Specific Classes
          */
         'classes' => [
-            'condition' => 'MySQLCondition'
+            'condition' => 'MySQLCondition',
+            'conditionGroup' => 'MySQLConditionGroup',
+            'grammar' => 'MySQLGrammar'
         ],
 
         /**

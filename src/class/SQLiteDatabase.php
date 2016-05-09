@@ -10,7 +10,9 @@ final class SQLiteDatabase extends DatabaseModel implements CustomDatabaseInterf
          * DBMS-Specific Classes
          */
         'classes' => [
-            'condition' => 'SQLiteCondition'
+            'condition' => 'SQLiteCondition',
+            'conditionGroup' => 'SQLiteConditionGroup',
+            'grammar' => 'SQLiteGrammar'
         ],
 
         /**

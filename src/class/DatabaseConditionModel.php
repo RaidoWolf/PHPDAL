@@ -25,99 +25,17 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
 
     }
 
+    protected function getToken ($key) {
+
+        return DatabaseGrammarModel::getToken($key);
+
+    }
+
 }
 
 class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
 
-    /*
-     * DBMS-specific Grammar Table
-     */
-    protected $dbmsGrammarTable = [
-        //only put data here in extended classes
-    ];
-
-    /*
-     * Standards-Compliant SQL Grammar Table
-     * (don't mess with this one)
-     */
-    protected $standardGrammarTable = [
-        'and'               => ' AND ', //string to join 'and' boolean
-        'encapLeft'         => '(', //string to be placed at the left of encapsulation
-        'encapRight'        => ')', //string to be placed at the right of encapsulation
-        'op_eq'             => [
-            'stmt'              => '? = ?', //statement for EQ operator
-            'args'              => ['key','value'] //argument keys and order for EQ
-        ],
-        'op_gt'             => [
-            'stmt'              => '? > ?', //statement for GT operator
-            'args'              => ['key','value'] //argument keys and order for GT
-        ],
-        'op_gte'            => [
-            'stmt'              => '? >= ?', //statement for GTE operator
-            'args'              => ['key','value'] //argument keys and order for GTE
-        ],
-        'op_in'             => [
-            'stmt'              => '? IN (?)', //statement for IN operator
-            'args'              => ['key','setstring'] //argument keys and order for IN
-        ],
-        'op_isnull'         => [
-            'stmt'              => '? IS NULL', //statement for ISNULL operator
-            'args'              => ['key'] //argument keys and order for ISNULL
-        ],
-        'op_like'           => [
-            'stmt'              => '? LIKE ?', //statement for LIKE operator
-            'args'              => ['key', 'value'] //argument keys and order for LIKE
-        ],
-        'op_lt'             => [
-            'stmt'              => '? < ?', //statement for LT operator
-            'args'              => ['key','value'] //argument keys and order for LT
-        ],
-        'op_lte'            => [
-            'stmt'              => '? <= ?', //statement for LTE operator
-            'args'              => ['key','value'] //argument keys and order for LTE
-        ],
-        'op_nin'            => [
-            'stmt'              => '? NOT IN (?)', //statement for NIN operator
-            'args'              => ['key','setstring'] //argument keys and order for NIN
-        ],
-        'op_nisnull'        => [
-            'stmt'              => '? IS NOT NULL', //statement for NISNULL operator
-            'args'              => ['key'] //argument keys and order for NISNULL
-        ],
-        'op_nlike'          => [
-            'stmt'              => '? NOT LIKE ?', //statement for NLIKE operator
-            'args'              => ['key', 'value'] //argument keys and order for NLIKE
-        ],
-        'op_not'            => [
-            'stmt'              => '? != ?', //statement for NOT operator
-            'args'              => ['key','value'] //argument keys and order for NOT
-        ],
-        'op_nrange'         => [
-            'stmt'              => '? NOT BETWEEN ? AND ?', //statement for NRANGE operator
-            'args'              => ['key','lower','upper'] //argument keys and order for NRANGE
-        ],
-        'op_nxrange'        => [
-            'stmt'              => '? NOT BETWEEN ? AND ? OR ? = ? OR ? = ?', //statement for NXRANGE operator
-            'args'              => ['key','lower','upper','key','lower','key','upper'] //argument keys and order for NXRANGE
-        ],
-        'op_range'          => [
-            'stmt'              => '? BETWEEN ? AND ?', //statement for RANGE operator
-            'args'              => ['key','lower','upper'] //argument keys and order for RANGE
-        ],
-        'op_xrange'         => [
-            'stmt'              => '? BETWEEN ? AND ? AND ? != ? AND ? != ?', //statement for XRANGE operator
-            'args'              => ['key','lower','upper','key','lower','key','upper'] //argument keys and order for XRANGE
-        ],
-        'or'                => 'OR', //string to join 'or' boolean
-        'quoteIdentLeft'    => '"', //string to be placed at the left of an identifier
-        'quoteIdentRight'   => '"', //string to be placed at the right of an identifier
-        'quoteStringLeft'   => "'", //string to be placed at the left of a string value
-        'quoteStringRight'  => "'", //string to be placed at the right of a string value
-        'setDelimiter'      => ',', //delimiter string to use when imploding sets
-        'xor'               => 'XOR' //string to join 'xor' boolean
-    ];
-
-    protected $backref = null;
+    protected $parent = null;
     protected $statement = [];
     protected $structure = [];
     protected $table = null;
@@ -126,10 +44,10 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
      * Constructor Method
      * @param unknown $struct
      */
-    public function __construct ($struct = [], &$backref, $table) {
+    public function __construct ($struct = [], &$parent, $table) {
 
         $this->structure = $struct; //store the structure
-        $this->backref = &$backref; //store the backreference
+        $this->parent = &$parent; //store the parenterence
         $this->table = $table; //store the table context
         $this->statement = $this->parse($struct); //generate and store the statement and parameters
 
@@ -234,49 +152,6 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
 
     }
 
-    /**
-     * DatabaseConditionModel->getGrammar() Method
-     *
-     * Looks up a value in the grammar tables.
-     *
-     * @param string $key
-     * @throws DatabaseException if you dun goof
-     * @return string|boolean
-     * @see DatabaseConditionInterface::getGrammar()
-     */
-    protected function getGrammar ($key) {
-
-        //require input
-        if (isset($key)) {
-            //only allow string input
-            if (is_string($key)) {
-                //check DBMS grammar table, fallback to standard, or return false
-                if (isset($this->dbmsGrammarTable[$key])) { //if DBMS-specific definition exists...
-                    return $this->dbmsGrammarTable[$key]; //return DBMS-specific definition.
-                } elseif (isset($this->standardGrammarTable[$key])) { //elseif standard definition exists...
-                    return $this->standardGrammarTable[$key]; //return standard definition.
-                } else {
-                    return null; //no relevant definitions found
-                }
-            } else {
-                throw new DatabaseException(
-                    $this,
-                    __METHOD__.'(): input of type other than string.',
-                    DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
-                );
-                return null; //(in case exception is caught)
-            }
-        } else {
-            throw new DatabaseException(
-                $this,
-                __METHOD__.'(): missing required argument.',
-                DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
-            );
-            return null; //(in case exception is caught)
-        }
-
-    }
-
     public function getStatement () {
 
         return $this->statement;
@@ -286,6 +161,12 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
     public function getStructure () {
 
         return $this->structure;
+
+    }
+
+    protected function getToken ($key) {
+
+        return DatabaseGrammarMode::getToken($key);
 
     }
 
@@ -436,104 +317,104 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
 
                             //if a set is given, convert it into a single string
                             if (isset($value['set'])) {
-                                $value['setstring'] = implode($this->getGrammar('setDelimiter'), $value['set']);
+                                $value['setstring'] = implode($this->getToken('setDelimiter'), $value['set']);
                             }
 
                             //parse operations structures
                             if          ($type == '='       || $type == 'EQ')       {
-                                $grammar = $this->getGrammar('op_eq');
+                                $grammar = $this->getToken('op_eq');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '!'       || $type == 'NOT')      {
-                                $grammar = $this->getGrammar('op_not');
+                                $grammar = $this->getToken('op_not');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '<'       || $type == 'LT')       {
-                                $grammar = $this->getGrammar('op_lt');
+                                $grammar = $this->getToken('op_lt');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '<='      || $type == 'LTE')      {
-                                $grammar = $this->getGrammar('op_lte');
+                                $grammar = $this->getToken('op_lte');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '>'       || $type == 'GT')       {
-                                $grammar = $this->getGrammar('op_gt');
+                                $grammar = $this->getToken('op_gt');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '>='      || $type == 'GTE')      {
-                                $grammar = $this->getGrammar('op_gte');
+                                $grammar = $this->getToken('op_gte');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '<>'      || $type == 'RANGE')    {
-                                $grammar = $this->getGrammar('op_range');
+                                $grammar = $this->getToken('op_range');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '<x>'     || $type == 'XRANGE')   {
-                                $grammar = $this->getGrammar('op_xrange');
+                                $grammar = $this->getToken('op_xrange');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '!<>'     || $type == 'NRANGE')   {
-                                $grammar = $this->getGrammar('op_nrange');
+                                $grammar = $this->getToken('op_nrange');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => [],
                                 ];
                             } elseif    ($type == '!<x>'    || $type == 'NXRANGE')  {
-                                $grammar = $this->getGrammar('op_nxrange');
+                                $grammar = $this->getToken('op_nxrange');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '[]'      || $type == 'IN')       {
                                 //TODO: escape each value in the set separately
-                                $grammar = $this->getGrammar('op_in');
+                                $grammar = $this->getToken('op_in');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '![]'     || $type == 'NIN')      {
                                 //TODO: escape each value in the set separately
-                                $grammar = $this->getGrammar('op_nin');
+                                $grammar = $this->getToken('op_nin');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '~'       || $type == 'LIKE')     {
-                                $grammar = $this->getGrammar('op_like');
+                                $grammar = $this->getToken('op_like');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '!~'      || $type == 'NLIKE')    {
-                                $grammar = $this->getGrammar('op_nlike');
+                                $grammar = $this->getToken('op_nlike');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == ':0'      || $type == 'ISNULL')   {
-                                $grammar = $this->getGrammar('op_isnull');
+                                $grammar = $this->getToken('op_isnull');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
                                 ];
                             } elseif    ($type == '!:0'     || $type == 'NISNULL')  {
-                                $grammar = $this->getGrammar('op_nisnull');
+                                $grammar = $this->getToken('op_nisnull');
                                 $tmp = [
                                     'stmt' => $grammar['stmt'],
                                     'args' => []
@@ -603,11 +484,11 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
 
         //combine statement segments into a singular statement string
         if ($comparator == 'AND') {
-            $outArray['stmt'] = implode($this->getGrammar('and'), $tmpStmt);
+            $outArray['stmt'] = implode($this->getToken('and'), $tmpStmt);
         } elseif ($comparator == 'OR') {
-            $outArray['stmt'] = implode($this->getGrammar('or'), $tmpStmt);
+            $outArray['stmt'] = implode($this->getToken('or'), $tmpStmt);
         } elseif ($comparator == 'XOR') {
-            $outArray['stmt'] = implode($this->getGrammar('xor'), $tmpStmt);
+            $outArray['stmt'] = implode($this->getToken('xor'), $tmpStmt);
         } elseif ($comparator == 'NONE') {
             $outArray['stmt'] = '';
             $outArray['args'] = [];
@@ -622,7 +503,7 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
 
         //encapsulate the statement/segment if necessary
         if ($encap) {
-            $outArray['stmt'] = $this->getGrammar('encapLeft').$outArray['stmt'].$this->getGrammar('encapRight');
+            $outArray['stmt'] = $this->getToken('encapLeft').$outArray['stmt'].$this->getToken('encapRight');
         }
 
         //return stuff

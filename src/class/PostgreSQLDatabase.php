@@ -10,7 +10,9 @@ final class PostgreSQLDatabase extends DatabaseModel implements CustomDatabaseIn
          * DBMS-specific Classes
          */
         'classes' => [
-            'condition' => 'PostgreSQLCondition'
+            'condition' => 'PostgreSQLCondition',
+            'conditionGroup' => 'PostgreSQLConditionGroup',
+            'grammar' => 'PostgreSQLGrammar'
         ],
 
         /**
