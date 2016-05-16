@@ -24,6 +24,7 @@ class DatabaseException extends Exception implements DatabaseExceptionInterface 
     const EXCEPTION_INPUT_ARRAY_TOO_SHALLOW     = 1006; //An input array is too shallow to process. This usually indicates that either the input structure was misunderstood, or that some data was serialized where it should not have been.
     const EXCEPTION_MISSING_CONNECTION          = 1007; //An inter-object connection (typically a reference stored somewhere) crucial to the function has not been established.
     const EXCEPTION_USING_RESERVED_KEYWORD      = 1008; //A value in input (usually parameter passed in an array) is using a defined reserved keyword.
+    const EXCEPTION_ALREADY_EXISTS              = 1009; //A value in the input meant to be a unique identifier is using the same identifier as a previously-existing definition.
     // -- 2000 - Database Errors -- //
     const EXCEPTION_GENERIC_DATABASE_ERROR      = 2000; //Some issue with the database or database driver.
     const EXCEPTION_DB_ITEM_CANNOT_BE_CREATED   = 2001; //A database item cannot be created.
