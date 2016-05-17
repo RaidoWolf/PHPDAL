@@ -106,16 +106,16 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
                 $this->statement = $this->parse($this->structure);
             } else {
                 throw new DatabaseException(
-                    $this,
                     __METHOD__.'(): structure array of invalid type encountered as structure object.',
-                    DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                    $this
                 );
             }
         } else {
             throw new DatabaseException(
-                $this,
                 __METHOD__.'(): structure array of invalid type given as rule to add.',
-                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                $this
             );
         }
 
@@ -136,16 +136,16 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
         } else {
             if (!is_array($rule)) {
                 throw new DatabaseException(
-                    $this,
                     __METHOD__.'(): encountered structure array of invalid type given as argument.',
-                    DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                    $this
                 );
             }
             if (!is_array($this->structure)) {
                 throw new DatabaseException(
-                    $this,
                     __METHOD__.'(): encountered structure array of invalid type stored in object.',
-                    DatabaseException::EXCEPTION_CORRUPTED_OBJECT
+                    DatabaseException::EXCEPTION_CORRUPTED_OBJECT,
+                    $this
                 );
             }
         }
@@ -284,9 +284,9 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
                             $comparator = $value['comparator'];
                             if (!in_array($comparator, ['AND', 'OR', 'XOR'])) {
                                 throw new DatabaseException(
-                                    $this,
                                     __METHOD__.'(): invalid comparator encountered.',
-                                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                    DatabaseException::EXCEPTION_INPUT_NOT_VALID,
+                                    $this
                                 );
                                 continue; //skip this iteration (in case exception is caught)
                             }
@@ -294,9 +294,9 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
                                 $tmp = $this->parse($value['contents'], true);
                             } else {
                                 throw new DatabaseException(
-                                    $this,
                                     __METHOD__.'(): missing contents key in array.',
-                                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                    DatabaseException::EXCEPTION_INPUT_NOT_VALID,
+                                    $this
                                 );
                                 continue; //skip this iteration (in case exception is caught)
                             }
@@ -308,7 +308,6 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
                             foreach ($value as $data) {
                                 if (!is_scalar($data)) {
                                     throw new DatabaseException(
-                                            $this,
                                             __METHOD__.'(): encountered non-scalar data.'
                                     );
                                 }
@@ -422,9 +421,9 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
                             } else {
                                 //given comparison type invalid
                                 throw new DatabaseException(
-                                        $this,
-                                        __METHOD__.'(): encountered invalid comparison type.',
-                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                    __METHOD__.'(): encountered invalid comparison type.',
+                                    DatabaseException::EXCEPTION_INPUT_NOT_VALID,
+                                    $this
                                 );
                                 continue; //skip this iteration (in case exception is caught)
                             }
@@ -433,9 +432,9 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
                             foreach ($grammar['args'] as $arg) {
                                 if (!isset($value[$arg])) {
                                     throw new DatabaseException(
-                                            $this,
-                                            __METHOD__.'(): encountered a missing required argument in the structure.',
-                                            DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                        __METHOD__.'(): encountered a missing required argument in the structure.',
+                                        DatabaseException::EXCEPTION_INPUT_NOT_VALID,
+                                        $this
                                     );
                                     $tmp['args'][] = null; //add null filler to arguments array (in case exception is caught)
                                     continue; //skip this iteration (in case exception is caught)
@@ -444,9 +443,9 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
                             }
                         } else {
                             throw new DatabaseException(
-                                $this,
                                 __METHOD__.'(): encountered array object with no comparator or type argument',
-                                DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                                DatabaseException::EXCEPTION_INPUT_NOT_VALID,
+                                $this
                             );
                             continue; //skip this iteration (in case exception is caught)
                         }
@@ -460,9 +459,9 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
                         }
                     } else {
                         throw new DatabaseException(
-                            $this,
                             __METHOD__.'(): encountered block of invalid type.',
-                            DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                            DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                            $this
                         );
                         continue; //skip this iteration (in case exception is caught)
                     }
@@ -475,9 +474,9 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
             }
         } else {
             throw new DatabaseException(
-                $this,
                 __METHOD__.'(): encountered input of type other than array.',
-                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                $this
             );
             return false; //indicate failure (in case exception is caught)
         }
@@ -494,9 +493,9 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
             $outArray['args'] = [];
         } else {
             throw new DatabaseException(
-                $this,
                 __METHOD__.'(): encountered invalid boolean block.',
-                DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                DatabaseException::EXCEPTION_INPUT_NOT_VALID,
+                $this
             );
             return false; //indicate failure (in case exception is caught)
         }

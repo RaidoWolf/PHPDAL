@@ -97,17 +97,17 @@ class DatabaseGrammarModel implements DatabaseGrammarInterface {
                 }
             } else {
                 throw new DatabaseException(
-                    $this,
                     __METHOD__.'(): input of type other than string.',
-                    DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                    $this
                 );
                 return false;
             }
         } else {
             throw new DatabaseException(
-                $this,
                 __METHOD__.'(): missing required argument.',
-                DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT,
+                $this
             );
             return false;
         }

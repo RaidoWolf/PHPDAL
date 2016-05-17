@@ -47,24 +47,24 @@ class Schema implements SchemaInterface {
                         $this->addTrigger($item, $itemKey);
                     } else {
                         throw new DatabaseException(
-                            $this,
                             __METHOD__.'(): Array element ['.$itemKey.'] is descended from neither SchemaTable, SchemaView, or SchemaTrigger.',
-                            DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                            DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                            $this
                         );
                     }
                 } else {
                     throw new DatabaseException(
-                        $this,
-                        __METHOD__.'(): Array element ['.$itemKey.'] is not a descendant of class SchemaComponentModel.',
-                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                        __METHOD__.'(): Array element ['.$itemKey.'] is not an instance of class SchemaComponentModel.',
+                        DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                        $this
                     );
                 }
             }
         } else {
             throw new DatabaseException(
-                $this,
                 __METHOD__.'(): Argument must be an array of SchemaComponentModel-descended objects.',
-                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                $this
             );
         }
 
@@ -77,16 +77,16 @@ class Schema implements SchemaInterface {
                 $this->tables[$name] = $table;
             } else {
                 throw new DatabaseException(
-                    $this,
                     __METHOD__.'(): Name "'.$name.'" already exists in this schema.',
-                    DatabaseException::EXCEPTION_ALREADY_EXISTS
+                    DatabaseException::EXCEPTION_ALREADY_EXISTS,
+                    $this
                 );
             }
         } else {
             throw new DatabaseException(
-                $this,
                 __METHOD__.'(): First argument must be an object descended from SchemaTable.',
-                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                $this
             );
         }
 
@@ -99,16 +99,16 @@ class Schema implements SchemaInterface {
                 $this->tables[$name] = $table;
             } else {
                 throw new DatabaseException(
-                    $this,
                     __METHOD__.'(): Name "'.$name.'" already exists in this schema.',
-                    DatabaseException::EXCEPTION_ALREADY_EXISTS
+                    DatabaseException::EXCEPTION_ALREADY_EXISTS,
+                    $this
                 );
             }
         } else {
             throw new DatabaseException(
-                $this,
                 __METHOD__.'(): First argument must be an object descended from SchemaTrigger',
-                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                $this
             );
         }
 
@@ -121,16 +121,16 @@ class Schema implements SchemaInterface {
 
             } else {
                 throw new DatabaseException(
-                    $this,
                     __METHOD__.'(): Name "'.$name.'" already exists in this schema.',
-                    DatabaseException::EXCEPTION_ALREADY_EXISTS
+                    DatabaseException::EXCEPTION_ALREADY_EXISTS,
+                    $this
                 );
             }
         } else {
             throw new DatabaseException(
-                $this,
                 __METHOD__.'(): First argument must be an object descended from SchemaTrigger',
-                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                $this
             );
         }
 

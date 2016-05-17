@@ -4,11 +4,9 @@ class SchemaComponentModel implements SchemaComponentInterface {
 
     public function __construct () {
 
-        //TODO
+        //This should be used by extending classes, which will implement it differently.
 
     }
-
-    
 
 }
 

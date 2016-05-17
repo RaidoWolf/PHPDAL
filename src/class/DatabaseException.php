@@ -62,9 +62,9 @@ class DatabaseException extends Exception implements DatabaseExceptionInterface 
      * @param $parent (required) -
      */
     public function __construct (
-            &$caller,
             $message = null,
             $code = null,
+            &$caller,
             &$caught = null
     ) {
 
@@ -73,7 +73,7 @@ class DatabaseException extends Exception implements DatabaseExceptionInterface 
             if (!is_subclass_of($caught, 'Exception')) {
                 throw new self(
                         $this->getCaller(),
-                        'DatabaseException->__construct() failed due to caught exception argument not descended from class Exception.',
+                        __METHOD__.'(): failed due to caught exception argument not descended from class Exception.',
                         self::EXCEPTION_INVALID_EXCEPTION,
                         $this
                 );
@@ -118,7 +118,7 @@ class DatabaseException extends Exception implements DatabaseExceptionInterface 
         $error = $this->error; //get error number
         foreach ($constArray as $constName => $constValue) { //loop each constant
             if ($constValue == $error && preg_match('/^EXCEPTION_.*$/', $constName)) { //if error number matches constant value and has prefix EXCEPTION_
-                return 'DatabaseException::'.$constName; //return constant name (and end function)
+                return $constName; //return constant name
             }
         }
         return false; //return false if there are no matches

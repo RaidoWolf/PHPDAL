@@ -80,9 +80,9 @@ final class DatabaseUtils {
         //require both arguments
         if (!isset($array) || !isset($path)) {
             throw new DatabaseException(
-                __CLASS__,
                 __METHOD__.'() failed: missing required argument(s).',
-                DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT,
+                __CLASS__
             );
             return null; //in case that exception was caught
         }
@@ -93,9 +93,9 @@ final class DatabaseUtils {
                 $current = &$current[$key]; //set $current to the location of the next path segment
             } else { //next path segment doesn't exist...
                 throw new DatabaseException(
-                    __CLASS__,
                     __METHOD__.'() failed: unable to follow given path, as the path was not found.',
-                    DatabaseException::EXCEPTION_INPUT_NOT_VALID
+                    DatabaseException::EXCEPTION_INPUT_NOT_VALID,
+                    __CLASS__
                 );
                 return null; //in case that exception was caught
             }

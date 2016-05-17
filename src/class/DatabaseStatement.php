@@ -100,7 +100,6 @@ class DatabaseStatement {
                         } else {
                             //array argument has no applicable value
                             throw new DatabaseException(
-                                $this,
                                 __METHOD__.'(): encountered array in parameter array without "value" key.',
                                 DatabaseException::EXCEPTION_INPUT_NOT_VALID
                             );
@@ -111,7 +110,6 @@ class DatabaseStatement {
                         if (!$data) { //if we can't determine the type
                             //unable to determine applicable data type.
                             throw new DatabaseException(
-                                $this,
                                 __METHOD__.'(): encountered parameter of unknown type.',
                                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
                             );
@@ -132,7 +130,6 @@ class DatabaseStatement {
             } else {
                 //$args variable count mismatch
                 throw new DatabaseException(
-                    $this,
                     __METHOD__.'(): incorrect number of values in arguments array.',
                     DatabaseException::EXCEPTION_INPUT_NOT_VALID
                 );
@@ -141,7 +138,6 @@ class DatabaseStatement {
         } else {
             //$args type violation
             throw new DatabaseException(
-                $this,
                 __METHOD__.'(): encountered input of invalid type.',
                 DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
             );
@@ -153,7 +149,6 @@ class DatabaseStatement {
         } catch (PDOException $e) { //catch any exceptions and...
             //PDO throws exception
             throw new DatabaseException( //throw our own.
-                $this,
                 __METHOD__.'(): caught exception thrown by PDO during statement execution.',
                 DatabaseException::EXCEPTION_GENERIC_DATABASE_ERROR,
                 $e

@@ -69,9 +69,9 @@ final class Database implements CrossDatabaseInterface {
                 ])) {
                     //type is not in the list of valid types
                     throw new DatabaseException(
-                        $this,
-                        'Database->__construct() failed due to invalid database type given.',
-                        DatabaseException::EXCEPTION_INVALID_DATABASE_TYPE
+                        __METHOD__.'(): failed due to invalid database type given.',
+                        DatabaseException::EXCEPTION_INVALID_DATABASE_TYPE,
+                        $this
                     );
                 }
             } elseif ($typeof_type == 'string') {
@@ -84,25 +84,25 @@ final class Database implements CrossDatabaseInterface {
                     $type = self::TYPE_SQLITE;
                 } else {
                     throw new DatabaseException(
-                        $this,
-                        'Database->__construct() failed due to invalid database type (string) given.',
-                        DatabaseException::EXCEPTION_INVALID_DATABASE_TYPE
+                        __METHOD__.'(): failed due to invalid database type (string) given.',
+                        DatabaseException::EXCEPTION_INVALID_DATABASE_TYPE,
+                        $this
                     );
                 }
             } else {
                 //type is not an integer
                 throw new DatabaseException(
-                    $this,
-                    'Database->__construct() failed due to type argument of invalid data type.',
-                    DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                    __METHOD__.'(): failed due to type argument of invalid data type.',
+                    DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                    $this
                 );
             }
         } else {
             //type is not set
             throw new DatabaseException(
-                $this,
-                'Database->__construct() failed due to missing type argument.',
-                DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT
+                __METHOD__.'(): failed due to missing type argument.',
+                DatabaseException::EXCEPTION_MISSING_REQUIRED_ARGUMENT,
+                $this
             );
         }
 
@@ -124,9 +124,9 @@ final class Database implements CrossDatabaseInterface {
             $this->child = new SQLiteDatabase($name, $table);
         } else {
             throw new DatabaseException (
-                $this,
-                'Database->__construct() failed due to invalid database type given',
-                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE
+                __METHOD__.'(): failed due to invalid database type given',
+                DatabaseException::EXCEPTION_INPUT_INVALID_TYPE,
+                $this
             );
         }
 
