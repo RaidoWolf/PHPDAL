@@ -21,6 +21,7 @@ library because you want something to translate your SQL queries, this is not
 the library for you. However, if you think that
 
 ```php
+$results = array();
 $stmt = $db->prepare('
     INSERT INTO table
         (col_1, col_2, col_3, col_4, col_5)
@@ -35,13 +36,15 @@ foreach ($rows as $row) {
         ':col_4' => 4,
         ':col_5' => 5
     ]);
+    $results[] = $stmt->fetchAll();
 }
+return $results;
 ```
 
 should look like
 
 ```php
-$db->insert([
+return $db->insert([
     'col_1' => 1,
     'col_2' => 2,
     'col_3' => 3,
