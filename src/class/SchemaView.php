@@ -2,7 +2,7 @@
 
 class SchemaView extends SchemaComponentModel implements SchemaComponentInterface {
 
-    protected $columns = [];
+    private $columns = [];
 
     public function __construct () {
 

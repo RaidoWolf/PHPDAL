@@ -30,9 +30,9 @@ class Schema implements SchemaInterface {
     const TYPE_VARCHAR      = 025; //Value representing variable length string up to 255 characters (requires length definition). Length over 255 will convert to TYPE_TEXT.
     const TYPE_YEAR         = 026; //Value representing a year in two digits (70-69 as 1970-2069) or four digits (1901-2155).
 
-    protected $tables = [];
-    protected $views = [];
-    protected $triggers = [];
+    private $tables = [];
+    private $views = [];
+    private $triggers = [];
 
     public function __construct ($items) {
 

@@ -8,7 +8,7 @@ final class PostgreSQLConditionNew extends DatabaseConditionModel implements Dat
 
 final class PostgreSQLCondition extends DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
 
-    protected $dbmsGrammarTable = [
+    private $dbmsGrammarTable = [
         //PostgreSQL is standards-compliant, so this is not needed.
     ];
 

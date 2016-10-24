@@ -4,7 +4,7 @@ final class PostgreSQLDatabase extends DatabaseModel implements CustomDatabaseIn
 
     const UPPER_LIMIT = 18446744073709551615;
 
-    protected $dbms = [
+    private $dbms = [
 
         /**
          * DBMS-specific Classes

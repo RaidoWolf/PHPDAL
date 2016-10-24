@@ -2,9 +2,9 @@
 
 class SchemaViewColumn extends SchemaComponentModel implements SchemaComponentInterface {
 
-    protected $sourceColumn;
-    protected $sourceTable;
-    protected $code;
+    private $sourceColumn;
+    private $sourceTable;
+    private $code;
 
     public function __construct () {
 

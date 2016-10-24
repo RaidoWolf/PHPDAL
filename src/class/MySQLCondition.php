@@ -8,7 +8,7 @@ final class MySQLConditionNew extends DatabaseConditionModel implements Database
 
 final class MySQLCondition extends DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
 
-    protected $dbmsGrammarTable = [
+    private $dbmsGrammarTable = [
         'quoteIdentLeft'    => '`', //string to be placed at the left of an identifier
         'quoteIdentRight'   => '`' //string to be placed at the right of an identifier
     ];

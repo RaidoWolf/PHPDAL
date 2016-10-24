@@ -2,8 +2,8 @@
 
 class DatabaseException extends Exception implements DatabaseExceptionInterface {
 
-    protected $caller;
-    protected $caught;
+    private $caller;
+    private $caught;
 
     // -- ERROR CODES -- //
 
@@ -92,7 +92,7 @@ class DatabaseException extends Exception implements DatabaseExceptionInterface 
     }
 
     /**
-     * DatabaseException->getConstants() protected Method
+     * DatabaseException->getConstants() private Method
      *
      * gets an array of constants for the DatabaseException object
      *

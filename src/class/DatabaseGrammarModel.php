@@ -2,9 +2,9 @@
 
 class DatabaseGrammarModel implements DatabaseGrammarInterface {
 
-    protected $tableExtended = [];
+    private $tableExtended = [];
 
-    protected $tableStandard = [
+    private $tableStandard = [
         'and' => ' AND ', //string to join 'and' boolean
         'encapLeft' => '(', //string to be placed at the left of encapsulation
         'encapRight' => ')', //string to be placed at the right of encapsulation

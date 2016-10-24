@@ -15,7 +15,7 @@
  */
 interface DatabaseInterface {
 
-    //protected $dbms //DBMS-specific configuration (use this to define DBMS grammar)
+    //private $dbms //DBMS-specific configuration (use this to define DBMS grammar)
 
     public function __invoke (); //return true if the object is useable, false if not
     public function __toString (); //serialize the object

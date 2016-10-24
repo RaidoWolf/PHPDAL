@@ -4,19 +4,19 @@ class DatabaseModel implements CustomDatabaseInterface {
 
     // -- PROPERTIES/MEMBERS -- //
 
-    protected $config = [];
-    protected $connector;
-    protected $dbms = [
+    private $config = [];
+    private $connector;
+    private $dbms = [
         //Everything in here should be replaced by DBMS-specific classes, so nothing is defined
     ];
-    protected $encoding;
-    protected $host;
-    protected $info;
-    protected $name;
-    protected $open;
-    protected $port;
-    protected $stmtTable = [];
-    protected $table;
+    private $encoding;
+    private $host;
+    private $info;
+    private $name;
+    private $open;
+    private $port;
+    private $stmtTable = [];
+    private $table;
 
     // -- CONSTANTS/FLAGS/ENUMS -- //
 
@@ -487,7 +487,7 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
-     * DatabaseModel->doAction() Protected Method
+     * DatabaseModel->doAction() private Method
      *
      * Perform a predefined callback-style action on a given data set. If you
      * use this, take note of the referenced keys for the given action. The
@@ -500,7 +500,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      * @return unknown           The output of the action. This could be just about anything.
      * @throws DatabaseException If someone dun goofed.
      */
-    protected function doAction ($id, $data) {
+    private function doAction ($id, $data) {
 
         switch ($id) {
             case self::ACTION_NONE:
@@ -669,7 +669,7 @@ class DatabaseModel implements CustomDatabaseInterface {
     }
 
     /**
-     * DatabaseModel->genStmt Protected Method
+     * DatabaseModel->genStmt private Method
      *
      * Create a dynamically generated preparable statement. This allows emulated
      * parameterized identifiers, sets, and conditions. Identifiers are santized
@@ -688,7 +688,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      * @return string             Preparable statement. (Note that values of sets will still need to be given at execution time)
      * @throws DatabaseException  If someone dun goofed.
      */
-    protected function genStmt (
+    private function genStmt (
         $stmt,
         $tables     = [],
         $columns    = [],
@@ -1207,7 +1207,7 @@ class DatabaseModel implements CustomDatabaseInterface {
 
     }
 
-    protected function getToken ($key) {
+    private function getToken ($key) {
 
         return DatabaseGrammarModel::getToken($key);
 
@@ -1223,7 +1223,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      * @param  [type] $value [description]
      * @return [type]        [description]
      */
-    protected function handleValueIn ($table, $key, $value) {
+    private function handleValueIn ($table, $key, $value) {
 
         //TODO: Implement DBMS input feature emulation.
 
@@ -1239,7 +1239,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      * @param  [type] $value [description]
      * @return [type]        [description]
      */
-    protected function handleValueOut ($table, $key, $value) {
+    private function handleValueOut ($table, $key, $value) {
 
         //TODO: Implement DBMS output feature emulation.
 
@@ -1392,7 +1392,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      * @return string                    The quoted version of the input string
      * @throws DatabaseException         If someone dun goofed.
      */
-    protected function quoteColumn ($string) {
+    private function quoteColumn ($string) {
 
         if (isset($string)) {
             if (is_string($string)) {
@@ -1429,7 +1429,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      * @return string                    The quoted version of the input string
      * @throws DatabaseException         If someone dun goofed.
      */
-    protected function quoteTable ($string) {
+    private function quoteTable ($string) {
 
         if (isset($string)) {
             if (is_string($string)) {
@@ -1465,7 +1465,7 @@ class DatabaseModel implements CustomDatabaseInterface {
      * @param  array $extData External data to be passed in.
      * @return mixed          Final output of query and action function.
      */
-    protected function runQuery ($sql, $extData) {
+    private function runQuery ($sql, $extData) {
 
         //Input validation
         if (!is_array($sql)) {

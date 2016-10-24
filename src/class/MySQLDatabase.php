@@ -4,7 +4,7 @@ final class MySQLDatabase extends DatabaseModel implements CustomDatabaseInterfa
 
     const UPPER_LIMIT = 18446744073709551615;
 
-    protected $dbms = [
+    private $dbms = [
 
         /**
          * DBMS-Specific Classes

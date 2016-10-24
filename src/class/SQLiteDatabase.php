@@ -4,7 +4,7 @@ final class SQLiteDatabase extends DatabaseModel implements CustomDatabaseInterf
 
     const UPPER_LIMIT = 18446744073709551615;
 
-    protected $dbms = [
+    private $dbms = [
 
         /**
          * DBMS-Specific Classes

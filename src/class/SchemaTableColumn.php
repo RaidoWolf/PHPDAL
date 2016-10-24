@@ -2,12 +2,12 @@
 
 class SchemaTableColumn extends SchemaComponentModel implements SchemaComponentInterface {
 
-    protected $type;
-    protected $length;
-    protected $signed;
-    protected $null;
-    protected $autoincrement;
-    protected $comment;
+    private $type;
+    private $length;
+    private $signed;
+    private $null;
+    private $autoincrement;
+    private $comment;
 
     public function __construct () {
 

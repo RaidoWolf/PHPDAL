@@ -4,15 +4,15 @@ final class Database implements CrossDatabaseInterface {
 
     // -- PROPERTIES/MEMBERS -- //
 
-    protected $child;
-    protected $config;
-    protected $encoding;
-    protected $host;
-    protected $name;
-    protected $open;
-    protected $port;
-    protected $table;
-    protected $type;
+    private $child;
+    private $config;
+    private $encoding;
+    private $host;
+    private $name;
+    private $open;
+    private $port;
+    private $table;
+    private $type;
 
     // -- CONSTANTS/FLAGS -- //
 

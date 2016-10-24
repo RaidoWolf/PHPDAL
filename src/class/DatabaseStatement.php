@@ -20,13 +20,13 @@ class DatabaseStatement {
     const TYPE_STR              = PDO::PARAM_STR;           //string data type
 
     //Member Variables
-    protected $connector;   //PDO Connection from parent object.
-    protected $count;       //Count of arguments (to verify all database parameters are given).
-    protected $executions;  //Count of times this prepared statement was executed.
-    protected $parent;      //Parent object (the object that created this object).
-    protected $query;       //Original query string, which was prepared.
-    protected $signature;   //For comparing existing statements and optimizing database operations.
-    protected $stmt;        //PDOStatement Object.
+    private $connector;   //PDO Connection from parent object.
+    private $count;       //Count of arguments (to verify all database parameters are given).
+    private $executions;  //Count of times this prepared statement was executed.
+    private $parent;      //Parent object (the object that created this object).
+    private $query;       //Original query string, which was prepared.
+    private $signature;   //For comparing existing statements and optimizing database operations.
+    private $stmt;        //PDOStatement Object.
 
     /**
      * DatabaseStatement->__construct() Method
@@ -267,7 +267,7 @@ class DatabaseStatement {
      * @param  unknown       $arg Any type of intended input data.
      * @return array|boolean Array with 'value' and 'type' keys, or false if it fails.
      */
-    protected function paramPrepareType ($arg) {
+    private function paramPrepareType ($arg) {
 
         switch (gettype($arg)) {
             //boolean type

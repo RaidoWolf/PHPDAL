@@ -10,10 +10,10 @@ class SchemaTrigger extends SchemaComponentModel implements SchemaComponentInter
     const EVENT_INSERT = 1;
     const EVENT_UPDATE = 2;
 
-    protected $timing = self::TIMING_NONE;
-    protected $event = self::EVENT_NONE;
-    protected $table = '';
-    protected $code = '';
+    private $timing = self::TIMING_NONE;
+    private $event = self::EVENT_NONE;
+    private $table = '';
+    private $code = '';
 
     public function __construct ($timing, $event, $table, $code) {
 

@@ -25,7 +25,7 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
 
     }
 
-    protected function getToken ($key) {
+    private function getToken ($key) {
 
         return DatabaseGrammarModel::getToken($key);
 
@@ -35,10 +35,10 @@ class DatabaseConditionModel implements DatabaseConditionInterface {
 
 class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
 
-    protected $parent = null;
-    protected $statement = [];
-    protected $structure = [];
-    protected $table = null;
+    private $parent = null;
+    private $statement = [];
+    private $structure = [];
+    private $table = null;
 
     /**
      * Constructor Method
@@ -164,7 +164,7 @@ class DatabaseConditionModelOld implements DatabaseConditionInterfaceOld {
 
     }
 
-    protected function getToken ($key) {
+    private function getToken ($key) {
 
         return DatabaseGrammarMode::getToken($key);
 
